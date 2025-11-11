@@ -1,0 +1,49 @@
+https://datacatalog.worldbank.org/search/dataset/0038272/world-bank-official-boundaries
+
+High resolution, World Bank-approved administrative boundaries. Each download option (shapefile, GeoPackage, or GeoJSON format) includes Admin 0, 1, 2, Non-Determined Legal Status Areas (NDLSA), and an ocean mask. An Admin 0 line file (for visualization purposes with World Bank-specific drawing instructions) can also be found in the shapefile folder. A data dictionary and additional columns of information which can be joined to the Admin 1 and 2 files are available as separate downloads. 
+
+Also included are API endpoints for interactive maps. 
+
+If Bank staff use this data to create a map- print, web, presentations for an external audience (e.g. external web sites), etc., staff must receive legal clearance by submitting the finished map to the World Bank Cartography Unit.
+
+To report an error in any of the admin boundary files, please raise a new issue here: https://github.com/worldbank/WB_GAD/issues and it will be considered during the next update cycle.
+
+Data Access and Licensing
+Classification: Public
+
+This dataset is classified as Public under the Access to Information Classification Policy. Users inside and outside the Bank can access this dataset.
+
+License: Creative Commons Attribution 4.0
+
+This dataset is licensed under Creative Commons Attribution 4.0
+
+Metadata
+Coverage & Extent
+Geographical Coverage
+World
+Granularity List
+National
+Subnational
+Periodicity
+Annual
+Additional Metadata
+Languages Supported
+English
+Source Type
+Other International Organization
+Harvest Source
+WB Data Catalog
+GP & CCSAs
+Poverty and Equity
+Additional Contacts
+External Contact : bbonansea@worldbank.org
+Data Quality:
+High resolution
+Access and Use Limitations
+150000000
+Dates
+Last Updated on
+Jun 18, 2025
+Update Frequency
+Biannual
+

@@ -1,0 +1,694 @@
+/**
+ * ============================================================================
+ * COMPREHENSIVE GOOGLE EARTH ENGINE SCRIPT FOR ENVIRONMENTAL DATA EXTRACTION
+ * ============================================================================
+ * 
+ * This script combines multiple data sources for environmental analysis:
+ * 1. Climate data (CHELSA bioclimatic variables and TerraClimate) 
+ * 2. Terrain data (SRTM DEM and derivatives)
+ * 3. Vegetation indices (MODIS and Sentinel-2)
+ * 4. Land cover data (ESA WorldCover, Copernicus)
+ * 5. Geomorphological features
+ * 
+ * Author: Compiled from multiple sources
+ * Contributors: 
+ * 1 . Wanderson de Sousa Mendes, PhD
+ *     LinkedIn: https://www.linkedin.com/in/mendesw/
+ *     Scopus: https://www.scopus.com/authid/detail.uri?authorId=57193830300
+ * 2. Luis Rodriguez-Lado 
+ *    LinkedIn: https://www.linkedin.com/in/luis-rodriguez-lado-2ab53922/
+ *    Scopus: https://www.scopus.com/authid/detail.uri?authorId=14040318400
+ * 3. Marcos Angelini
+ *    LinkedIn: https://www.linkedin.com/in/angelinimarcos/
+ *    Scopus: https://www.scopus.com/authid/detail.uri?authorId=55969250400
+ * 
+ * Note: Before running, create these folders in your Google Drive:
+ * - "GEE_Exports"
+ * ============================================================================
+ */
+
+// ============================================================================
+// SECTION 1: USER CONFIGURATION
+// ============================================================================
+
+/**
+ * Define your region of interest (ROI)
+ * Choose ONE of the following options by uncommenting:
+ */
+
+// OPTION 1: Using UN country borders by ISO code
+//var ISO = ['KEN']; // Replace with your country code(s)
+//var aoi = ee.FeatureCollection('projects/digital-soil-mapping-gsp-fao/assets/UN_BORDERS/BNDA_CTY')
+//  .filter(ee.Filter.inList('ISO3CD', ISO));
+//var region = aoi.geometry();
+
+// OPTION 2: Using a custom shapefile (uncomment and edit if needed)
+// var shapefile = ee.FeatureCollection('projects/your-project/assets/your_shapefile');
+// var region = shapefile.geometry().bounds();
+
+// OPTION 3: Using a rectangle with coordinates [WGS84 - west, south, east, north] - QGIS can help to extract it.
+ var region = ee.Geometry.Rectangle({
+   coords: [-102.05,36.993, -94.58,40.00], 
+   geodesic: false
+ });
+
+// Country or region name for file naming (used in exports)
+var countryName = 'KANSAS';
+
+// Date range for TerraClimate data (1981 to most recent complete year)
+var climateStartDate = '1981-01-01';
+var climateEndDate = '2024-12-31'; // Update to previous year of current date
+
+// Date range and cloud cover threshold for Sentinel-2
+var sentinelCloudThreshold = 10; // Maximum cloud cover percentage
+
+// Export parameters
+// Spatial resolution scales for different data types:
+var scale_covariates = 250; // Resolution for CHELSA, MODIS, OpenLandMap (meters)
+var scale_terrain = 100; // Resolution for SRTM and terrain derivatives (meters)
+var scale_sentinel = 100; // Resolution for Sentinel-2 bands and indices (meters)
+var scale_cropland = 20; // ESA WorldCover-based cropland mask (meters)
+var scale_terraclimate = 4000; // TerraClimate native resolution ~4km (meters)
+var scale_geomorphon = 90; // Geomorpho90m native resolution (meters)
+var scale_esa = 10; // ESA WorldCover original scale (meters)
+var crs = 'EPSG:4326'; // Coordinate reference system (WGS84)
+var maxPixels = 1e13; // Maximum pixels for export
+var exportFolder = 'GEE_Exports'
+
+// ============================================================================
+// SECTION 2: HELPER FUNCTIONS
+// ============================================================================
+
+/**
+ * Function to mask clouds in Sentinel-2 images using the QA60 band
+ * @param {ee.Image} image - Input Sentinel-2 image
+ * @return {ee.Image} - Cloud-masked image with scaled reflectance values
+ */
+function maskS2clouds(image) {
+  var qa = image.select('QA60');
+  
+  // Bits 10 and 11 correspond to clouds and cirrus respectively
+  var cloudBitMask = 1 << 10;
+  var cirrusBitMask = 1 << 11;
+  
+  // Create mask where both cloud and cirrus bits are 0 (clear conditions)
+  var mask = qa.bitwiseAnd(cloudBitMask).eq(0)
+      .and(qa.bitwiseAnd(cirrusBitMask).eq(0));
+  
+  // Apply mask and scale reflectance values from 0-10000 to 0-1
+  return image.updateMask(mask).divide(10000);
+}
+
+/**
+ * Function to replace masked values with zeros specifically for FPAR bands
+ * FPAR (Fraction of Photosynthetically Active Radiation) bands may have
+ * masked values that should be treated as zero rather than no-data
+ * @param {ee.Image} img - Input image
+ * @return {ee.Image} - Image with unmasked FPAR bands
+ */
+function replaceMaskedFpar(img) {
+  var allBands = img.bandNames();
+  
+  // Identify bands that start with 'fpar'
+  var fparBands = allBands.filter(ee.Filter.stringStartsWith('item', 'fpar'));
+  var nonFparBands = allBands.removeAll(fparBands);
+  
+  // Unmask FPAR bands (replace masked values with 0)
+  var fparImg = img.select(fparBands).unmask(0);
+  var nonFparImg = img.select(nonFparBands);
+  
+  // Return appropriate image based on whether FPAR bands exist
+  var result = ee.Algorithms.If(
+    fparBands.length().eq(0),
+    img,
+    nonFparImg.addBands(fparImg)
+  );
+  
+  return ee.Image(result);
+}
+
+// ============================================================================
+// SECTION 3: CLIMATE DATA
+// ============================================================================
+
+/**
+ * 3.1 CHELSA Bioclimatic Variables and Environmental Covariates
+ * CHELSA provides high-resolution climate data
+ * MODIS provides vegetation indices
+ * OpenLandMap provides terrain derivatives
+ */
+var assets = [
+  // CHELSA Climate Variables
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/bio1",   // Annual Mean Temperature
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/bio12",  // Annual Precipitation
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/bio13",  // Precipitation of Wettest Month
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/bio14",  // Precipitation of Driest Month
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/bio16",  // Precipitation of Wettest Quarter
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/bio17",  // Precipitation of Driest Quarter
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/bio5",   // Max Temperature of Warmest Month
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/bio6",   // Min Temperature of Coldest Month
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/ngd10",  // Number of Growing Degree Days
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/pet_penman_max",   // Max Potential Evapotranspiration
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/pet_penman_mean",  // Mean Potential Evapotranspiration
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/pet_penman_min",   // Min Potential Evapotranspiration
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/pet_penman_range", // PET Range
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/sfcWind_max",   // Maximum Surface Wind Speed
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/sfcWind_mean",  // Mean Surface Wind Speed
+  "projects/digital-soil-mapping-gsp-fao/assets/CHELSA/sfcWind_range", // Wind Speed Range
+
+  // MODIS Vegetation Indices (quarterly means and standard deviations)
+  // FPAR (Fraction of Photosynthetically Active Radiation)
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/fpar_030405_500m_mean", // Mar-May Mean
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/fpar_030405_500m_sd",   // Mar-May SD
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/fpar_060708_500m_mean", // Jun-Aug Mean
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/fpar_060708_500m_sd",   // Jun-Aug SD
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/fpar_091011_500m_mean", // Sep-Nov Mean
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/fpar_091011_500m_sd",   // Sep-Nov SD
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/fpar_120102_500m_mean", // Dec-Feb Mean
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/fpar_120102_500m_sd",   // Dec-Feb SD
+  
+  // LST Day (Land Surface Temperature Day)
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/lstd_030405_mean",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/lstd_030405_sd",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/lstd_060708_mean",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/lstd_060708_sd",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/lstd_091011_mean",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/lstd_091011_sd",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/lstd_120102_mean",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/lstd_120102_sd",
+  
+  // NDLST (Normalized Difference LST)
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndlst_030405_mean",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndlst_030405_sd",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndlst_060708_mean",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndlst_060708_sd",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndlst_091011_mean",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndlst_091011_sd",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndlst_120102_mean",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndlst_120102_sd",
+  
+  // NDVI (Normalized Difference Vegetation Index)
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndvi_030405_250m_mean",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndvi_030405_250m_sd",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndvi_060708_250m_mean",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndvi_060708_250m_sd",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndvi_091011_250m_mean",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndvi_091011_250m_sd",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndvi_120102_250m_mean",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/ndvi_120102_250m_sd",
+  
+  // Other MODIS products
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/snow_cover",
+  "projects/digital-soil-mapping-gsp-fao/assets/MODIS/swir_060708_500m_mean",
+  
+  // Land Cover Types
+  "projects/digital-soil-mapping-gsp-fao/assets/LANDCOVER/crops",
+  "projects/digital-soil-mapping-gsp-fao/assets/LANDCOVER/flooded_vegetation",
+  "projects/digital-soil-mapping-gsp-fao/assets/LANDCOVER/grass",
+  "projects/digital-soil-mapping-gsp-fao/assets/LANDCOVER/shrub_and_scrub",
+  "projects/digital-soil-mapping-gsp-fao/assets/LANDCOVER/trees",
+  
+  // OpenLandMap Terrain Derivatives
+  "projects/digital-soil-mapping-gsp-fao/assets/OPENLANDMAP/dtm_curvature_250m",
+  "projects/digital-soil-mapping-gsp-fao/assets/OPENLANDMAP/dtm_downslopecurvature_250m",
+  "projects/digital-soil-mapping-gsp-fao/assets/OPENLANDMAP/dtm_dvm2_250m",
+  "projects/digital-soil-mapping-gsp-fao/assets/OPENLANDMAP/dtm_dvm_250m",
+  "projects/digital-soil-mapping-gsp-fao/assets/OPENLANDMAP/dtm_elevation_250m",
+  "projects/digital-soil-mapping-gsp-fao/assets/OPENLANDMAP/dtm_mrn_250m",
+  "projects/digital-soil-mapping-gsp-fao/assets/OPENLANDMAP/dtm_slope_250m",
+  "projects/digital-soil-mapping-gsp-fao/assets/OPENLANDMAP/dtm_tpi_250m",
+  "projects/digital-soil-mapping-gsp-fao/assets/OPENLANDMAP/dtm_twi_500m",
+  "projects/digital-soil-mapping-gsp-fao/assets/OPENLANDMAP/dtm_upslopecurvature_250m",
+  "projects/digital-soil-mapping-gsp-fao/assets/OPENLANDMAP/dtm_vbf_250m"
+];
+
+// Load all assets as an ImageCollection
+var assetsCollection = ee.ImageCollection(assets);
+
+// Clip each image to the region of interest and handle FPAR masking
+var clippedCollection = assetsCollection.map(function(img) {
+  var clippedImg = img.clip(region).toFloat();
+  return replaceMaskedFpar(clippedImg);
+});
+
+// Stack all layers into a single multi-band image
+var stackedCovariates = clippedCollection.toBands();
+
+// Extract asset names from paths for band naming
+var assetNames = ee.List(assets).map(function(asset) {
+  return ee.String(asset).split('/').get(-1);
+});
+
+// Rename bands with descriptive names
+var covariates = stackedCovariates.rename(assetNames);
+
+
+/**
+ * 3.2 TerraClimate Data (1981-present)
+ * Provides monthly climate data including temperature, precipitation, and PET
+ */
+var terraclimate = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
+  .filter(ee.Filter.date(climateStartDate, climateEndDate));
+
+// Extract temperature components
+var maximumTemperature = terraclimate.select('tmmx').toBands();
+var minimumTemperature = terraclimate.select('tmmn').toBands();
+
+// Calculate average temperature: (max + min) / 2
+var averageTemperature = maximumTemperature.add(minimumTemperature).divide(2);
+
+// Extract precipitation and potential evapotranspiration
+var precipitation = terraclimate.select('pr').toBands();
+var potentialET = terraclimate.select('pet').toBands();
+
+// Clip to region of interest
+var avgTemp_clipped = averageTemperature.clip(region);
+var precip_clipped = precipitation.clip(region);
+var pet_clipped = potentialET.clip(region);
+
+// ============================================================================
+// SECTION 4: TERRAIN DATA
+// ============================================================================
+
+/**
+ * 4.1 SRTM Digital Elevation Model (30m resolution)
+ * NASA Shuttle Radar Topography Mission provides global elevation data
+ */
+var srtm = ee.Image("USGS/SRTMGL1_003").clip(region);
+
+/**
+ * 4.2 Terrain Derivatives
+ * Calculate various terrain attributes from the DEM
+ */
+
+// Slope: Rate of change of elevation (degrees)
+var slope = ee.Terrain.slope(srtm);
+
+// Aspect: Direction of slope (degrees, 0-360, where 0 is North)
+var aspect = ee.Terrain.aspect(srtm);
+
+// Topographic Position Index (TPI): Elevation relative to neighborhood
+// Positive values = ridges, Negative values = valleys
+var tpi = srtm.subtract(srtm.focalMean({radius: 5, units: 'pixels'}));
+
+// Hillshade: Simulates illumination for 3D visualization
+var hillshade = ee.Terrain.hillshade(srtm);
+
+/**
+ * 4.3 Geomorphological Features (Geomorpho90m Dataset)
+ * 90m resolution geomorphon landform classification
+ * Source: https://www.nature.com/articles/s41597-020-0479-6
+ */
+var geomorphons = ee.ImageCollection("projects/sat-io/open-datasets/Geomorpho90m/geom")
+  .median()
+  .clip(region);
+
+// ============================================================================
+// SECTION 5: LAND COVER DATA
+// ============================================================================
+
+/**
+ * 5.1 ESA WorldCover 2021 (10m resolution)
+ * Global land cover classification
+ */
+var esaWorldCover = ee.Image("ESA/WorldCover/v200/2021")
+  .select('Map')
+  .clip(region);
+
+/**
+ * 5.2 ESA WorldCover-based Cropland Mask
+ * Create binary mask where croplands (class 40) = 1, all others = 0
+ * Created at native 10m resolution, but will be exported at 20m
+ * ESA WorldCover classes:
+ * 10 - Tree cover, 20 - Shrubland, 30 - Grassland, 40 - Cropland
+ * 50 - Built-up, 60 - Bare/sparse vegetation, 70 - Snow and ice
+ * 80 - Permanent water, 90 - Herbaceous wetland, 95 - Mangroves, 100 - Moss and lichen
+ */
+
+/**
+ * Create binary cropland mask from ESA WorldCover
+ * Reclassify: 40 (Cropland) = 1, all others = 0
+ */
+var inList = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100];
+var outList = [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0];
+
+var croplandMask = esaWorldCover.remap(inList, outList)
+  .toDouble()
+  .clip(region);
+
+// Convert 0 values to masked (only show croplands)
+var mask = croplandMask.neq(0);
+croplandMask = croplandMask.updateMask(mask);
+
+// ============================================================================
+// SECTION 6: SENTINEL-2 DATA AND INDICES
+// ============================================================================
+/**
+ * Load Sentinel-2 Surface Reflectance
+ * Harmonized data available from March 28, 2017
+ */
+var sentinel2 = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
+  .filterBounds(region)
+  .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', sentinelCloudThreshold))
+  .map(maskS2clouds);
+
+// Select consistent spectral bands
+var s2_selected = sentinel2.map(function(img) {
+  return img.select(['B2','B3','B4','B5','B6','B7','B8','B8A','B11','B12']);
+});
+
+// Create median composite (reduces noise and fills gaps)
+var s2_median = s2_selected.median();
+
+/**
+ * Calculate Vegetation and Soil Indices
+ */
+
+// NDVI (Normalized Difference Vegetation Index): Measures vegetation health
+// Range: -1 to 1, higher values = more vegetation
+var ndvi = s2_median.normalizedDifference(['B8', 'B4']).rename('NDVI');
+
+// EVI (Enhanced Vegetation Index): Improved sensitivity in high biomass regions
+var evi = s2_median.expression(
+  '2.5 * ((NIR - RED) / (NIR + 6 * RED - 7.5 * BLUE + 1))', {
+    'NIR': s2_median.select('B8'),
+    'RED': s2_median.select('B4'),
+    'BLUE': s2_median.select('B2')
+  }).rename('EVI');
+
+// NDBSI (Normalized Difference Bare Soil Index): Identifies bare soil
+var ndbsi = s2_median.expression(
+  '((SWIR1 + RED) - (NIR + BLUE)) / ((SWIR1 + RED) + (NIR + BLUE))', {
+    'SWIR1': s2_median.select('B11'),
+    'RED': s2_median.select('B4'),
+    'NIR': s2_median.select('B8'),
+    'BLUE': s2_median.select('B2')
+  }).rename('NDBSI');
+
+// Redness Index: Emphasizes red soils
+var redness = s2_median.expression(
+  '(RED**2) / (GREEN * BLUE)', {
+    'RED': s2_median.select('B4'),
+    'GREEN': s2_median.select('B3'),
+    'BLUE': s2_median.select('B2')
+  }).rename('Redness_Index');
+
+// Brightness Index: Overall surface reflectance
+var brightness = s2_median.expression(
+  'sqrt((BLUE**2 + GREEN**2 + RED**2) / 3)', {
+    'BLUE': s2_median.select('B2'),
+    'GREEN': s2_median.select('B3'),
+    'RED': s2_median.select('B4')
+  }).rename('Brightness_Index');
+
+// NBR+ (Normalized Burn Ratio Plus): Detects burned areas
+// Source: https://www.mdpi.com/2072-4292/14/7/1727
+var nbrplus = s2_median.expression(
+  '(B12 - B8A - B3 - B2) / (B12 + B8A + B3 + B2)', {
+    'B12': s2_median.select('B12'),
+    'B8A': s2_median.select('B8A'),
+    'B3': s2_median.select('B3'),
+    'B2': s2_median.select('B2')
+  }).rename('NBRplus');
+
+// VNSIR (Visible-NIR-SWIR Index): Multi-spectral soil index
+var vnsir = s2_median.expression(
+  '(1 - ((GREEN - BLUE) + (RED - GREEN) + (RED - BLUE) + ' +
+  '((SWIR1 - NIR) * 3) + ((SWIR2 - SWIR1) * 3)))', {
+    'BLUE': s2_median.select('B2'),
+    'GREEN': s2_median.select('B3'),
+    'RED': s2_median.select('B4'),
+    'NIR': s2_median.select('B8'),
+    'SWIR1': s2_median.select('B11'),
+    'SWIR2': s2_median.select('B12')
+  }).rename('VNSIR');
+
+// ============================================================================
+// SECTION 6B: HIGH-RESOLUTION COVARIATE STACK (≤100m)
+// ============================================================================
+
+/**
+ * Create a stacked image of high-resolution variables (≤100m)
+ * This includes terrain data, Sentinel-2 bands/indices, and land cover
+ * All data resampled to 100m for consistency
+ * NOTE: Cropland mask is exported separately at 20m and NOT included in this stack
+ */
+
+// Combine all high-resolution layers into a collection
+var highResLayers = [
+  // Terrain data (already at target 100m)
+  srtm.rename('SRTM_DEM').toFloat(),
+  slope.rename('Slope').toFloat(),
+  aspect.rename('Aspect').toFloat(),
+  tpi.rename('TPI').toFloat(),
+  hillshade.rename('Hillshade').toFloat(),
+  
+  // Sentinel-2 spectral bands (already at target 100m)
+  s2_median.select('B2').rename('S2_B2_Blue').toFloat(),
+  s2_median.select('B3').rename('S2_B3_Green').toFloat(),
+  s2_median.select('B4').rename('S2_B4_Red').toFloat(),
+  s2_median.select('B5').rename('S2_B5_RedEdge1').toFloat(),
+  s2_median.select('B6').rename('S2_B6_RedEdge2').toFloat(),
+  s2_median.select('B7').rename('S2_B7_RedEdge3').toFloat(),
+  s2_median.select('B8').rename('S2_B8_NIR').toFloat(),
+  s2_median.select('B8A').rename('S2_B8A_NarrowNIR').toFloat(),
+  s2_median.select('B11').rename('S2_B11_SWIR1').toFloat(),
+  s2_median.select('B12').rename('S2_B12_SWIR2').toFloat(),
+  
+  // Sentinel-2 derived indices (already at target 100m)
+  ndvi.rename('S2_NDVI').toFloat(),
+  evi.rename('S2_EVI').toFloat(),
+  ndbsi.rename('S2_NDBSI').toFloat(),
+  redness.rename('S2_Redness_Index').toFloat(),
+  brightness.rename('S2_Brightness_Index').toFloat(),
+  nbrplus.rename('S2_NBRplus').toFloat(),
+  vnsir.rename('S2_VNSIR').toFloat()
+];
+
+// Stack all high-resolution layers into a single multi-band image
+var highResCovariates = ee.ImageCollection(highResLayers)
+  .toBands()
+  .clip(region);
+
+// Clean up band names (remove the '0_' prefix added by toBands())
+var bandNames = highResCovariates.bandNames();
+var cleanNames = bandNames.map(function(name) {
+  return ee.String(name).replace('0_', '');
+});
+highResCovariates = highResCovariates.rename(cleanNames);
+
+// ============================================================================
+// SECTION 7: VISUALIZATION
+// ============================================================================
+
+// Center map on region of interest
+Map.centerObject(region, 7);
+
+// Define visualization parameters
+var geomorphonPalette = [
+  '#D9D4CC', // 1 - Flat
+  '#C2BBB3', // 2 - Peak/Summit
+  '#D7F2C8', // 3 - Ridge
+  '#9DBD8D', // 4 - Shoulder
+  '#F3E5C1', // 5 - Spur
+  '#9AC2CD', // 6 - Slope
+  '#E1A5A5', // 7 - Hollow
+  '#8A8E79', // 8 - Footslope
+  '#6C64E0', // 9 - Valley
+  '#000000'  // 10 - Pit/Depression
+];
+
+var landcoverPalette = [
+  '#006400', // 10 - Tree cover
+  '#FFBB22', // 20 - Shrubland
+  '#FFFF4C', // 30 - Grassland
+  '#F096FF', // 40 - Cropland
+  '#FA0000', // 50 - Built-up
+  '#B4B4B4', // 60 - Bare/sparse vegetation
+  '#F0F0F0', // 70 - Snow and ice
+  '#0032C8', // 80 - Permanent water
+  '#0096A0', // 90 - Herbaceous wetland
+  '#00CF75', // 95 - Mangroves
+  '#FAE6A0'  // 100 - Moss and lichen
+];
+
+// Add layers to map
+Map.addLayer(srtm, 
+  {min: 0, max: 3000, palette: ['#0000ff', '#008000', '#ffff00', '#ffA500', '#ff0000']}, 
+  'SRTM DEM');
+Map.addLayer(aspect, 
+  {min: 0, max: 360, palette: ['blue', 'green', 'yellow', 'red']}, 
+  'Aspect');
+Map.addLayer(tpi, 
+  {min: -50, max: 50, palette: ['blue', 'white', 'red']}, 
+  'TPI');
+Map.addLayer(geomorphons, 
+  {min: 1, max: 10, palette: geomorphonPalette}, 
+  'Geomorphon Landforms');
+Map.addLayer(esaWorldCover, 
+  {min: 10, max: 100, palette: landcoverPalette}, 
+  'ESA WorldCover 2021');
+Map.addLayer(croplandMask, 
+  {min: 1, max: 1, palette: ['#FFFF00']}, 
+  'Cropland Mask (Binary - Yellow)');
+Map.addLayer(s2_median, 
+  {bands: ['B4', 'B3', 'B2'], min: 0, max: 0.3}, 
+  'Sentinel-2 True Color');
+Map.addLayer(ndvi, 
+  {min: -1, max: 1, palette: ['blue', 'white', 'green']}, 
+  'NDVI');
+Map.addLayer(evi, 
+  {min: -1, max: 1, palette: ['red', 'white', 'green']}, 
+  'EVI');
+Map.addLayer(ndbsi, 
+  {min: -1, max: 1, palette: ['purple', 'white', 'orange']}, 
+  'NDBSI');
+Map.addLayer(redness, 
+  {min: 0, max: 3, palette: ['pink', 'red', 'darkred']}, 
+  'Redness Index');
+Map.addLayer(brightness, 
+  {min: 0, max: 0.5, palette: ['black', 'grey', 'white']}, 
+  'Brightness Index');
+Map.addLayer(vnsir, 
+  {min: 0, max: 1, palette: ['yellow', 'white', 'brown']}, 
+  'VNSIR');
+Map.addLayer(nbrplus, 
+  {min: -1, max: 1, palette: ['yellow', 'white', 'brown']}, 
+  'NBRplus');
+
+// ============================================================================
+// SECTION 8: EXPORT DATA TO GOOGLE DRIVE
+// ============================================================================
+
+/**
+ * 8.1 Export Environmental Covariates Stack (250m)
+ * Contains CHELSA, MODIS, and OpenLandMap data
+ */
+Export.image.toDrive({
+  image: covariates,
+  description: 'Environmental_Covariates_250m_' + countryName,
+  folder: exportFolder,
+  scale: scale_covariates,
+  maxPixels: maxPixels,
+  region: region,
+  crs: crs
+});
+
+/**
+ * 8.2 Export High-Resolution Covariate Stack (100m)
+ * Contains terrain, Sentinel-2, and land cover data
+ */
+Export.image.toDrive({
+  image: highResCovariates,
+  description: 'HighRes_Covariates_100m_' + countryName,
+  folder: exportFolder,
+  scale: scale_terrain,
+  maxPixels: maxPixels,
+  region: region,
+  crs: crs,
+  fileFormat: 'GeoTIFF'
+});
+
+/**
+ * 8.3 Export Cropland Mask (ESA WorldCover-based, 20m resolution)
+ * Binary mask: 1 = Cropland, 0 = Other (masked out)
+ * Exported separately, NOT included in covariate stacks
+ */
+Export.image.toDrive({
+  image: croplandMask,
+  description: 'Cropland_Mask_' + countryName,
+  folder: exportFolder,
+  scale: scale_cropland,
+  region: region,
+  crs: crs,
+  maxPixels: maxPixels
+});
+
+/**
+ * 8.4 Export TerraClimate Variables (1981-present)
+ */
+Export.image.toDrive({
+  image: avgTemp_clipped,
+  description: 'TerraClimate_AvgTemp_1981_2023_' + countryName,
+  folder: exportFolder,
+  scale: scale_terraclimate,
+  region: region,
+  maxPixels: maxPixels,
+  crs: crs
+});
+
+Export.image.toDrive({
+  image: precip_clipped,
+  description: 'TerraClimate_Precip_1981_2023_' + countryName,
+  folder: exportFolder,
+  scale: scale_terraclimate,
+  region: region,
+  maxPixels: maxPixels,
+  crs: crs
+});
+
+Export.image.toDrive({
+  image: pet_clipped,
+  description: 'TerraClimate_PET_1981_2023_' + countryName,
+  folder: exportFolder,
+  scale: scale_terraclimate,
+  region: region,
+  maxPixels: maxPixels,
+  crs: crs
+});
+
+/**
+ *  8.5 Export Geomorphons, DEM and Slope
+ */
+ 
+Export.image.toDrive({
+  image: geomorphons,
+  description: 'Geomorphon_Landforms_' + countryName,
+  folder: exportFolder,
+  scale: scale_geomorphon,
+  region: region,
+  maxPixels: maxPixels,
+  fileFormat: 'GeoTIFF',
+  crs: crs
+});
+
+Export.image.toDrive({
+  image: srtm,
+  description: 'DEM_' + countryName,
+  folder: exportFolder,
+  scale: scale_terrain,
+  region: region,
+  maxPixels: maxPixels,
+  fileFormat: 'GeoTIFF',
+  crs: crs
+});
+
+Export.image.toDrive({
+  image: slope,
+  description: 'Slope_' + countryName,
+  folder: exportFolder,
+  scale: scale_terrain,
+  region: region,
+  maxPixels: maxPixels,
+  fileFormat: 'GeoTIFF',
+  crs: crs
+});
+
+
+/**
+ * 8.6 Export Land Cover
+ */
+Export.image.toDrive({
+  image: esaWorldCover,
+  description: 'ESA_WorldCover_2021_' + countryName,
+  folder: exportFolder,
+  scale: scale_esa,
+  region: region,
+  maxPixels: maxPixels,
+  fileFormat: 'GeoTIFF'
+});
+
+// ============================================================================
+// EXPORT COMPLETE
+// ============================================================================
+
