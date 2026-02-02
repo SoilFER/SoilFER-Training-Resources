@@ -97,7 +97,7 @@ library(readxl)           # Read Excel files
 library(knitr)            # For formatted tables
 
 # Read Excel file containing raw soil data
-raw_data <- read_excel("../../../01_data/module1/MIR_KANSAS_data_spectra_with_lat-long_depths_xlsx.xlsx", sheet = 1) 
+raw_data <- read_excel("../../../01_data/module1/MIR_KANSAS_data.xlsx", sheet = 1) 
 
 # Define the folder to store the results of the exercise
 output_dir <-"../../../03_outputs/module1/"
