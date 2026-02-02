@@ -163,7 +163,7 @@ Raw soil data often uses inconsistent column naming conventions that vary betwee
 The R object `site` will store the location, depth, and metadata from the full set of observations, including all sites and their associated horizons or layers in the database.
 
 ```{r rename-columns, eval=FALSE}
-# Select only the columns needed for soil data preparation
+# Select only the columns needed for site data preparation
 site <- raw_data %>%
   select(
     rowID,
@@ -189,7 +189,7 @@ site <- site %>%
 
 ### Creating unique profile identifiers
 
-Each unique geographic location represents a single soil profile. A profile may contain multiple horizons or layers sampled at different depths. We create a unique identifier 'ProfID' for each location based on coordinates so that all horizons from the same location can be grouped together in the same profile.
+Each unique geographic location represents a single soil profile. A profile may contain multiple horizons or layers sampled at different depths. We create a unique identifier `ProfID` for each location based on coordinates so that all horizons from the same location can be grouped together in the same profile.
 
 ```{r profile-ids, eval=FALSE}
 site <- site %>%
@@ -208,6 +208,17 @@ site <- site %>%
 ```
 
 After this step, horizons from the same location share a common `ProfID`, while those from different locations receive distinct `ProfID` values. When unique profile IDs are not available in the raw data, this method reconstructs profile identity using the geographic position of the samples.
+
+### Remove exact duplicate site records
+
+Multiple site records may correspond to identical observations (i.e., the same location and depth). In this dataset, spectroscopic measurements were performed four times per sample, resulting in duplicate entries. Remove duplicates and retain a single record to prevent redundancy and double counting in subsequent analyses.
+
+```{r duplicates, eval=FALSE}
+# Remove exact duplicate rows
+site <- site %>%
+  distinct(across(-rowID), .keep_all = TRUE)
+```
+
 
 ::: key-concept
 **Standard column naming convention** ensures consistency across all your code and projects:
@@ -254,7 +265,7 @@ Records lacking valid spatial coordinates cannot be georeferenced and must be ex
 ```{r missing-coords, eval=FALSE}
   # Remove records with missing coordinates
   site <- site %>%
-    filter(!is.na(lon) & !is.na(lat))
+    dplyr::filter(!is.na(lon) & !is.na(lat))
 
 ```
 
@@ -271,41 +282,12 @@ Values outside these limits indicate invalid or incorrectly formatted coordinate
 The following validation routine applies only to geographic coordinates stored in decimal degrees.
 
 ```{r bounds-check, eval=FALSE}
-# Identify geographic coordinates outside valid ranges
-out_of_bounds <- site %>%
-  filter((lon < -180 | lon > 180) | (lat < -90 | lat > 90))
-
-if (nrow(out_of_bounds) > 0) {
-  # Common error: values stored in thousandths (e.g., 97500 instead of 97.5)
-  # Attempt correction by dividing by 1000
-  out_of_bounds <- out_of_bounds %>%
-    mutate(
-      lon_corrected = if_else((lon < -180 | lon > 180), lon / 1000, lon),
-      lat_corrected = if_else((lat < -90 | lat > 90), lat / 1000, lat)
-    )
-  
-  # Verify correction
-  corrected_valid <- out_of_bounds %>%
-    filter((lon_corrected >= -180 & lon_corrected <= 180) &
-           (lat_corrected >= -90 & lat_corrected <= 90))
-  
-  if (nrow(corrected_valid) > 0) {
-    # Update site data with corrected values
-    site <- site %>%
-      left_join(
-        out_of_bounds %>% select(rowID, lon_corrected, lat_corrected),
-        by = "rowID"
-      ) %>%
-      mutate(
-        lon = coalesce(lon_corrected, lon),
-        lat = coalesce(lat_corrected, lat)
-      ) %>%
-      select(-ends_with("_corrected"))
-  }
-}
-
-# Remove temporary object
-rm(out_of_bounds)
+# Keep only rows with valid lon/lat geographic coordinates inside valid ranges
+site <- site %>%
+  dplyr::filter(
+    lon >= -180, lon <= 180,
+    lat >=  -90, lat <=  90
+  )
 
 ```
 
@@ -324,16 +306,6 @@ If projected coordinates are used, valid ranges depend on the specific projectio
   
 :::
 
-
-### Check 3: Remove exact duplicate site records
-
-Multiple site records may correspond to identical observations (i.e., the same location and depth). In this dataset, spectroscopic measurements were performed four times per sample, resulting in duplicate entries. Remove duplicates and retain a single record to prevent redundancy and double counting in subsequent analyses.
-
-```{r duplicates, eval=FALSE}
-# Remove exact duplicate rows
-site <- site %>%
-  distinct(across(-rowID), .keep_all = TRUE)
-```
 
 
 ## Soil depth validation and correction {#depth-validation}
@@ -361,8 +333,8 @@ Records with missing top or bottom depths cannot be assigned to a valid interval
 
 ```{r missing-depths, eval=FALSE}
 # Keep records where `top` or `bottom` are not NA
-  site <- site %>%
-    filter(!is.na(top) | !is.na(bottom))
+site <- site %>%
+  dplyr::filter(!is.na(top) & !is.na(bottom))
 ```
 
 
@@ -404,42 +376,11 @@ site <- site %>%
 Each profile should represent the complete soil column starting at surface. This is essential for depth harmonization in a later step for Digital Soil Mapping.
 
 ```{r invalid-surface, eval=FALSE}
-
+## Keep only profiles that start at the surface (min top == 0)
 site <- site %>%
-  group_by(ProfID) %>%
-  filter(any(!is.na(top)) && abs(min(top, na.rm = TRUE)) < 0)  %>%
-  ungroup()
-
-profiles_check <- site %>%
-  group_by(ProfID) %>%
-  summarise(
-    min_top = min(top, na.rm = TRUE),
-    max_bottom = max(bottom, na.rm = TRUE),
-    n_horizons = n(),
-    .groups = "drop"
-  )
-
-profiles_no_surface <- profiles_check %>%
-  dplyr::slice(which(min_top != 0))
-
-if (nrow(profiles_no_surface) > 0) {
-  cat("⚠ Profiles NOT starting at surface (top ≠ 0):", 
-      nrow(profiles_no_surface), "profiles\n")
-  
-  profiles_to_remove <- profiles_no_surface$ProfID
-  
-  site <- site %>%
-    filter(!ProfID %in% profiles_to_remove)
-  
-  cat("→ Removed", nrow(profiles_no_surface), "incomplete profiles\n")
-  cat("→ Remaining:", nrow(site), "records\n\n")
-} else {
-  cat("✓ All profiles start at surface (top = 0)\n\n")
-}
-
-cat("→ Total profiles remaining:", n_distinct(site$ProfID), "\n")
-
-rm( profiles_check, profiles_no_surface, profiles_to_remove)
+  dplyr::group_by(ProfID) %>%
+  dplyr::filter(!is.na(top) & min(top, na.rm = TRUE) == 0) %>%
+  dplyr::ungroup()
 
 ```
 
@@ -468,10 +409,9 @@ Laboratory analyses provide the soil property measurements used as inputs for Di
 (iii) plausibility of measured values based on feasible analytical thresholds, and 
 (iv) traceable handling of potential errors (flagging, correction, or exclusion).
 
-### Extract and standardize laboratory columns
+### Prepare and standardize laboratory columns
 
-Extract laboratory variables from the raw dataset, standardize types to numeric, restrict records to those retained in the cleaned site dataset, and join lab data to the site dataset using `rowID` as the record key.
-
+In this step, you will extract horizon-level laboratory results from the raw dataset, convert relevant fields to numeric, and retain only the records associated with the profiles preserved in the cleaned site dataset. Finally, you will merge the laboratory data back into the site dataset using `rowID` as the unique record identifier.
 
 ```{r lab-extract, eval=FALSE}
 # Extract laboratory columns with standardized names
@@ -501,6 +441,15 @@ lab <- raw_data %>%
     left_join(lab, by = "rowID")
 ```
 
+After preparing the laboratory dataset, the analytical results are validated through three quality-control checks:
+
+ - Check 1: Identify out-of-bounds values — flag measurements that fall outside plausible or admissible ranges.
+
+ - Check 2: Texture validation — verify that sand, silt, and clay values are internally consistent (e.g., within expected limits and summing appropriately when expressed as percentages).
+
+ - Check 3: Correction of out-of-bounds laboratory values — apply a proper correction strategy (targeted fixes where justified, or replacing suspect values with `NA`).
+
+
 ### Check 1: Check each property against feasible analytical thresholds
 
 Soil properties have physically and analytically plausible bounds. Values outside these bounds typically indicate measurement issues, unit inconsistencies, or transcription/data entry errors. Thresholds should be defined a priori and documented (e.g., based on existing soil datasets or peer-reviewed literature), then adjusted as needed for the target region and soil types.
@@ -517,7 +466,9 @@ Store thresholds in a configuration file (e.g., `property_thresholds.csv`) to en
 # NOTE: These thresholds are based on global soil datasets and/or literature.
 #       Adjust for your specific region and soil types.
 property_thresholds <- read_csv("property_thresholds.csv")
+# Display thresholds
 print(property_thresholds)
+
 ```
 
 #### Identify out-of-bounds values
@@ -525,7 +476,7 @@ print(property_thresholds)
 Each soil analytical property is evaluated against its min/max thresholds. Out-of-bounds values are compiled into a structured issue log (`out_of_bounds_issues`) to support inspection, reporting, and correction.
 
 ```{r check1-lab, eval=FALSE}
-
+# Identify out-of-bounds values
 out_of_bounds_issues <- list()
 
 for (i in seq_len(nrow(property_thresholds))) {
@@ -653,7 +604,7 @@ if (nrow(texture_problems) > 0) {
 ```
 
 
-### Correction of out-of-bounds laboratory values
+### Check 3: Correction of out-of-bounds laboratory values
 
 Out-of-bounds values identified during validation should be handled systematically and transparently. Corrections must follow clearly defined rules to avoid introducing subjective bias or undocumented changes.
 
@@ -670,7 +621,7 @@ Two complementary approaches are recommended:
 :::
 
 
-### Option 1: Targeted corrections (when error mechanism is known)
+#### Option 1: Targeted corrections (when error mechanism is known)
 
 Apply deterministic corrections only when the source of error is clearly understood and scientifically justified.
 
@@ -691,49 +642,43 @@ Example corrections shown below assume:
 
 
 ```{r correct-known-errors, eval=FALSE}
-# # ---- SOC sign correction ----
-extreme_idx <- site_lab$SOC < 0
+# Correction: Negative SOC values
+idx <- !is.na(site_lab$SOC) & site_lab$SOC < 0
+if (any(idx)) site_lab$SOC[idx] <- abs(site_lab$SOC[idx])
+# Remove temporary objects
+rm(idx)
 
-if (any(extreme_idx, na.rm = TRUE)) {
-  old_vals <- site_lab$SOC[extreme_idx]
-  site_lab$SOC[extreme_idx] <- abs(site_lab$SOC[extreme_idx])
-}
+# Correction: Phosphorus Mehlich 3 > 2000 mg/kg (likely 1000× error - ppb instead of ppm)
+idx <- !is.na(site_lab$Phosphorus_Mehlich3) & site_lab$Phosphorus_Mehlich3 > 2000
+n_idx <- sum(idx)
+if (n_idx > 0) site_lab$Phosphorus_Mehlich3[idx] <- site_lab$Phosphorus_Mehlich3[idx] / 1000
+# Remove temporary objects
+rm(idx, n_idx)
 
-# ---- Mehlich-3 unit correction ----
-extreme_idx <- !is.na(site_lab$Phosphorus_Mehlich3) &
-               site_lab$Phosphorus_Mehlich3 > 2000
-
-if (any(extreme_idx)) {
-  old_vals <- site_lab$Phosphorus_Mehlich3[extreme_idx]
-  site_lab$Phosphorus_Mehlich3[extreme_idx] <- site_lab$Phosphorus_Mehlich3[extreme_idx] / 1000
-}
-
-# Delete temporaty objects
-rm(extreme_idx,old_vals)
 ```
 
 
-### Option 2: Replace out-of-bounds values with `NA`
+#### Option 2: Replace out-of-bounds values with `NA`
 
 When values cannot be corrected with confidence, replace only the problematic measurements with `NA` while retaining the rest of the record.
 
 ```{r set-oob-to-na, eval=FALSE}
+# Loop through each property in the out_of_bounds_issues list
 for (property in names(out_of_bounds_issues)) {
+  # Get the rowIDs with issues for this property
   rowIDs_with_issues <- unique(out_of_bounds_issues[[property]]$rowID)
-  if (property %in% names(site_lab)) {
-    old_vals <- site_lab[[property]][site_lab$rowID %in% rowIDs_with_issues]
-    site_lab <- site_lab %>%
-      mutate(
-        "{property}" := ifelse(rowID %in% rowIDs_with_issues, NA, .data[[property]])
-      )
-    cat("Property", property, ":", length(rowIDs_with_issues), "values set to NA\n")
-  }
+  # Change the values of the property in those rows to NA
+  site_lab <- site_lab %>%
+    dplyr::mutate(
+      "{property}" := dplyr::if_else(rowID %in% rowIDs_with_issues,
+                                     as.numeric(NA), .data[[property]])
+    )
 }
 ```
 
 
 
-## Detecting and resolving duplicate soil profiles {#duplicate-detection}
+## Resolving duplicated data in soil profiles {#duplicate-detection}
 
 Duplicate or repeated soil profile descriptions may occur when the same location is sampled or analysed multiple times. These situations can produce multiple horizon sequences under the same `ProfID`, resulting in inconsistent depth intervals, overlapping layers, or conflicting analytical values.
 
@@ -800,7 +745,7 @@ It is important to distinguish between two fundamentally different cases:
 Profile identifiers `ProfID` have been previously constructed by grouping horizons with identical coordinates into the same profile. However, if multiple profile descriptions have been created at the same location, the `ProfID` will be the same. The objective now is to flag `ProfID` values that appear to contain more than one distinct depth sequence (i.e., multiple sets of horizon boundaries).
 
 ```{r detect-duplicates, eval=FALSE}
-# Analyze depth consistency within each profile
+### Detect potential horizon duplicates within profiles
 profile_analysis <- site_lab %>%
   group_by(ProfID) %>%
   summarise(
@@ -814,46 +759,46 @@ profile_analysis <- site_lab %>%
     # If all horizons have unique top/bottom values, 
     # depths are consistent (no duplicates)
     consistent = (n_unique_tops == n_horizons & n_unique_bottoms == n_horizons),
-    likely_duplicate = !consistent
+    likely_duplicates = !consistent
   )
 
 # Find profiles with likely duplicates
 duplicates <- profile_analysis %>%
-  filter(likely_duplicate)
+  filter(likely_duplicates)
 
 if (nrow(duplicates) > 0) {
   cat("⚠ Found", nrow(duplicates), 
-      "profiles with likely duplicate measurement sequences\n\n")
+      "profiles with likely duplicates measurement sequences\n\n")
   print(duplicates)
 }
 
-# Select all horizons present in duplicated profiles
+# Select all profiles presenting duplicate horizons
 duplicates <- site_lab %>%
   filter(ProfID %in% duplicates$ProfID)
 
+
 ```
 
-### Resolving Duplicates
+### Resolving Profile Duplicates
 
 Duplicate handling should follow the order below:
 
-**1 → merge replicated horizons**  
+**1 → merge duplicated horizons**  
 **2 → resolve competing depth sequences**  
 **3 → remove incomplete profiles**
 
 This order prevents premature data loss and preserves maximum analytical information.
 
-#### Action 1: Merge replicated horizons (same depth intervals)
+#### Check 1: Average duplicated horizons (same depth intervals)
 
 When multiple records share identical `ProfID`, `top`, and `bottom`, they represent repeated measurements of the same soil layer. These should be consolidated into a single horizon. Numeric properties are averaged and common identifiers are retained from the first occurrence. 
 
 
 ```{r resolve-duplicates-a1, eval=FALSE}
 # -----
-# Correction 1: Summarize property duplicates in duplicated horizons my mean
+# Correction 1: Summarize property in duplicated horizons my mean
 # (e.g. PROF0237, PROF0262, PROF0271, PROF0284, PROF0368)
 # -----
-# Summarise properties by mean in duplicated in horizons
 site_lab <- site_lab %>%
   group_by(ProfID, top, bottom) %>%
   summarise(
@@ -877,7 +822,7 @@ site_lab <- site_lab %>%
 
 :::
 
-## Action 2: Resolve multiple depth sequences
+#### Check 2: Resolve ProfID for multiple depth sequences
 
 Multiple independent profile descriptions likely exist in a single location. This data is valid and must remain in the dataset, but it has to be differentiated by its `ProfID`.
 
@@ -914,8 +859,8 @@ chain_horizons <- function(top, bottom) {
 
 site_lab <- site_lab %>%
   group_by(lon, lat, ProfID) %>%
-  mutate(chain = chain_horizons(top, bottom)) %>%      # detect sequences
-  arrange(chain, top, .by_group = TRUE) %>%          # sort within each chain
+  mutate(chain = chain_horizons(top, bottom)) %>%   # detect sequences
+  arrange(chain, top, .by_group = TRUE) %>%         # sort within each chain
   mutate(
     ProfID = paste0(ProfID, "_", chain)             # add a numeric suffix
   ) %>%
@@ -934,7 +879,7 @@ if (max(site_lab$chain, na.rm = TRUE) > 1) {
 site_lab <- site_lab %>%
   select(-chain)
 
-# Delete temporaty objects
+# Delete temporary objects
 rm(corrected_profiles,chain_horizons)
 
 ```
@@ -946,18 +891,16 @@ Profiles whose shallowest horizon does not begin at 0 cm represent mistakes or i
 
 Only profiles whose first horizon begins at the surface (top = 0 cm) should be retained for analyses requiring complete vertical representation.
 
-#### Check 1: Identify profiles with incomplete surface coverage
+#### Check 1: Remove profiles with incomplete surface coverage
 
-The objective is to subset profiles where the shallowest recorded depth is 0 cm.
+As a result of the previous steps, some horizons may remain without forming a continuous sequence within their profile. The objective here is to retain only those profiles whose shallowest recorded depth starts at 0 cm.
 
 ```{r resolve-topsoil, eval=FALSE}
 site_lab <- site_lab %>%
   group_by(ProfID) %>%
   filter(min(top, na.rm = TRUE) == 0) %>%   
   arrange(ProfID, top, bottom, HorID) %>%
-  ungroup() %>%
-# remove trailing "_1" from ProfID values
-  mutate(ProfID = sub("_1$", "", ProfID))
+  ungroup()
 
 ```
 
@@ -977,7 +920,7 @@ This database can be exported to `csv` and `.xlsx` files.
 
 # Save to CSV
 output <- paste0(output_dir,"KSSL_cleaned.csv")
-write.csv2(KSSL_standardized, output, row.names = FALSE)
+write.csv2(site_lab, output, row.names = FALSE)
 
 # Save to Excel
 output <- paste0(output_dir,"KSSL_cleaned.xslx")
@@ -1000,14 +943,8 @@ In general, for monitoring activities, profiles can be selected upon a time key 
 
 ```{r select-most-complete-profile-per-location, eval=FALSE}
 # Create a new object to store DSM harmonized data
+# Keep most complete profiles at each location to avoid duplicated profiles  
 horizons <- site_lab %>%
-  filter(
-    !is.na(top) & !is.na(bottom) &    # Both depths present?
-      top < bottom                        # Valid interval (top < bottom)?
-  )
-
-# Keep deeper profiles at each location to avoid duplicated profiles  
-horizons <- horizons %>%
   group_by(lon, lat, ProfID) %>%
   summarise(n_hz = n_distinct(paste(top, bottom)), .groups = "drop") %>%
   group_by(lon, lat) %>%
@@ -1018,7 +955,6 @@ horizons <- horizons %>%
 
 # Since ProfIDs are now unique at each location, remove tailings ProfID values
 horizons$ProfID <- sub("_[12]$", "", horizons$ProfID)
-
 
 ```
 
@@ -1045,8 +981,8 @@ library(aqp)
 # Define standard depth intervals
 standard_depths <- c(0, 30, 60)  # 0-30, 30-60 cm
 
-# Select properties to harmonize
-properties_to_harmonize <- names(site_lab)[!names(site_lab) %in% c("rowID","ProfID","HorID","lon","lat","top","bottom","texture_sum","texture_valid")]
+# Select properties to standardize
+properties_to_standardize <- names(site_lab)[!names(site_lab) %in% c("rowID","ProfID","HorID","lon","lat","top","bottom","texture_sum","texture_valid")]
 
 # Prepare data for aqp
 
@@ -1058,12 +994,12 @@ depths(horizons) <- ProfID ~ top + bottom
 #   Links geographic location to soil profiles
 initSpatial(horizons, crs = "EPSG:4326") <- ~ lon + lat
 
-# Build the harmonization formula
+# Build the standardization formula
 fml <- as.formula(
-  paste("ProfID ~", paste(properties_to_harmonize, collapse = " + "))
+  paste("ProfID ~", paste(properties_to_standardize, collapse = " + "))
 )
 
-# Apply slab() for depth harmonization
+# Apply slab() to interpolate to standard depths
 KSSL_standardized <- slab(
   horizons,
   fml,
@@ -1075,7 +1011,7 @@ KSSL_standardized <- slab(
 
 The `slab()` function produces output with: - `p.q5`: 5th percentile (lower confidence bound) - `p.q50`: Median estimate (best estimate) - `p.q95`: 95th percentile (upper confidence bound)
 
-The 5th to 95th percentile range provides a 90% confidence interval, quantifying uncertainty in the harmonized estimates.
+The 5th to 95th percentile range provides a 90% confidence interval, quantifying uncertainty in the standardized estimates.
 
 ```{r CI-harmonized, eval=FALSE}
 # Create Confidence Interval of the estimations (CI column)
@@ -1094,7 +1030,7 @@ KSSL_standardized <- KSSL_standardized %>%
 ```
 
 
-### Processing standardized output
+### Processing standardized data
 
 The output of the `slab()` function is a data frame in long format, where soil properties are stored as rows and the estimated percentile values are stored as columns. Each record is identified by `ProfID`, `top`, `and bottom`. For most downstream analyses, the data must be reshaped to wide format (i.e., one row per depth interval, with properties as columns).
 
@@ -1120,13 +1056,12 @@ KSSL_standardized <- KSSL_standardized %>%
   # Move coordinates to front for readability
   relocate(lon, lat, .after = ProfID)
 
-# Result: One row per profile-depth, with harmonized soil properties
+# Result: One row per profile-depth, with standardized soil properties
 head(KSSL_standardized)
 
 ```
 
-The standardized dataset has now one row per profile per standard depth, with soil properties estimated at those depths using weighted averaging from the original horizon measurements. The final step is to save this dataset.
-
+The final step is to save this dataset with standardized soil properties at two depths.
 
 ```{r export-results-2, eval=FALSE}
 
@@ -1136,9 +1071,48 @@ write.csv2(KSSL_standardized, output, row.names = FALSE)
 
 # Save to Excel
 output <- paste0(output_dir,"KSSL_standardized.xlsx")
-write_xlsx(site_lab, output)
+write_xlsx(KSSL_standardized, output)
 
 ```
+
+### Exporting standardized data for Digital Soil Mapping
+
+At this stage, the dataset is standardized to one row per profile and standard depth interval. Soil properties at these depths are derived from the original horizon measurements using depth-weighted averaging, and the output includes the percentiles of the weighted estimates (e.g., p05, p50, p95).
+
+For the Digital Soil Modelling exercise in this tutorial, we will work with a subset focused on the topsoil (0–30 cm) and use the median (p50) estimates for the following properties: clay, silt, sand, SOC, and pH.
+
+
+```{r subset-dsm, eval=FALSE}
+# Keep only 0-30 cm depth and select relevant columns (Clay, Silt, Sand, SOC & pH)
+subset_data <- data %>%
+  filter(top == 0 & bottom == 30) %>%
+  select(
+    ProfID,
+    lon,
+    lat,
+    top,
+    bottom,
+    Clay = Clay_p.q50,
+    Silt = Silt_p.q50,
+    Sand = Sand_p.q50,
+    SOC = SOC_p.q50,
+    pH = pH_p.q50
+  )
+
+# Save to CSV
+output_csv <- paste0(output_dir,"KSSL_DSM.csv")
+write.csv2(subset_data, output_csv, row.names = FALSE)
+cat("✓ Saved to:", output_csv, "\n")
+
+# Save to Excel
+output_xlsx <- paste0(output_dir,"KSSL_DSM.xlsx")
+write_xlsx(subset_data, output_xlsx)
+cat("✓ Saved to:", output_xlsx, "\n")
+
+cat("✓ Subset data ready for Digital Soil Mapping\n")
+cat("  Output file: KSSL_DSM\n")
+```
+
 
 
 ## Preparing data for spectroscopy analyses {#spectroscopy}
@@ -1153,7 +1127,7 @@ Use a `left join` to preserve the cleaned horizon dataset as the reference. This
 
 
 ```{r sectral-results, eval=FALSE}
-# read spectral data from the original dataset
+# Read spectral data from the original dataset
 spec <- raw_data[,-c(1,2,4:22)]
 
 # Merge site_lab data to the original Spectral data by their common IDs
@@ -1209,7 +1183,8 @@ rm(spec)
 |--------------------------------|-----------------------------------------------------------------------------|
 | KSSL_cleaned                   | Clean horizon-level dataset with validated analytical data                  |
 | KSSL_spectral_cleaned          | Clean horizon-level dataset with validated analytical and spectroscopic data |
-| KSSL_standardized              | Depth-harmonized dataset (0–30 cm; 30–60 cm) for Digital Soil Mapping       |
+| KSSL_standardized              | Depth-harmonized dataset (0–30 cm; 30–60 cm) of all soil properties       |
+| KSSL_DSM                       | Depth-harmonized dataset (0–30 cm) for Digital Soil Mapping       |
 | soil_property_validation_report| Detailed report of analytical properties outside valid ranges               |
 
 

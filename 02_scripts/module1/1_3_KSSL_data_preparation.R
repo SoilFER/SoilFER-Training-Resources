@@ -14,7 +14,8 @@
 #   5. Correcting known data entry errors
 #   6. Generating quality reports
 #   7. Exporting cleaned data
-#
+#   8. Standardization of profile data to fixed depths
+#   9. Preparation of standard data for DSM
 # ============================================================================
 
 # Clear workspace and set options
@@ -23,7 +24,7 @@ options(stringsAsFactors = FALSE)  # Keep character strings as characters
 
 
 # ============================================================================
-# SECTION 0: PREPARE THE SYSTEM
+# SECTION 1: PREPARE THE SYSTEM
 # ============================================================================
 # Load packages and set working directory
 #
@@ -44,7 +45,7 @@ if (!file.exists(output_dir)){
 }
 
 # ============================================================================
-# SECTION 1: LOAD AND EXPLORE RAW DATA
+# SECTION 2: LOAD AND EXPLORE RAW DATA
 # ============================================================================
 # WHY: Before cleaning, always understand what you're working with
 #
@@ -69,7 +70,7 @@ summary(raw_data[,1:25])
 
 
 # ============================================================================
-# SECTION 2: PREPARE SITE DATA - EXTRACT AND RENAME KEY COLUMNS
+# SECTION 3: PREPARE SITE DATA - EXTRACT AND RENAME KEY COLUMNS
 # ============================================================================
 # WHY: 
 # - Start understanding how many valid points you have in the dataset
@@ -92,32 +93,45 @@ cat("\n=== PREPARE SITE DATA ===\n")
 
 # Add row identifier to track records throughout cleaning process
 raw_data <- raw_data %>%
-  dplyr::mutate(rowID = dplyr::row_number(), .before = 1)
+  mutate(rowID = row_number(), .before = 1)
 
 
-# CUSTOMIZE: Update column names to match your data (rename)
+# Select only the columns needed for site data preparation
 site <- raw_data %>%
-  select(rowID, Long_Site.x, Lat_Site.x, smp_id, 
-         Top_depth_cm.x, Bottom_depth_cm.x) %>%
-  # Rename to standard column names
-  rename(
-    lon = Long_Site.x,           # Longitude (WGS84)
-    lat = Lat_Site.x,            # Latitude (WGS84)
-    HorID = smp_id,              # Horizon identifier
-    top = Top_depth_cm.x,        # Upper depth (cm)
-    bottom = Bottom_depth_cm.x    # Lower depth (cm)
+  select(
+    rowID,
+    Long_Site.x,              # Raw column name for longitude
+    Lat_Site.x,               # Raw column name for latitude
+    smp_id,                   # Sample/horizon identifier
+    Top_depth_cm.x,           # Top depth in centimeters
+    Bottom_depth_cm.x         # Bottom depth in centimeters
   )
 
-# Create unique profile ID from coordinates
-# WHY: Each unique location = one soil profile
-# HOW: Group by coordinates, assign sequential ID, format as "PROF0001"
+# Rename columns to standard, consistent names
 site <- site %>%
+  rename(
+    lon = Long_Site.x,         # Longitude (WGS84)
+    lat = Lat_Site.x,          # Latitude (WGS84)
+    HorID = smp_id,            # Horizon identifier
+    top = Top_depth_cm.x,      # Upper depth (cm)
+    bottom = Bottom_depth_cm.x # Lower depth (cm)
+  ) 
+
+
+# Create unique profile ID from coordinates
+# WHY: Each unique location = one soil profile ID
+# HOW: Group by coordinates, assign sequential ID, format as "PROF0001"
+
+site <- site %>%
+  # Group all horizons at the same location
   group_by(lon, lat) %>%
+  # Assign sequential ID to each unique location (cur_group_id() returns group number)
   mutate(ProfID = cur_group_id()) %>%
   ungroup() %>%
+  # Format as standardized IDs: PROF0001, PROF0002, etc. with 4 digit resolution
   mutate(ProfID = sprintf("PROF%04d", ProfID))
 
-# Reorder columns for readability 
+# Reorder columns for clarity 
 site <- site %>%
   select(rowID, ProfID, HorID, lon, lat, top, bottom)
 
@@ -128,7 +142,7 @@ site <- site %>%
 cat("\n✓ Data prepared. Now have", nrow(site), "unique records\n")
 
 # ============================================================================
-# SECTION 3: COORDINATE VALIDATION
+# SECTION 4: COORDINATE VALIDATION
 # ============================================================================
 # WHY: Geographic coordinates define location. Bad coordinates = bad maps
 #
@@ -151,7 +165,7 @@ cat("\n=== COORDINATE VALIDATION ===\n")
 # Check 1: Identify missing coordinates
 # -----
 missing_coords <- site %>%
-  dplyr::slice(which(is.na(lon) | is.na(lat))) %>%
+  dplyr::filter(is.na(lon) | is.na(lat)) %>%
   mutate(issue = case_when(
     is.na(lon) & is.na(lat) ~ "Missing BOTH lon and lat",
     is.na(lon) ~ "Missing lon (longitude)",
@@ -175,73 +189,31 @@ if (nrow(missing_coords) > 0) {
 # -----
 # Check 2: Identify out-of-bounds coordinates
 # -----
-out_of_bounds <- site %>%
-  dplyr::slice(which((lon < -180 | lon > 180) | (lat < -90 | lat > 90))) %>%
-  mutate(issue = case_when(
-    lon < -180 | lon > 180 ~ paste0("lon out of bounds: ", round(lon, 2)),
-    lat < -90 | lat > 90 ~ paste0("lat out of bounds: ", round(lat, 2)),
-    TRUE ~ "Invalid coordinates"
-  ))
 
-if (nrow(out_of_bounds) > 0) {
-  cat("⚠ Out-of-bounds coordinates:", nrow(out_of_bounds), "records\n")
-  print(out_of_bounds)
-  
-  # -----
-  # Attempt correction: Divide by 1000 if >180 or >90
-  # -----
-  # WHY: Common error is decimal/unit confusion (45000 instead of 45)
-  # WARNING: This assumes systematic errors. Always verify!
-  
-  out_of_bounds <- out_of_bounds %>%
-    mutate(
-      lon_corrected = if_else((lon < -180 | lon > 180), lon / 1000, lon),
-      lat_corrected = if_else((lat < -90 | lat > 90), lat / 1000, lat),
-      correction_applied = (lon != lon_corrected | lat != lat_corrected)
-    )
-  
-  # Check if corrections worked
-  corrected_valid <- out_of_bounds %>%
-    filter((lon_corrected >= -180 & lon_corrected <= 180) &
-           (lat_corrected >= -90 & lat_corrected <= 90))
-  
-  if (nrow(corrected_valid) > 0) {
-    cat("→ Successfully corrected", nrow(corrected_valid), "records\n")
-    cat("  Applied: divided by 1000\n\n")
-    
-    # Update site data with corrected coordinates
+  # Identify out-of-bounds coordinates
+    out_of_bounds <- site %>%
+      filter((lon < -180 | lon > 180) | (lat < -90 | lat > 90)) %>%
+      mutate(issue = case_when(
+        lon < -180 | lon > 180 ~ paste0("lon out of bounds: ", round(lon, 2)),
+        lat < -90 | lat > 90 ~ paste0("lat out of bounds: ", round(lat, 2)),
+        TRUE ~ "Invalid coordinates"
+      ))
+  # Show out_of_bounds
+    if (nrow(out_of_bounds) > 0) {
+      cat("⚠ Out-of-bounds coordinates:", nrow(out_of_bounds), "records\n")
+      print(out_of_bounds)
+    }
+  # Keep only rows with valid lon/lat geographic coordinates inside valid ranges
     site <- site %>%
-      left_join(
-        out_of_bounds %>% 
-          select(rowID, lon_corrected, lat_corrected),
-        by = "rowID"
-      ) %>%
-      mutate(
-        lon = coalesce(lon_corrected, lon),
-        lat = coalesce(lat_corrected, lat)
-      ) %>%
-      select(-lon_corrected, -lat_corrected)
-  }
-  
-  # Remove records that still have invalid coordinates
-  still_invalid <- nrow(out_of_bounds) - nrow(corrected_valid)
-  if (still_invalid > 0) {
-    cat("→ Removing", still_invalid, "records with still-invalid coordinates\n\n")
-    
-    site <- site %>%
-      filter((lon >= -180 & lon <= 180) &
-             (lat >= -90 & lat <= 90))
-  }
-} else {
-  cat("✓ All coordinates within valid geographic bounds\n\n")
-}
-cat("Remaining after coordinate validation:", nrow(site), "records\n")
-
-# 
-rm(missing_coords,out_of_bounds)
+      dplyr::filter(
+        lon >= -180, lon <= 180,
+        lat >=  -90, lat <=  90
+      )
+  # Remove temporary objects
+    rm(missing_coords,out_of_bounds)
 
 # ============================================================================
-# SECTION 4: DEPTH INTERVAL VALIDATION
+# SECTION 5: DEPTH INTERVAL VALIDATION
 # ============================================================================
 # WHY: Soil properties change with depth. Accurate depth intervals are essential
 #
@@ -261,18 +233,20 @@ cat("\n=== DEPTH INTERVAL VALIDATION ===\n")
 # Check 1: Missing depth values
 # -----
 missing_depths <- site %>%
-  dplyr::slice(which(is.na(top) | is.na(bottom))) %>%
-  mutate(issue = case_when(
-    is.na(top) & is.na(bottom) ~ "Missing BOTH top and bottom",
-    is.na(top) ~ "Missing top (upper) depth",
-    is.na(bottom) ~ "Missing bottom (lower) depth"
-  ))
+  dplyr::filter(is.na(top) | is.na(bottom)) %>%
+  dplyr::mutate(
+    issue = dplyr::case_when(
+      is.na(top) & is.na(bottom) ~ "Missing BOTH top and bottom",
+      is.na(top) ~ "Missing top (upper) depth",
+      is.na(bottom) ~ "Missing bottom (lower) depth"
+    )
+  )
 
 if (nrow(missing_depths) > 0) {
   cat("⚠ Missing depth values:", nrow(missing_depths), "records\n")
   
   site <- site %>%
-    filter(!is.na(top) & !is.na(bottom))
+    dplyr::filter(!is.na(top) & !is.na(bottom))
   
   cat("→ Removed. Remaining:", nrow(site), "records\n\n")
 
@@ -324,27 +298,10 @@ if (nrow(invalid_logic) > 0) {
   cat("Found", nrow(invalid_logic), 
       "records with invalid depth logic (bottom <= top)\n\n")
   print(invalid_logic %>% select(ProfID, HorID, top, bottom))
-  
-  # Attempt correction by swapping values
-  invalid_logic <- invalid_logic %>%
-    mutate(
-      top_corrected = bottom,
-      bottom_corrected = top
-    )
-  
-  # Update site data
   site <- site %>%
-    left_join(
-      invalid_logic %>% select(rowID, top_corrected, bottom_corrected),
-      by = "rowID"
-    ) %>%
-    mutate(
-      top = coalesce(top_corrected, top),
-      bottom = coalesce(bottom_corrected, bottom)
-    ) %>%
-    select(-ends_with("_corrected"))
+    filter(bottom > top)
   
-  cat("Corrected by swapping depths\n\n")
+  cat("Removed records with invalid depth logic (bottom <= top)\n\n")
 } else {
   cat("Invalid depth logic not found\n")
   rm(invalid_logic)
@@ -376,7 +333,9 @@ if (nrow(profiles_no_surface) > 0) {
   profiles_to_remove <- profiles_no_surface$ProfID
   
   site <- site %>%
-    filter(!ProfID %in% profiles_to_remove)
+    group_by(ProfID) %>%
+    dplyr::filter(!is.na(top) & min(top, na.rm = TRUE) == 0) %>%
+    ungroup()
   
   cat("→ Removed", nrow(profiles_no_surface), "incomplete profiles\n")
   cat("→ Remaining:", nrow(site), "records\n\n")
@@ -389,7 +348,7 @@ cat("Total profiles remaining:", n_distinct(site$ProfID), "\n")
 rm(profiles_check, profiles_no_surface, profiles_to_remove)
 
 # ============================================================================
-# SECTION 5: SOIL PROPERTY VALIDATION (WET CHEMISTRY DATA)
+# SECTION 6: SOIL PROPERTY VALIDATION (WET CHEMISTRY DATA)
 # ============================================================================
 # WHY: Soil properties have known valid ranges. Values outside these ranges
 #      indicate measurement errors, unit mistakes, or data entry errors. All 
@@ -406,9 +365,10 @@ rm(profiles_check, profiles_no_surface, profiles_to_remove)
 # SOURCES for valid ranges:
 # - Adjust valid ranges in relevant scientific literature
 
-cat("\n=== SOIL PROPERTY VALIDATION ===\n")
-
-# Extract laboratory data
+cat("\n=== PREPARE LABORATORY DATA ===\n")
+# -----
+## Prepare laboratory data
+# -----
 lab <- raw_data %>%
   select(
     rowID,
@@ -422,7 +382,7 @@ lab <- raw_data %>%
     Calcium_Carbonate_equivalent                      # CaCO₃ equivalent (%)
   )
 
-# Convert all parameters to numeric (orevent errors in case they were originally stored as text)
+# Convert all parameters to numeric (prevent errors in case they were originally stored as text)
 lab <- lab %>%
   mutate(across(-rowID, as.numeric))
 
@@ -437,21 +397,20 @@ site_lab <- site %>%
 rm(site)
 
 # -----
-# Define valid ranges for soil properties
+## Define valid ranges for soil properties
 # -----
 # WHY: These thresholds are based on global soil datasets
 # CUSTOMIZE: Adjust for your specific region and soil types
 
-property_thresholds <- read_csv("property_thresholds.csv")
-
+property_thresholds <- read_csv("../../01_data/module1/property_thresholds.csv")
 
 # Display thresholds
-cat("Property validation thresholds:\n")
 print(property_thresholds)
 
 # -----
-# Check each property against thresholds
+### Check 1: Check each property against feasible analytical thresholds
 # -----
+# Identify out-of-bounds values
 out_of_bounds_issues <- list()
 
 for (i in seq_len(nrow(property_thresholds))) {
@@ -491,11 +450,10 @@ rm(i,idx,max_val,min_val, prop,prop_desc,x)
 # -----
 # Generate quality report
 # -----
+# Report out-of-bounds if present
 if (length(out_of_bounds_issues) > 0) {
   all_issues <- bind_rows(out_of_bounds_issues)
-  
-  cat("\n⚠ OUT-OF-BOUNDS SOIL PROPERTIES FOUND\n")
-  cat("═════════════════════════════════════════\n\n")
+  cat("\n⚠ Out-of-bounds properties found\n")
   
   # Summary by property
   issue_summary <- all_issues %>%
@@ -513,7 +471,7 @@ if (length(out_of_bounds_issues) > 0) {
   cat("Issues by property:\n")
   print(issue_summary)
   
-  # Rows with multiple issues (likely data entry errors)
+  # Rows with multiple issues
   rows_with_multiple_issues <- all_issues %>%
     group_by(rowID) %>%
     summarise(
@@ -530,7 +488,7 @@ if (length(out_of_bounds_issues) > 0) {
     cat("\nThese records likely have data entry errors and should be reviewed.\n")
   }
   
-  # Export detailed report to Excel
+  # Export QC report
   write_xlsx(
     list(
       Summary = issue_summary,
@@ -548,12 +506,30 @@ if (length(out_of_bounds_issues) > 0) {
   cat("\n✓ All soil properties within valid ranges!\n")
 }
 
+# -----
+### Check 2: Texture validation
+# -----
+# Print rows with texture validation incosistencies 
+texture_problems <- site_lab %>%
+  mutate(
+    texture_sum = Clay + Silt + Sand,
+    texture_valid = abs(texture_sum - 100) < 2
+  )
 
-# ============================================================================
-# SECTION 6: CORRECTION OF OUT-OF-BOUNDS VALUES
-# ============================================================================
-# Option 1. Correct them manually after inspection of out_of_bounds_issues
-# Use this option if you can ensure the true values for the out-of-bound properties by using recovered from the source of if mistakes are clearly attributable to some identifiable mistake.
+texture_problems <- texture_problems %>%
+  filter(!texture_valid)
+
+if (nrow(texture_problems) > 0) {
+  cat("⚠ Found", nrow(texture_problems),
+      "records with invalid texture sums\n\n")
+  print(texture_problems %>%
+          select(rowID, ProfID, Clay, Silt, Sand, texture_sum))
+  # Flag for review (do not automatically remove)
+}
+
+# -----
+### Check 3: Correction of out-of-bounds laboratory values
+# -----
 
 # The summary of the critical values provides information on the type of issue
 for (property in names(out_of_bounds_issues)){
@@ -563,92 +539,93 @@ for (property in names(out_of_bounds_issues)){
   #cat("Total errors in",property, ":",n_distinct(out_of_bounds_issues[property]), "\n")
 }
 
-# SOC is negative in 43 rows while Phosphorus_Mehlich3 has wrong values in 1 row
-# If we ensure that negative SOC are due to a typing mistake, and Phosphorus_Mehlich3 values are due to wrong units (ppb instead of mg/kg), then: 
-
-# Correction: Negative SOC values
-negative_soc <- sum(site_lab$SOC < 0, na.rm = TRUE)
-if (negative_soc > 0) {
-  cat("→ Correcting", negative_soc, "negative SOC values\n")
-  cat("  Action: Take absolute value\n")
-  site_lab$SOC <- abs(site_lab$SOC)
-}
-
-# Correction: Phosphorus Mehlich 3 > 2000 mg/kg (unlikely, likely 1000× error)
-
-extreme_idx <- !is.na(site_lab$Phosphorus_Mehlich3) & site_lab$Phosphorus_Mehlich3 > 2000
-extreme_p <- sum(extreme_idx) # Number of Phosphorus_Mehlich3 > 2000 mg/kg
-
-if (extreme_p > 0) {
-  cat("→ Correcting", extreme_p, "extremely high Phosphorus values\n")
-  cat("  Action: Divided by 1000\n")
-  site_lab$Phosphorus_Mehlich3[extreme_idx] <- site_lab$Phosphorus_Mehlich3[extreme_idx] / 1000
-}
-
-rm(site.lab_duplicates,extreme_idx, extreme_p, negative_soc)
-
-
-# Option 2: Set out-of-bounds values to NA (keep the row, just replace the problematic value)
-
-# Loop through each property in the out_of_bounds_issues list
-for (property in names(out_of_bounds_issues)) {
-  # Get the rowIDs with issues for this property
-  rowIDs_with_issues <- out_of_bounds_issues[[property]]$rowID
-  
-  # Set the property values to NA for these rows
-  site_lab <- site_lab %>%
-    mutate(
-      !!sym(property) := ifelse(rowID %in% rowIDs_with_issues, NA, !!sym(property))
-    ) 
-  cat("Property", property, ":", 
-      length(rowIDs_with_issues), "values set to NA\n")
-}
-
-
-
-# ============================================================================
-# SECTION 6: DATA CORRECTIONS
-# ============================================================================
-# WHY: Some errors can be corrected automatically. Others require manual review.
-#      Lab corrections must account for site identification (join both datasets) 
-#
-# CORRECTIONS APPLIED:
-# 1) Summarize duplicated analyses:
-#    - Some horizons have been analysed more than once.
-#    - We retain the mean value to avoid duplicate horizons in the dataset.
-# 2) Negative SOC → absolute value (likely a sign-entry error)
-# 3) Phosphorus > 20000 → divide by 1000 (likely a unit conversion error)
-#
 # WARNING:
-# - Other datasets may contain errors in properties other than SOC or phosphorus.
+# - Other datasets may contain errors in properties other than SOC or Phosphorus.
 # - Always check for other potential issues.
 # - Only apply automatic corrections when the error is obvious and you are confident.
 
 
-cat("\n=== APPLYING DATA CORRECTIONS ===\n")
+## Option 1. Correct them manually after inspection of out-of-bounds issues
+# Use this option if you can ensure the true values for the out-of-bound properties by using recovered from the source of if mistakes are clearly attributable to some identifiable mistake.
+
+# SOC is negative in 43 rows while Phosphorus_Mehlich3 has wrong values in 1 row
+# If we ensure that negative SOC are due to a typing mistake, and Phosphorus_Mehlich3 values are due to wrong units (ppb instead of mg/kg), then: 
+
+# Correction: Negative SOC values
+idx <- !is.na(site_lab$SOC) & site_lab$SOC < 0
+if (any(idx)) site_lab$SOC[idx] <- abs(site_lab$SOC[idx])
+# Remove temporary objects
+rm(idx)
+
+# Correction: Phosphorus Mehlich 3 > 2000 mg/kg (likely 1000× error)
+idx <- !is.na(site_lab$Phosphorus_Mehlich3) & site_lab$Phosphorus_Mehlich3 > 2000
+n_idx <- sum(idx)
+if (n_idx > 0) site_lab$Phosphorus_Mehlich3[idx] <- site_lab$Phosphorus_Mehlich3[idx] / 1000
+# Remove temporary objects
+rm(idx, n_idx)
 
 
-# -----
-# Correction 1: Summarize property duplicates in duplicated horizons my mean
-# (e.g. PROF0237, PROF0262, PROF0271, PROF0284, PROF0368)
-# -----
+## Option 2: Set out-of-bounds values to NA (keep the row, just replace the problematic values)
 
-# Idenfify if property duplicates exist
-
-site.lab_duplicates <- site_lab %>%
-  arrange(ProfID, top, bottom, rowID) %>%   # decide what "first" means
-  group_by(ProfID, top, bottom) %>%
-  filter(row_number() > 1) %>%             # everything after the first is "dropped/merged"
-  ungroup()
-
-if (nrow(site.lab_duplicates) > 0) {
-  cat("→ Identified", nrow(site.lab_duplicates), "duplicated horizons\n")
-  cat("Duplicated horizons in Profiles",unique(site.lab_duplicates$ProfID), "\n")
-} else {
-  cat("→ No duplicated horizons have been found\n")
+# Loop through each property in the out_of_bounds_issues list
+for (property in names(out_of_bounds_issues)) {
+  # Get the rowIDs with issues for this property
+  rowIDs_with_issues <- unique(out_of_bounds_issues[[property]]$rowID)
+  # Change the values of the property in those rows to NA
+  site_lab <- site_lab %>%
+    dplyr::mutate(
+      "{property}" := dplyr::if_else(rowID %in% rowIDs_with_issues,
+                                     as.numeric(NA), .data[[property]])
+    )
 }
 
-# Summarise properties by mean in duplicated in horizons
+# ============================================================================
+# SECTION 7: RESOLVING REPLICATED DATA IN SOIL PROFILES
+# ============================================================================
+# WHY: Some horizons have been analysed more than once (replicates; monitoring).
+#
+# CORRECTIONS APPLIED:
+# 1) Resolve with the mean value to avoid replicate horizons in the dataset.
+# 2) Resolve non-depth-continuous horizon series
+
+
+cat("\n=== RESOLVING DUPLICATED DATA ===\n")
+
+### Detect potential horizon duplicates within profiles
+profile_analysis <- site_lab %>%
+  group_by(ProfID) %>%
+  summarise(
+    n_horizons = n(),
+    n_unique_tops = n_distinct(top),
+    n_unique_bottoms = n_distinct(bottom),
+    max_depth = max(bottom, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    # If all horizons have unique top/bottom values, 
+    # depths are consistent (no duplicates)
+    consistent = (n_unique_tops == n_horizons & n_unique_bottoms == n_horizons),
+    likely_duplicates = !consistent
+  )
+
+# Find profiles with likely duplicates
+duplicates <- profile_analysis %>%
+  filter(likely_duplicates)
+
+if (nrow(duplicates) > 0) {
+  cat("⚠ Found", nrow(duplicates), 
+      "profiles with likely duplicates measurement sequences\n\n")
+  print(duplicates)
+}
+
+# Select all profiles presenting duplicate horizons
+duplicates <- site_lab %>%
+  filter(ProfID %in% duplicates$ProfID)
+
+# -----
+# Correction 1: Summarize property in duplicated horizons my mean
+# (e.g. PROF0237, PROF0262, PROF0271, PROF0284, PROF0368)
+# -----
 site_lab <- site_lab %>%
   group_by(ProfID, top, bottom) %>%
   summarise(
@@ -665,7 +642,8 @@ site_lab <- site_lab %>%
   select(names(site_lab))   # <- restores original column order
 
 # -----
-# Correction 4: Detect non-depth-continuous Profile Series)
+# Action 2: Resolve non-depth-continuous horizon series
+# Detect ProfID series with different top-bottom depth sequences
 # -----
 # 1. For each profile, check if all rows form ONE continuous depth sequence
 # 2. If YES → Single profile (done)
@@ -697,10 +675,10 @@ chain_horizons <- function(top, bottom) {
 
 site_lab <- site_lab %>%
   group_by(lon, lat, ProfID) %>%
-  mutate(chain = chain_horizons(top, bottom)) %>%      # detect sequences
+  mutate(chain = chain_horizons(top, bottom)) %>%    # detect sequences
   arrange(chain, top, .by_group = TRUE) %>%          # sort within each chain
   mutate(
-    ProfID = paste0(ProfID, "_", chain)             # add a numeric suffix
+    ProfID = paste0(ProfID, "_", chain)              # add a numeric suffix
   ) %>%
   ungroup()
 
@@ -713,24 +691,35 @@ if (max(site_lab$chain, na.rm = TRUE) > 1) {
   cat("→ No depth continuity corrections were needed\n")
 }
 
+# Delete the chain column
+site_lab <- site_lab %>%
+  select(-chain)
+
+# Delete temporary objects
 rm(corrected_profiles,chain_horizons)
 
+# -----
+### Remove profiles not starting at the surface 
 # Some continuity errors may be caused by missing soil depth layers.
 # To avoid incomplete profiles, keep only profiles whose first horizon starts at 0.
-
+# -----
 site_lab <- site_lab %>%
   group_by(ProfID) %>%
   filter(min(top, na.rm = TRUE) == 0) %>%   
   arrange(ProfID, top, bottom, HorID) %>%
-  ungroup() %>%
-  select(-chain)
+  ungroup()
 
-
-cat("\n✓ Corrections applied\n")
-
+# Save clean data
+  # Save to CSV
+  output <- paste0(output_dir,"KSSL_cleaned.csv")
+  write.csv2(site_lab, output, row.names = FALSE)
+  
+  # Save to Excel
+  output <- paste0(output_dir,"KSSL_cleaned.xslx")
+  write_xlsx(site_lab, output)
 
 # ============================================================================
-# SECTION 7: HARMONIZE SOIL PROPERTIES TO STANDARD DEPTHS
+# SECTION 8: HARMONIZE SOIL PROPERTIES TO STANDARD DEPTHS
 # ============================================================================
 # PURPOSE: Convert variable-depth horizon data to fixed standard depths
 #          (0-30 cm and 30-60 cm) for Digital Soil Mapping applications
@@ -817,14 +806,10 @@ target <- names(site_lab)
 # WHAT TO DO: Filter to keep only complete, valid profiles
 # -----
 
+# Prepare data for standardization
+# Create a new object to store DSM standardized data
+# Keep most complete profiles at each location to avoid duplicated profiles  
 horizons <- site_lab %>%
-  filter(
-    !is.na(top) & !is.na(bottom) &    # Both depths present?
-      top < bottom                        # Valid interval (top < bottom)?
-  )
-
-# Keep deeper profiles at each location to avoid duplicated profiles  
-horizons <- horizons %>%
   group_by(lon, lat, ProfID) %>%
   summarise(n_hz = n_distinct(paste(top, bottom)), .groups = "drop") %>%
   group_by(lon, lat) %>%
@@ -833,18 +818,24 @@ horizons <- horizons %>%
   inner_join(site_lab, by = c("lon", "lat", "ProfID")) %>%
   ungroup()
 
-# remove trailing "_1" from ProfID values
-horizons$ProfID <- sub("_1$", "", horizons$ProfID)
+# Since ProfIDs are now unique at each location, remove tailings ProfID values
+horizons$ProfID <- sub("_[12]$", "", horizons$ProfID)
 
 cat("Total horizons after cleaning:", nrow(horizons), "\n")
 cat("Total profiles:", n_distinct(horizons$ProfID), "\n\n")
 
 
-# -----
 # Create SoilProfileCollection Object
-# aqp needs profiles + depth structure for proper interpolation
-# -----
-depths(horizons) <- ProfID ~ top + bottom
+library(aqp)
+
+# Define standard depth intervals
+standard_depths <- c(0, 30, 60)  # 0-30, 30-60 cm
+
+# Select properties to harmonize
+properties_to_standardize <- names(site_lab)[!names(site_lab) %in% c("rowID","ProfID","HorID","lon","lat","top","bottom","texture_sum","texture_valid")]
+
+# SoilProfileCollection: aqp needs profiles + depth structure for proper interpolation
+depths(horizons) <- ProfID ~ top + bottom 
 
 cat("✓ SoilProfileCollection created\n")
 cat("  Class:", class(horizons)[1], "\n")
@@ -853,11 +844,7 @@ cat("  Profiles:", length(horizons), "\n\n")
 # -----
 # Add Spatial Information to SoilProfileCollection
 #   Links geographic location to soil profiles
-#   Enables spatial mapping and analysis later
-# WHAT TO DO: Define coordinates and projection
-
 initSpatial(horizons, crs = "EPSG:4326") <- ~ lon + lat
-
 cat("✓ Spatial data added\n","  CRS:", horizons@metadata$crs,"\n")
 
 # -----
@@ -883,7 +870,7 @@ plot(density(horizons$pH, na.rm=TRUE), main="Density plot of pH")
 
 
 # -----
-# HARMONIZE PROPERTIES TO STANDARD DEPTHS
+# STANDARDIZE PROPERTIES TO FIXED DEPTHS
 # -----
 
 # ============================================================================
@@ -903,30 +890,28 @@ plot(density(horizons$pH, na.rm=TRUE), main="Density plot of pH")
 #
 # p.q50 is the empirical median, not an interpolated value
 # Represents actual weighted average of overlapping horizons
-# Confidence intervals shows uncertainty in harmonization
+# Confidence intervals shows uncertainty in standardization
 #
 # ============================================================================
 
 # -----
-# Build Formula for All Target Properties
-# slab() needs a formula specifying which properties to harmonize
+# Build the standardization formula
+# slab() needs a formula specifying which properties to standardize
 #      Using paste() and as.formula() makes code flexible
-# -----
+
 fml <- as.formula(
-  paste("ProfID ~", paste(target, collapse = " + "))
+  paste("ProfID ~", paste(properties_to_standardize, collapse = " + "))
 )
 
-# -----
-# Apply slab() to Interpolate to Standard Depths
-# -----
-
+# Apply slab() to interpolate to standard depths
 KSSL_standardized <- slab(
   horizons,
-  fml,                                # Formula with all properties
-  slab.structure = c(0, 30, 60)       # Standard depths: 0-30, 30-60
+  fml,
+  slab.structure = standard_depths,  # Target standard depths
+  na.rm = TRUE                        # Ignore NA values in calculations
 )
 
-cat("✓ Harmonization complete\n")
+cat("✓ Standardization complete\n")
 cat("  Rows in output:", nrow(KSSL_standardized), "\n")
 cat("  Expected:", n_distinct(horizons$ProfID) * 2, "rows")
 cat("  Properties included:", n_distinct(target), "parameters")
@@ -948,7 +933,6 @@ KSSL_standardized <- KSSL_standardized %>%
       round(p.q95, 3)                 # Upper bound (95th percentile)
     )
   )
-
 cat("✓ Confidence intervals created\n")
 
 # -----
@@ -982,6 +966,7 @@ cat("  Format: One row per profile per depth interval\n\n")
 # NOTE: One coordinate pair per profile (same for both depth intervals)
 #       We use distinct() to keep only one location per profile
 
+# Add geographic coordinates back
 KSSL_standardized <- KSSL_standardized %>%
   # Get coordinates from original data (one per profile)
   left_join(
@@ -999,7 +984,7 @@ cat("  Both depth intervals for each profile have same coordinates\n\n")
 # -----
 # Review Standardized Output
 # -----
-#     Verify harmonization worked correctly
+#     Verify standardization worked correctly
 #     Check for realistic values and proper structure
 # 
 
@@ -1009,74 +994,53 @@ print(head(KSSL_standardized, n = 6))
 
 
 # ============================================================================
-# SAVE STANDARDIZED DATA FOR DSM
+# SAVE STANDARDIZED DATA
 # ============================================================================
-# Save harmonized data for digital soil mapping models
+# Save standardized data at two depths for all soil properties
 #      CSV format for universal compatibility
 
 # Save to CSV
-output_csv <- paste0(output_dir,"KSSL_standardized.csv")
-write.csv2(KSSL_standardized, output_csv, row.names = FALSE)
-cat("✓ Saved to:", output_csv, "\n")
+output <- paste0(output_dir,"KSSL_standardized.csv")
+write.csv2(KSSL_standardized, output, row.names = FALSE)
 
 # Save to Excel
-output_xlsx <- paste0(output_dir,"KSSL_standardized.xlsx")
-write_xlsx(site_lab, output_xlsx)
-cat("✓ Saved to:", output_xlsx, "\n")
-
-cat("✓ Data ready for Digital Soil Mapping\n")
-cat("  Output file: KSSL_standardized.csv\n")
-cat("  Use this for: covariate modeling, spatial prediction\n\n")
+output <- paste0(output_dir,"KSSL_standardized.xlsx")
+write_xlsx(KSSL_standardized, output)
 
 rm(fml)
 
 # ============================================================================
-#
-# WHAT YOU CAN DO NEXT:
-#
-# 1. Digital Soil Mapping
-#    - Use as training data for soil property models
-#    - Predict properties across landscape
-#    - Create spatial maps
-#
-# 2. Further Analysis
-#    - Compare properties by depth
-#    - Analyze uncertainty
-#    - Extract specific depths if needed
-#
-# 3. Quality Control
-#    - Review confidence intervals (narrower = more certain)
-#    - Identify unreliable estimates (very wide intervals)
-#    - Compare with original measurements
-#
+# SUBSET STANDARDIZED OUTPUT DATA FOR DSM
 # ============================================================================
 
-# ============================================================================
-# SECTION 8: EXPORT POINT CLEANED DATA
-# ============================================================================
-# Save cleaned data for use in further analyses
-#
-# FORMATS:
-# - CSV: Simple, universal format
-# - Excel: Better for visual inspection
-
-cat("\n=== EXPORTING CLEANED DATA ===\n")
-
-# remove trailing "_1" from ProfID values
-site_lab$ProfID <- sub("_1$", "", site_lab$ProfID)
-# check
-unique(site_lab$ProfID)
+# Keep only 0-30 cm depth and select relevant columns (Clay, Silt, Sand, SOC & pH)
+subset_data <- data %>%
+  filter(top == 0 & bottom == 30) %>%
+  select(
+    ProfID,
+    lon,
+    lat,
+    top,
+    bottom,
+    Clay = Clay_p.q50,
+    Silt = Silt_p.q50,
+    Sand = Sand_p.q50,
+    SOC = SOC_p.q50,
+    pH = pH_p.q50
+  )
 
 # Save to CSV
-output1_csv <- paste0(output_dir,"KSSL_cleaned.csv")
-write_csv(site_lab, output1_csv)
-cat("✓ Saved to:", output1_csv, "\n")
+output_csv <- paste0(output_dir,"KSSL_DSM.csv")
+write.csv2(subset_data, output_csv, row.names = FALSE)
+cat("✓ Saved to:", output_csv, "\n")
 
 # Save to Excel
-output1_xlsx <- paste0(output_dir,"KSSL_cleaned.xlsx")
-write_xlsx(site_lab, output1_xlsx)
-cat("✓ Saved to:", output1_xlsx, "\n")
+output_xlsx <- paste0(output_dir,"KSSL_DSM.xlsx")
+write_xlsx(subset_data, output_xlsx)
+cat("✓ Saved to:", output_xlsx, "\n")
 
+cat("✓ Subset data ready for Digital Soil Mapping\n")
+cat("  Output file: KSSL_DSM\n")
 
 
 # ============================================================================
@@ -1090,24 +1054,22 @@ cat("✓ Saved to:", output1_xlsx, "\n")
 # - Clean and depth consistent depths data ensures better parameter estimation
 #   using spectral data. 
 
-# Store Spectral data
+# Read spectral data from the original dataset
 spec <- raw_data[,-c(1,2,4:22)]
 
-# Merge site_lab data to the original Spectral data by common ID
-site_lab_spec <- full_join (site_lab,spec, by=c("HorID"="smp_id") )
-cat("✓ Spectral Data added to site and wet chemistry data\n")
+# Merge site_lab data to the original Spectral data by their common IDs
+site_lab_spec <- left_join (site_lab,spec, by=c("HorID"="smp_id") )
 
 # Save to CSV
-output2_csv <- paste0(output_dir,"KSSL_spectral_cleaned.csv")
-write_csv(site_lab_spec, output2_csv)
-cat("✓ Saved to:", output2_csv, "\n")
+output <- paste0(output_dir,"KSSL_spectral_cleaned.csv")
+write.csv2(site_lab_spec, output)
 
 # Save to Excel
-output2_xlsx <- paste0(output_dir,"KSSL_spectral_cleaned.xlsx")
-write_xlsx(site_lab_spec, output2_xlsx)
-cat("✓ Saved to:", output2_xlsx, "\n")
+output <- paste0(output_dir,"KSSL_spectral_cleaned.xlsx")
+write_xlsx(site_lab_spec, output)
 
-rm(spec)
+# Remove spectral data object
+
 
 # ============================================================================
 # FINAL SUMMARY REPORT
