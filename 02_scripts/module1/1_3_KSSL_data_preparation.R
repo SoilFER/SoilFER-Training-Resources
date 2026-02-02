@@ -1014,7 +1014,7 @@ rm(fml)
 # ============================================================================
 
 # Keep only 0-30 cm depth and select relevant columns (Clay, Silt, Sand, SOC & pH)
-subset_data <- data %>%
+subset_data <- KSSL_standardized %>%
   filter(top == 0 & bottom == 30) %>%
   select(
     ProfID,
