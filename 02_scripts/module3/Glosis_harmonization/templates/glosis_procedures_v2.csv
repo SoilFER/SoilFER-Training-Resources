@@ -1,0 +1,1029 @@
+property_phys_chem_id;procedure_phys_chem_id;unit_of_measure_id;value_min;value_max;definition;common_input_units;conversion_factors;notes
+Acidity - exchangeable;ExchAcid_ph0-kcl1m;cmol/kg;0;100;Exch acidity (H+Al) unbuffered, in 1 M KCl extract;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Acidity - exchangeable;ExchAcid_ph0-nh4cl;cmol/kg;0;100;Exch acidity (H+Al) unbuffered, in 0.05-0.1 M NH4Cl extract;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Acidity - exchangeable;ExchAcid_ph0-unkn;cmol/kg;0;100;Exch acidity (H+Al) unbuffered, in unknown extract;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Acidity - exchangeable;ExchAcid_ph7-caoac;cmol/kg;0;100;Exch acidity (H+Al) buffered at pH 7, in 1M Ca-acetate extract;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Acidity - exchangeable;ExchAcid_ph7-unkn;cmol/kg;0;100;Exch acidity (H+Al) buffered at pH 7, in unknown extract;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Acidity - exchangeable;ExchAcid_ph8-bacl2tea;cmol/kg;0;100;Exch (extractable / potential) acidity (Al) buffered at pH 8.0-8.5, in 1 M BaCl2 - TEA;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Acidity - exchangeable;ExchAcid_ph8-unkn;cmol/kg;0;100;Exch (extractable / potential) acidity (Al) buffered at pH 8.0-8.5, in unknown extract;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Aluminium (Al+++) - exchangeable;ExchBases_ph-unkn-edta;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unknown buffer, in EDTA solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.0037";"cmol/kg = meq/100g; 1 cmol/kg Al = 270 mg/kg"
+Aluminium (Al+++) - exchangeable;ExchBases_ph-unkn-m3;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unknown buffer, in Mehlich3 solution with extractable ppm assumed exchangeable cmolc/kg;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.0037";"cmol/kg = meq/100g; 1 cmol/kg Al = 270 mg/kg"
+Aluminium (Al+++) - exchangeable;ExchBases_ph-unkn-m3-spec;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) spectrally measured and converted to, unknown buffer, in Mehlich3 solution with extractable ppm assumed exchangeable cmolc/kg;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.0037";"cmol/kg = meq/100g; 1 cmol/kg Al = 270 mg/kg"
+Aluminium (Al+++) - exchangeable;ExchBases_ph0-cohex;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unbuffered, in Cobalt(III) hexamine chloride solution 0,0166M (Cohex) [Co[NH3]6]Cl3 ), ISO 23470 (2007);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.0037";"cmol/kg = meq/100g; 1 cmol/kg Al = 270 mg/kg"
+Aluminium (Al+++) - exchangeable;ExchBases_ph0-nh4cl;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unbuffered, in 1 M NH4Cl (0.05-1.0 m?);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.0037";"cmol/kg = meq/100g; 1 cmol/kg Al = 270 mg/kg"
+Aluminium (Al+++) - exchangeable;ExchBases_ph7-nh4oac;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.0037";"cmol/kg = meq/100g; 1 cmol/kg Al = 270 mg/kg"
+Aluminium (Al+++) - exchangeable;ExchBases_ph7-nh4oac-aas;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc, Ca and Mg with AAS (Atomic Absorption Spectrometry);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.0037";"cmol/kg = meq/100g; 1 cmol/kg Al = 270 mg/kg"
+Aluminium (Al+++) - exchangeable;ExchBases_ph7-nh4oac-fp;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc, K and Na with FP (Flame Photometry);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.0037";"cmol/kg = meq/100g; 1 cmol/kg Al = 270 mg/kg"
+Aluminium (Al+++) - exchangeable;ExchBases_ph7-unkn;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in unknown solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.0037";"cmol/kg = meq/100g; 1 cmol/kg Al = 270 mg/kg"
+Aluminium (Al+++) - exchangeable;ExchBases_ph8-bacl2tea;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 8.0-8.5, in 0.5 M BaCl2 - TEA solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.0037";"cmol/kg = meq/100g; 1 cmol/kg Al = 270 mg/kg"
+Aluminium (Al+++) - exchangeable;ExchBases_ph8-unkn;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 8.0-8.5, in unknown solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.0037";"cmol/kg = meq/100g; 1 cmol/kg Al = 270 mg/kg"
+Aluminium (Al+++) - saturation (ESP);calculated_eCEC;%;0;100;Not included in the original GLOSIS list;"%;fraction";"1;100";% = fraction * 100
+aluminiumProperty;Total_h2so4;%;0;100;Total P-/- colorimetric in H2SO4-Se-Salicylic acid digest( sulfuric acid) Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_hcl;%;0;100;HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_hcl-aquaregia;%;0;100;Hydrocloric (HCl) extraction in nitric/perchloric acid mixture (totals) aqua regia;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_hclo4;%;0;100;Perchloric acid percolation. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_hno3-aquafortis;%;0;100;Nitric acid attack. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_nh4-6mo7o24;%;0;100;COLORIMETRIC VANADATE MOLYBDATE. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_tp03;%;0;100;reagent of Baeyens. Precipitation in form of Phosphomolybdate. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_tp04;%;0;100;acid fleischman. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_tp05;%;0;100;8 M HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_tp06;%;0;100;Molybdenum blue method, using ascorbic acid as reductant after heating of soil to 550 C and extraction with 6M sulphuric acid. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_tp07;%;0;100;1:1 H2SO4 : HNO3. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_tp08;%;0;100;After Nitric acid attack (boiling with HNO3), colometric determination (method of Duval).. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_tp09;%;0;100;Walker and Adams, 1958. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_tp10;%;0;100;Colorimetric, unspecified extract;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_unkn;%;0;100;Unspecified method;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_xrd;%;0;100;XRD;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_xrf;%;0;100;XRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_xrf-p;%;0;100;PXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+aluminiumProperty;Total_xtf-t;%;0;100;TXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Available water capacity - volumetric (FC to WP);PAWHC_calcul-fc100wp;m3/100 m3;0;100;Plant available water holding capacity of the soil fine earth fraction, calculated with field capacity defined at 100 cm (pF 2.0);"m3/100 m3;%;cm3/100cm3;vol/vol";"1;1;1;100";m3/100 m3 = % = cm3/100cm3
+Available water capacity - volumetric (FC to WP);PAWHC_calcul-fc200wp;m3/100 m3;0;100;Plant available water holding capacity of the soil fine earth fraction, calculated with field capacity defined at 200 cm (pF 2.3);"m3/100 m3;%;cm3/100cm3;vol/vol";"1;1;1;100";m3/100 m3 = % = cm3/100cm3
+Available water capacity - volumetric (FC to WP);PAWHC_calcul-fc300wp;m3/100 m3;0;100;Plant available water holding capacity of the soil fine earth fraction, calculated with field capacity defined at 300 cm (pF 2.5);"m3/100 m3;%;cm3/100cm3;vol/vol";"1;1;1;100";m3/100 m3 = % = cm3/100cm3
+Base saturation - calculated;BSat_calcul-cec;%;0;100;Sum of exchangeable bases (Ca++, Mg++, K+, Na+) as percentage of CEC (method specified with CEC and ExchBases);"%;fraction";"1;100";% = fraction * 100
+Base saturation - calculated;BSat_calcul-ecec;%;0;100;Sum of exchangeable bases (Ca++, Mg++, K+, Na+) as percentage of EffCEC (method specified with EffCEC and ExchBases);"%;fraction";"1;100";% = fraction * 100
+Boron (B) - extractable;Extr_ap14;%;0;100;Method of Saunders and Metelerkamp (anion-exch. resin). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_ap15;%;0;100;Method of Hunter (1975) modified after ISFEI method. Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_ap20;%;0;100;Olsen (not acid soils) resp. Bray I (acid soils). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_ap21;%;0;100;Olsen (if pH > 7) resp. Mehlich (if pH < 7). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_c6h8o7-reeuwijk;%;0;100;Complexation with citric acid (van Reeuwijk). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_cacl2;%;0;100;CaCl2. Particularly used for soluble P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_capo4;%;0;100;Ca phosphate. Particularly used for available S.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_dtpa;%;0;100;DiethyneleTriaminePentaAcetic acid (DTPA) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_edta;%;0;100;EthyleneDiamineTetraAcetic acid (EDTA) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_h2so4-truog;%;0;100;Method of Truog (dilute H2SO4). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_hcl-h2so4-nelson;%;0;100;Method of Nelson (dilute HCl/H2SO4). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_hcl-nh4f-bray1;%;0;100;Method of Bray I  (dilute HCl/NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_hcl-nh4f-bray2;%;0;100;Method of Bray II (dilute HCl/NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_hcl-nh4f-kurtz-bray;%;0;100;Method of Kurtz-Bray I (0.025 M HCl + 0.03 M NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_hno3;%;0;100;Nitric acid (HNO3) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_hotwater;%;0;100;Hot water. Particularly used for available B;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_m1;%;0;100;Mehlich1 method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_m2;%;0;100;Mehlich2 method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_m3;%;0;100;Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_m3-spec;%;0;100;Spectrally measured and converted to Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_nahco3-olsen;%;0;100;Method of Olsen (0.5 M Sodium Bicarbonate (NaHCO3) extraction at pH8.5). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_nahco3-olsen-dabin;%;0;100;Method of Olsen, modified by Dabin (ORSTOM). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_naoac-morgan;%;0;100;Method of Morgan (Na-acetate/acetic acid). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_nh4-co3-2-ambic1;%;0;100;Ambic1 method (ammonium bicarbonate) (South Africa). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - extractable;Extr_nh4ch3ch-oh-cooh-leuven;%;0;100;NH4-lactate extraction method (KU-Leuven). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";"mg/kg = ppm = ug/g; If reference should be mg/kg, use factors: 10000;1;1;1"
+Boron (B) - total;Total_h2so4;%;0;100;Total P-/- colorimetric in H2SO4-Se-Salicylic acid digest( sulfuric acid) Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_hcl;%;0;100;HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_hcl-aquaregia;%;0;100;Hydrocloric (HCl) extraction in nitric/perchloric acid mixture (totals) aqua regia;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_hclo4;%;0;100;Perchloric acid percolation. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_hno3-aquafortis;%;0;100;Nitric acid attack. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_nh4-6mo7o24;%;0;100;COLORIMETRIC VANADATE MOLYBDATE. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_tp03;%;0;100;reagent of Baeyens. Precipitation in form of Phosphomolybdate. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_tp04;%;0;100;acid fleischman. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_tp05;%;0;100;8 M HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_tp06;%;0;100;Molybdenum blue method, using ascorbic acid as reductant after heating of soil to 550 C and extraction with 6M sulphuric acid. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_tp07;%;0;100;1:1 H2SO4 : HNO3. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_tp08;%;0;100;After Nitric acid attack (boiling with HNO3), colometric determination (method of Duval).. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_tp09;%;0;100;Walker and Adams, 1958. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_tp10;%;0;100;Colorimetric, unspecified extract;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_unkn;%;0;100;Unspecified method;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_xrd;%;0;100;XRD;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_xrf;%;0;100;XRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_xrf-p;%;0;100;PXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Boron (B) - total;Total_xtf-t;%;0;100;TXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+bulkDensityFineEarthProperty;BlkDensF_fe-cl-fc;kg/dm3;0.01;2.65;Fine earth. Clod samples (natural clods or reconstituted from < 2mm sample), at field capacity (0.33 bar, 33 kPa, 330 cm, pF 2.5), corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityFineEarthProperty;BlkDensF_fe-cl-od;kg/dm3;0.01;2.65;Fine earth. Clod samples (natural clods or reconstituted from < 2mm sample), at oven dry, corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityFineEarthProperty;BlkDensF_fe-cl-unkn;kg/dm3;0.01;2.65;Fine earth. Clod samples (natural clods or reconstituted from < 2mm sample), at unknown humidity, corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityFineEarthProperty;BlkDensF_fe-co-fc;kg/dm3;0.01;2.65;Fine earth. Core sampling (pF rings), at field capacity (0.33 bar, 33 kPa, 336 cm, pF 2.5), corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityFineEarthProperty;BlkDensF_fe-co-od;kg/dm3;0.01;2.65;Fine earth. Core sampling (pF rings), at oven dry, corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityFineEarthProperty;BlkDensF_fe-co-unkn;kg/dm3;0.01;2.65;Fine earth. Core sampling (pF rings), at unknown humidity, corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityFineEarthProperty;BlkDensF_fe-rpl-unkn;kg/dm3;0.01;2.65;Fine earth. Excavation and replacement (i.e. soils too fragile to remove a stable sample) e.g. by auger, at unknown humidity, corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityFineEarthProperty;BlkDensF_fe-unkn;kg/dm3;0.01;2.65;Fine earth. Type of sample unknown, at unknown humidity, corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityFineEarthProperty;BlkDensF_fe-unkn-fc;kg/dm3;0.01;2.65;Fine earth. Type of sample unknown, at field capacity (0.33 bar, 33 kPa, 330 cm, pF 2.5), corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityFineEarthProperty;BlkDensF_fe-unkn-od;kg/dm3;0.01;2.65;Fine earth. Type of sample unknown, at oven dry, corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityWholeSoilProperty;BlkDensW_we-cl-fc;kg/dm3;0.01;3.6;Whole earth. Clod samples (natural clods), at field capacity (0.33 bar, 33 kPa, 330 cm, pF 2.5), not corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityWholeSoilProperty;BlkDensW_we-cl-od;kg/dm3;0.01;3.6;Whole earth. Clod samples (natural clods), at oven dry, not corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityWholeSoilProperty;BlkDensW_we-cl-unkn;kg/dm3;0.01;3.6;Whole earth. Clod samples (natural clods), at unknown humidity, not corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityWholeSoilProperty;BlkDensW_we-co-fc;kg/dm3;0.01;3.6;Whole earth. Core sampling (pF rings), at field capacity (0.33 bar, 33 kPa, 336 cm, pF 2.5), not corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityWholeSoilProperty;BlkDensW_we-co-od;kg/dm3;0.01;3.6;Whole earth. Core sampling (pF rings), at oven dry, not corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityWholeSoilProperty;BlkDensW_we-co-unkn;kg/dm3;0.01;3.6;Whole earth. Core sampling (pF rings), at unknown humidity, not corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityWholeSoilProperty;BlkDensW_we-rpl-unkn;kg/dm3;0.01;3.6;Whole earth. Excavation and replacement (i.e. soils too fragile to remove a stable sample) e.g. by auger, at unknown humidity, not corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+bulkDensityWholeSoilProperty;BlkDensW_we-unkn;kg/dm3;0.01;3.6;Whole earth. Type of sample unknown, at unknown humidity, not corrected for coarse fragments if any;"kg/dm3;g/cm3;Mg/m3;kg/m3";"1;1;1;0.001";kg/dm3 = g/cm3 = Mg/m3
+cadmiumProperty;Extr_ap14;%;0;100;Method of Saunders and Metelerkamp (anion-exch. resin). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_ap15;%;0;100;Method of Hunter (1975) modified after ISFEI method. Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_ap20;%;0;100;Olsen (not acid soils) resp. Bray I (acid soils). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_ap21;%;0;100;Olsen (if pH > 7) resp. Mehlich (if pH < 7). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_c6h8o7-reeuwijk;%;0;100;Complexation with citric acid (van Reeuwijk). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_cacl2;%;0;100;CaCl2. Particularly used for soluble P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_capo4;%;0;100;Ca phosphate. Particularly used for available S.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_dtpa;%;0;100;DiethyneleTriaminePentaAcetic acid (DTPA) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_edta;%;0;100;EthyleneDiamineTetraAcetic acid (EDTA) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_h2so4-truog;%;0;100;Method of Truog (dilute H2SO4). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_hcl-h2so4-nelson;%;0;100;Method of Nelson (dilute HCl/H2SO4). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_hcl-nh4f-bray1;%;0;100;Method of Bray I  (dilute HCl/NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_hcl-nh4f-bray2;%;0;100;Method of Bray II (dilute HCl/NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_hcl-nh4f-kurtz-bray;%;0;100;Method of Kurtz-Bray I (0.025 M HCl + 0.03 M NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_hno3;%;0;100;Nitric acid (HNO3) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_hotwater;%;0;100;Hot water. Particularly used for available B;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_m1;%;0;100;Mehlich1 method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_m2;%;0;100;Mehlich2 method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_m3;%;0;100;Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_m3-spec;%;0;100;Spectrally measured and converted to Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_nahco3-olsen;%;0;100;Method of Olsen (0.5 M Sodium Bicarbonate (NaHCO3) extraction at pH8.5). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_nahco3-olsen-dabin;%;0;100;Method of Olsen, modified by Dabin (ORSTOM). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_naoac-morgan;%;0;100;Method of Morgan (Na-acetate/acetic acid). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_nh4-co3-2-ambic1;%;0;100;Ambic1 method (ammonium bicarbonate) (South Africa). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Extr_nh4ch3ch-oh-cooh-leuven;%;0;100;NH4-lactate extraction method (KU-Leuven). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_h2so4;%;0;100;Total P-/- colorimetric in H2SO4-Se-Salicylic acid digest( sulfuric acid) Particularly used for Total P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_hcl;%;0;100;HCl extraction. Particularly used for Total P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_hcl-aquaregia;%;0;100;Hydrocloric (HCl) extraction in nitric/perchloric acid mixture (totals) aqua regia;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_hclo4;%;0;100;Perchloric acid percolation. Particularly used for Total P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_hno3-aquafortis;%;0;100;Nitric acid attack. Particularly used for Total P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_nh4-6mo7o24;%;0;100;COLORIMETRIC VANADATE MOLYBDATE. Particularly used for Total P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_tp03;%;0;100;reagent of Baeyens. Precipitation in form of Phosphomolybdate. Particularly used for Total P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_tp04;%;0;100;acid fleischman. Particularly used for Total P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_tp05;%;0;100;8 M HCl extraction. Particularly used for Total P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_tp06;%;0;100;Molybdenum blue method, using ascorbic acid as reductant after heating of soil to 550 C and extraction with 6M sulphuric acid. Particularly used for Total P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_tp07;%;0;100;1:1 H2SO4 : HNO3. Particularly used for Total P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_tp08;%;0;100;After Nitric acid attack (boiling with HNO3), colometric determination (method of Duval).. Particularly used for Total P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_tp09;%;0;100;Walker and Adams, 1958. Particularly used for Total P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_tp10;%;0;100;Colorimetric, unspecified extract;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_unkn;%;0;100;Unspecified method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_xrd;%;0;100;XRD;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_xrf;%;0;100;XRF;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_xrf-p;%;0;100;PXRF;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+cadmiumProperty;Total_xtf-t;%;0;100;TXRF;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g (trace element)
+Calcium (Ca++) - exchangeable;ExchBases_ph-unkn-edta;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unknown buffer, in EDTA solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - exchangeable;ExchBases_ph-unkn-m3;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unknown buffer, in Mehlich3 solution with extractable ppm assumed exchangeable cmolc/kg;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - exchangeable;ExchBases_ph-unkn-m3-spec;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) spectrally measured and converted to, unknown buffer, in Mehlich3 solution with extractable ppm assumed exchangeable cmolc/kg;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - exchangeable;ExchBases_ph0-cohex;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unbuffered, in Cobalt(III) hexamine chloride solution 0,0166M (Cohex) [Co[NH3]6]Cl3 ), ISO 23470 (2007);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - exchangeable;ExchBases_ph0-nh4cl;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unbuffered, in 1 M NH4Cl (0.05-1.0 m?);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - exchangeable;ExchBases_ph7-nh4oac;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - exchangeable;ExchBases_ph7-nh4oac-aas;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc, Ca and Mg with AAS (Atomic Absorption Spectrometry);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - exchangeable;ExchBases_ph7-nh4oac-fp;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc, K and Na with FP (Flame Photometry);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - exchangeable;ExchBases_ph7-unkn;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in unknown solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - exchangeable;ExchBases_ph8-bacl2tea;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 8.0-8.5, in 0.5 M BaCl2 - TEA solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - exchangeable;ExchBases_ph8-unkn;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 8.0-8.5, in unknown solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_ap14;cmol/kg;0;1000;Method of Saunders and Metelerkamp (anion-exch. resin). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_ap15;cmol/kg;0;1000;Method of Hunter (1975) modified after ISFEI method. Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_ap20;cmol/kg;0;1000;Olsen (not acid soils) resp. Bray I (acid soils). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_ap21;cmol/kg;0;1000;Olsen (if pH > 7) resp. Mehlich (if pH < 7). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_c6h8o7-reeuwijk;cmol/kg;0;1000;Complexation with citric acid (van Reeuwijk). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_cacl2;cmol/kg;0;1000;CaCl2. Particularly used for soluble P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_capo4;cmol/kg;0;1000;Ca phosphate. Particularly used for available S.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_dtpa;cmol/kg;0;1000;DiethyneleTriaminePentaAcetic acid (DTPA) method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_edta;cmol/kg;0;1000;EthyleneDiamineTetraAcetic acid (EDTA) method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_h2so4-truog;cmol/kg;0;1000;Method of Truog (dilute H2SO4). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_hcl-h2so4-nelson;cmol/kg;0;1000;Method of Nelson (dilute HCl/H2SO4). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_hcl-nh4f-bray1;cmol/kg;0;1000;Method of Bray I  (dilute HCl/NH4F). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_hcl-nh4f-bray2;cmol/kg;0;1000;Method of Bray II (dilute HCl/NH4F). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_hcl-nh4f-kurtz-bray;cmol/kg;0;1000;Method of Kurtz-Bray I (0.025 M HCl + 0.03 M NH4F). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_hno3;cmol/kg;0;1000;Nitric acid (HNO3) method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_hotwater;cmol/kg;0;1000;Hot water. Particularly used for available B;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_m1;cmol/kg;0;1000;Mehlich1 method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_m2;cmol/kg;0;1000;Mehlich2 method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_m3;cmol/kg;0;1000;Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_m3-spec;cmol/kg;0;1000;Spectrally measured and converted to Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_nahco3-olsen;cmol/kg;0;1000;Method of Olsen (0.5 M Sodium Bicarbonate (NaHCO3) extraction at pH8.5). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_nahco3-olsen-dabin;cmol/kg;0;1000;Method of Olsen, modified by Dabin (ORSTOM). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_naoac-morgan;cmol/kg;0;1000;Method of Morgan (Na-acetate/acetic acid). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_nh4-co3-2-ambic1;cmol/kg;0;1000;Ambic1 method (ammonium bicarbonate) (South Africa). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - extractable;Extr_nh4ch3ch-oh-cooh-leuven;cmol/kg;0;1000;NH4-lactate extraction method (KU-Leuven). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00499";"cmol/kg = meq/100g; 1 cmol/kg Ca = 200.4 mg/kg"
+Calcium (Ca++) - total;Total_h2so4;cmol/kg;0;1000;Total P-/- colorimetric in H2SO4-Se-Salicylic acid digest( sulfuric acid) Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_hcl;cmol/kg;0;1000;HCl extraction. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_hcl-aquaregia;cmol/kg;0;1000;Hydrocloric (HCl) extraction in nitric/perchloric acid mixture (totals) aqua regia;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_hclo4;cmol/kg;0;1000;Perchloric acid percolation. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_hno3-aquafortis;cmol/kg;0;1000;Nitric acid attack. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_nh4-6mo7o24;cmol/kg;0;1000;COLORIMETRIC VANADATE MOLYBDATE. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_tp03;cmol/kg;0;1000;reagent of Baeyens. Precipitation in form of Phosphomolybdate. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_tp04;cmol/kg;0;1000;acid fleischman. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_tp05;cmol/kg;0;1000;8 M HCl extraction. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_tp06;cmol/kg;0;1000;Molybdenum blue method, using ascorbic acid as reductant after heating of soil to 550 C and extraction with 6M sulphuric acid. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_tp07;cmol/kg;0;1000;1:1 H2SO4 : HNO3. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_tp08;cmol/kg;0;1000;After Nitric acid attack (boiling with HNO3), colometric determination (method of Duval).. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_tp09;cmol/kg;0;1000;Walker and Adams, 1958. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_tp10;cmol/kg;0;1000;Colorimetric, unspecified extract;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_unkn;cmol/kg;0;1000;Unspecified method;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_xrd;cmol/kg;0;1000;XRD;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_xrf;cmol/kg;0;1000;XRF;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_xrf-p;cmol/kg;0;1000;PXRF;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Calcium (Ca++) - total;Total_xtf-t;cmol/kg;0;1000;TXRF;"cmol/kg;%;g/kg;mg/kg";"1;2.5;0.25;0.00499";Total Ca can be % or cmol/kg
+Carbon (C) - organic;OrgC_acid-dc;g/kg;0;1000;Acidified dry combustion or dry oxidation methods (after removal of carbonates);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_acid-dc-ht;g/kg;0;1000;Acidified. Dry combustion at 1200 C and colometric CO2 measurement (Schlichting et al. 1995);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_acid-dc-ht-analyser;g/kg;0;1000;Acidified. Furnace combustion (e.g., LECO combustion analyzer, Dumas method);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_acid-dc-lt;g/kg;0;1000;Acidified. Dry combustion at 500 C;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_acid-dc-lt-loi;g/kg;0;1000;Acidified. Loss on ignition (NL);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_acid-dc-mt;g/kg;0;1000;Acidified. Dry combustion at 840 C;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_acid-dc-spec;g/kg;0;1000;Spectrally measured and converted to Acidified dry combustion or dry oxidation methods (after removal of carbonates);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_calcul-tc-ic;g/kg;0;1000;Calculated as total carbon minus inorganic carbon;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_dc;g/kg;0;1000;Unacidified. Dry combustion or dry oxidation methods (without prior removal of carbonates);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_dc-ht;g/kg;0;1000;Unacidified. Dry combustion at high temperature (e.g. 1200 C and colometric CO2 measurement (Schlichting et al. 1995);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_dc-ht-analyser;g/kg;0;1000;Unacidified. Dry combustion by furnace (e.g., LECO combustion analyzer, Dumas method). Is total Carbon?;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_dc-lt;g/kg;0;1000;Unacidified. Dry combustion at low temperature e.g. 500 C;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_dc-lt-loi;g/kg;0;1000;Unacidified. Loss on ignition (NL) is total Organic Carbon;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_dc-mt;g/kg;0;1000;Unacidified. Dry combustion at medium temperature e.g. 840 C;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_dc-spec;g/kg;0;1000;Spectrally measured and converted to Unacidified Dry combustion or dry oxidation methods;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_wc;g/kg;0;1000;Wet oxidation or wet combustion methods;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_wc-cro3-jackson;g/kg;0;1000;Wet oxidation according to Jackson (1958) with chromic acid digestion;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_wc-cro3-kalembra;g/kg;0;1000;Wet oxidation according to Kalembra and Jenkinson (1973) with acid dichromate;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_wc-cro3-knopp;g/kg;0;1000;Wet oxidation according to Knopp with chromic acid and gravimetric determination of CO2;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_wc-cro3-kurmies;g/kg;0;1000;Wet oxidation according to Kurmies with K2Cr2O7+H2SO4;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_wc-cro3-nelson;g/kg;0;1000;Wet oxidation according to Nelson and Sommers (1996);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_wc-cro3-nrcs6a1c;g/kg;0;1000;Wet oxidation according to USDA-NRCS method 6A1c with acid dichromate digestion, FeSO4 titration, automatic titrator;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_wc-cro3-tiurin;g/kg;0;1000;Wet oxidation according to Tiurin with K-dichromate;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - organic;OrgC_wc-cro3-walkleyblack;g/kg;0;1000;Walkley-Black method (chromic acid digestion);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - total;TotC_calcul-ic-oc;g/kg;0;1000;Calculated as sum of inorganic carbon and organic carbon;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - total;TotC_dc-ht;g/kg;0;1000;Unacidified dry combustion at high temperature (950-1400 C). Total Carbon;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - total;TotC_dc-ht-analyser;g/kg;0;1000;Unacidified dry combustion at high temperature (950-1400 C). Total Carbon (USDA-NRCS method 6A), LECO analyzer at 1140 C;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - total;TotC_dc-ht-spec;g/kg;0;1000;Spectrally measured and converted to Unacidified dry combustion at high temperature (950-1400 C).;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Carbon (C) - total;TotC_dc-mt;g/kg;0;1000;Unacidified dry combustion at medium temperature (550-950 C).;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+carbonInorganicProperty;InOrgC_calcul-caco3;g/kg;0;1000;Indirect estimate from total carbonate equivalent, with a factor of 0.12 (molar weights: CaCO3 100g/mol, C 12g/mol);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+carbonInorganicProperty;InOrgC_calcul-tc-oc;g/kg;0;1000;Indirect estimate (total carbon minus organic carbon = inorganic carbon);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+cationExchangeCapacitySoil;CEC_ph7-edta;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph-unkn-m3;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph8-baoac;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph0-ag-thioura;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph8-nh4oac;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph-unkn-cacl2;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph8-licl2tea;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph0-nh4oac;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph8-naoac;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph0-cohex;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph0-kcl;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph7-unk;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph8-bacl2tea;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph0-bacl2;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph0-unk;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph8-unk;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph-unkn-lioac;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph0-nh4cl;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+cationExchangeCapacitySoil;CEC_ph7-nh4oac;cmol/kg;0;100;Not included in the original GLOSIS list;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Clay texture fraction;SaSiCl_2-20-2000u;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-20-2000u-adj100;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-20-2000u-disp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-20-2000u-disp-beaker;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-20-2000u-disp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-20-2000u-disp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-20-2000u-disp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-20-2000u-disp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-20-2000u-disp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-20-2000u-fld;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-20-2000u-nodisp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-20-2000u-nodisp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-20-2000u-nodisp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-20-2000u-nodisp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-20-2000u-nodisp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-20-2000u-nodisp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u-adj100;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u-disp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u-disp-beaker;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u-disp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u-disp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u-disp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u-disp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u-disp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u-fld;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u-nodisp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u-nodisp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u-nodisp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u-nodisp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u-nodisp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-50-2000u-nodisp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u-adj100;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u-disp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u-disp-beaker;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u-disp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u-disp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u-disp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u-disp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u-disp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u-fld;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u-nodisp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u-nodisp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u-nodisp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u-nodisp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u-nodisp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Clay texture fraction;SaSiCl_2-64-2000u-nodisp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+coarseFragmentsProperty;CrsFrg_fld;%;0;100;Particles > 2 mm observed in the field. May include concretions and very hard aggregates;"%;g/kg;vol %;g/100g";"1;0.1;1;1";"% = g/100g (mass); vol % requires BD"
+coarseFragmentsProperty;CrsFrg_fldcls;%;0;100;Particles > 2 mm observed in the field and calculated from class values. May include concretions and very hard aggregates;"%;g/kg;vol %;g/100g";"1;0.1;1;1";"% = g/100g (mass); vol % requires BD"
+coarseFragmentsProperty;CrsFrg_lab;%;0;100;Particles > 2 mm measured in laboratory (sieved after light pounding). May include concretions and very hard aggregates;"%;g/kg;vol %;g/100g";"1;0.1;1;1";"% = g/100g (mass); vol % requires BD"
+Copper (Cu) - extractable;Extr_ap14;%;0;100;Method of Saunders and Metelerkamp (anion-exch. resin). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_ap15;%;0;100;Method of Hunter (1975) modified after ISFEI method. Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_ap20;%;0;100;Olsen (not acid soils) resp. Bray I (acid soils). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_ap21;%;0;100;Olsen (if pH > 7) resp. Mehlich (if pH < 7). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_c6h8o7-reeuwijk;%;0;100;Complexation with citric acid (van Reeuwijk). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_cacl2;%;0;100;CaCl2. Particularly used for soluble P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_capo4;%;0;100;Ca phosphate. Particularly used for available S.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_dtpa;%;0;100;DiethyneleTriaminePentaAcetic acid (DTPA) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_edta;%;0;100;EthyleneDiamineTetraAcetic acid (EDTA) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_h2so4-truog;%;0;100;Method of Truog (dilute H2SO4). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_hcl-h2so4-nelson;%;0;100;Method of Nelson (dilute HCl/H2SO4). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_hcl-nh4f-bray1;%;0;100;Method of Bray I  (dilute HCl/NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_hcl-nh4f-bray2;%;0;100;Method of Bray II (dilute HCl/NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_hcl-nh4f-kurtz-bray;%;0;100;Method of Kurtz-Bray I (0.025 M HCl + 0.03 M NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_hno3;%;0;100;Nitric acid (HNO3) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_hotwater;%;0;100;Hot water. Particularly used for available B;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_m1;%;0;100;Mehlich1 method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_m2;%;0;100;Mehlich2 method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_m3;%;0;100;Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_m3-spec;%;0;100;Spectrally measured and converted to Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_nahco3-olsen;%;0;100;Method of Olsen (0.5 M Sodium Bicarbonate (NaHCO3) extraction at pH8.5). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_nahco3-olsen-dabin;%;0;100;Method of Olsen, modified by Dabin (ORSTOM). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_naoac-morgan;%;0;100;Method of Morgan (Na-acetate/acetic acid). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_nh4-co3-2-ambic1;%;0;100;Ambic1 method (ammonium bicarbonate) (South Africa). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - extractable;Extr_nh4ch3ch-oh-cooh-leuven;%;0;100;NH4-lactate extraction method (KU-Leuven). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Copper (Cu) - total;Total_h2so4;%;0;100;Total P-/- colorimetric in H2SO4-Se-Salicylic acid digest( sulfuric acid) Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_hcl;%;0;100;HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_hcl-aquaregia;%;0;100;Hydrocloric (HCl) extraction in nitric/perchloric acid mixture (totals) aqua regia;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_hclo4;%;0;100;Perchloric acid percolation. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_hno3-aquafortis;%;0;100;Nitric acid attack. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_nh4-6mo7o24;%;0;100;COLORIMETRIC VANADATE MOLYBDATE. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_tp03;%;0;100;reagent of Baeyens. Precipitation in form of Phosphomolybdate. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_tp04;%;0;100;acid fleischman. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_tp05;%;0;100;8 M HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_tp06;%;0;100;Molybdenum blue method, using ascorbic acid as reductant after heating of soil to 550 C and extraction with 6M sulphuric acid. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_tp07;%;0;100;1:1 H2SO4 : HNO3. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_tp08;%;0;100;After Nitric acid attack (boiling with HNO3), colometric determination (method of Duval).. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_tp09;%;0;100;Walker and Adams, 1958. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_tp10;%;0;100;Colorimetric, unspecified extract;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_unkn;%;0;100;Unspecified method;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_xrd;%;0;100;XRD;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_xrf;%;0;100;XRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_xrf-p;%;0;100;PXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Copper (Cu) - total;Total_xtf-t;%;0;100;TXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+effectiveCecProperty;EffCEC_calcul-b;cmol/kg;0;100;Sum of exchangeable bases (Ca, Mg, K, Na) without exchangeable acidity (H+Al), see ExchBases and ExchAcids for methods;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+effectiveCecProperty;EffCEC_calcul-ba;cmol/kg;0;100;Sum of exchangeable bases (Ca, Mg, K, Na) plus exchangeable acidity (H+Al), see ExchBases and ExchAcids for methods;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+electricalConductivityProperty;EC_ratio1-1;dS/m;0;60;Elec. conductivity at 1:1 soil/water ratio;"dS/m;mS/cm;uS/cm;mmho/cm";"1;1;0.001;1";dS/m = mS/cm = mmho/cm
+electricalConductivityProperty;EC_ratio1-10;dS/m;0;60;Elec. conductivity at 1:10 soil/water ratio;"dS/m;mS/cm;uS/cm;mmho/cm";"1;1;0.001;1";dS/m = mS/cm = mmho/cm
+electricalConductivityProperty;EC_ratio1-2;dS/m;0;60;Elec. conductivity at 1:2 soil/water ratio;"dS/m;mS/cm;uS/cm;mmho/cm";"1;1;0.001;1";dS/m = mS/cm = mmho/cm
+electricalConductivityProperty;EC_ratio1-2.5;dS/m;0;60;Elec. conductivity at 1:2.5 soil/water ratio;"dS/m;mS/cm;uS/cm;mmho/cm";"1;1;0.001;1";dS/m = mS/cm = mmho/cm
+electricalConductivityProperty;EC_ratio1-5;dS/m;0;60;Elec. conductivity at 1:5 soil/water ratio;"dS/m;mS/cm;uS/cm;mmho/cm";"1;1;0.001;1";dS/m = mS/cm = mmho/cm
+electricalConductivityProperty;ECe_sat;dS/m;0;60;Elec. conductivity in saturated paste (ECe);"dS/m;mS/cm;uS/cm;mmho/cm";"1;1;0.001;1";dS/m = mS/cm = mmho/cm
+gypsumProperty;CaSO4_gy01;%;0;100;Dissolved in water and precipitated by acetone;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+gypsumProperty;CaSO4_gy02;%;0;100;Differ. between Ca-conc. in sat. extr. and Ca-conc. in 1/50 s/w solution;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+gypsumProperty;CaSO4_gy03;%;0;100;Calculated from conductivity of successive dilutions;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+gypsumProperty;CaSO4_gy04;%;0;100;In 0.1 M Na3-EDTA-/- turbidimetric (Begheijn, 1993);"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+gypsumProperty;CaSO4_gy05;%;0;100;Gravimetric after dissolution in 0.2 N HCl (USSR-method);"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+gypsumProperty;CaSO4_gy06;%;0;100;Total-S, using LECO furnace, minus easily soluble MgSO4 and Na2SO4;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+gypsumProperty;CaSO4_gy07;%;0;100;Schleiff method, electrometric;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+hydraulicConductivityProperty;KSat_calcul-ptf;cm/h;0;100;Saturated hydraulic conductivity. Bore hole method;"cm/h;mm/h;cm/day;m/day";"1;0.1;0.0417;0.00417";Various time units
+hydraulicConductivityProperty;KSat_calcul-ptf-genuchten;cm/h;0;100;Saturated hydraulic conductivity.;"cm/h;mm/h;cm/day;m/day";"1;0.1;0.0417;0.00417";Various time units
+hydraulicConductivityProperty;KSat_calcul-ptf-saxton;cm/h;0;100;Saturated and not saturated hydraulic conductivity.;"cm/h;mm/h;cm/day;m/day";"1;0.1;0.0417;0.00417";Various time units
+hydraulicConductivityProperty;Ksat_bhole;cm/h;0;100;Saturated hydraulic conductivity.;"cm/h;mm/h;cm/day;m/day";"1;0.1;0.0417;0.00417";Various time units
+hydraulicConductivityProperty;Ksat_column;cm/h;0;100;Saturated hydraulic conductivity. Permeability in cm/hr determined in column filled with fine earth fraction;"cm/h;mm/h;cm/day;m/day";"1;0.1;0.0417;0.00417";Various time units
+hydraulicConductivityProperty;Ksat_dblring;cm/h;0;100;Saturated hydraulic conductivity. Double ring method;"cm/h;mm/h;cm/day;m/day";"1;0.1;0.0417;0.00417";Various time units
+hydraulicConductivityProperty;Ksat_invbhole;cm/h;0;100;Saturated hydraulic conductivity. Inverse bore hole method;"cm/h;mm/h;cm/day;m/day";"1;0.1;0.0417;0.00417";Various time units
+Hydrogen (H+) - exchangeable;ExchBases_ph-unkn-edta;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unknown buffer, in EDTA solution;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Hydrogen (H+) - exchangeable;ExchBases_ph-unkn-m3;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unknown buffer, in Mehlich3 solution with extractable ppm assumed exchangeable cmolc/kg;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Hydrogen (H+) - exchangeable;ExchBases_ph-unkn-m3-spec;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) spectrally measured and converted to, unknown buffer, in Mehlich3 solution with extractable ppm assumed exchangeable cmolc/kg;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Hydrogen (H+) - exchangeable;ExchBases_ph0-cohex;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unbuffered, in Cobalt(III) hexamine chloride solution 0,0166M (Cohex) [Co[NH3]6]Cl3 ), ISO 23470 (2007);"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Hydrogen (H+) - exchangeable;ExchBases_ph0-nh4cl;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unbuffered, in 1 M NH4Cl (0.05-1.0 m?);"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Hydrogen (H+) - exchangeable;ExchBases_ph7-nh4oac;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Hydrogen (H+) - exchangeable;ExchBases_ph7-nh4oac-aas;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc, Ca and Mg with AAS (Atomic Absorption Spectrometry);"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Hydrogen (H+) - exchangeable;ExchBases_ph7-nh4oac-fp;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc, K and Na with FP (Flame Photometry);"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Hydrogen (H+) - exchangeable;ExchBases_ph7-unkn;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in unknown solution;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Hydrogen (H+) - exchangeable;ExchBases_ph8-bacl2tea;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 8.0-8.5, in 0.5 M BaCl2 - TEA solution;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Hydrogen (H+) - exchangeable;ExchBases_ph8-unkn;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 8.0-8.5, in unknown solution;"cmol/kg;meq/100g;mmol/kg";"1;1;10";cmol/kg = meq/100g
+Iron (Fe) - extractable;Extr_ap14;%;0;100;Method of Saunders and Metelerkamp (anion-exch. resin). Particularly used for available P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_ap15;%;0;100;Method of Hunter (1975) modified after ISFEI method. Particularly used for available P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_ap20;%;0;100;Olsen (not acid soils) resp. Bray I (acid soils). Particularly used for available P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_ap21;%;0;100;Olsen (if pH > 7) resp. Mehlich (if pH < 7). Particularly used for available P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_c6h8o7-reeuwijk;%;0;100;Complexation with citric acid (van Reeuwijk). Particularly used for available P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_cacl2;%;0;100;CaCl2. Particularly used for soluble P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_capo4;%;0;100;Ca phosphate. Particularly used for available S.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_dtpa;%;0;100;DiethyneleTriaminePentaAcetic acid (DTPA) method;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_edta;%;0;100;EthyleneDiamineTetraAcetic acid (EDTA) method;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_h2so4-truog;%;0;100;Method of Truog (dilute H2SO4). Particularly used for available P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_hcl-h2so4-nelson;%;0;100;Method of Nelson (dilute HCl/H2SO4). Particularly used for available P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_hcl-nh4f-bray1;%;0;100;Method of Bray I  (dilute HCl/NH4F). Particularly used for available P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_hcl-nh4f-bray2;%;0;100;Method of Bray II (dilute HCl/NH4F). Particularly used for available P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_hcl-nh4f-kurtz-bray;%;0;100;Method of Kurtz-Bray I (0.025 M HCl + 0.03 M NH4F). Particularly used for available P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_hno3;%;0;100;Nitric acid (HNO3) method;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_hotwater;%;0;100;Hot water. Particularly used for available B;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_m1;%;0;100;Mehlich1 method;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_m2;%;0;100;Mehlich2 method;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_m3;%;0;100;Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_m3-spec;%;0;100;Spectrally measured and converted to Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_nahco3-olsen;%;0;100;Method of Olsen (0.5 M Sodium Bicarbonate (NaHCO3) extraction at pH8.5). Particularly used for available P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_nahco3-olsen-dabin;%;0;100;Method of Olsen, modified by Dabin (ORSTOM). Particularly used for available P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_naoac-morgan;%;0;100;Method of Morgan (Na-acetate/acetic acid). Particularly used for available P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_nh4-co3-2-ambic1;%;0;100;Ambic1 method (ammonium bicarbonate) (South Africa). Particularly used for available P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - extractable;Extr_nh4ch3ch-oh-cooh-leuven;%;0;100;NH4-lactate extraction method (KU-Leuven). Particularly used for available P.;"%;mg/kg;ppm;g/kg;ug/g";"1;0.0001;0.0001;0.1;0.0001";mg/kg = ppm = ug/g
+Iron (Fe) - total;Total_h2so4;%;0;100;Total P-/- colorimetric in H2SO4-Se-Salicylic acid digest( sulfuric acid) Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_hcl;%;0;100;HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_hcl-aquaregia;%;0;100;Hydrocloric (HCl) extraction in nitric/perchloric acid mixture (totals) aqua regia;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_hclo4;%;0;100;Perchloric acid percolation. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_hno3-aquafortis;%;0;100;Nitric acid attack. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_nh4-6mo7o24;%;0;100;COLORIMETRIC VANADATE MOLYBDATE. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_tp03;%;0;100;reagent of Baeyens. Precipitation in form of Phosphomolybdate. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_tp04;%;0;100;acid fleischman. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_tp05;%;0;100;8 M HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_tp06;%;0;100;Molybdenum blue method, using ascorbic acid as reductant after heating of soil to 550 C and extraction with 6M sulphuric acid. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_tp07;%;0;100;1:1 H2SO4 : HNO3. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_tp08;%;0;100;After Nitric acid attack (boiling with HNO3), colometric determination (method of Duval).. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_tp09;%;0;100;Walker and Adams, 1958. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_tp10;%;0;100;Colorimetric, unspecified extract;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_unkn;%;0;100;Unspecified method;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_xrd;%;0;100;XRD;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_xrf;%;0;100;XRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_xrf-p;%;0;100;PXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Iron (Fe) - total;Total_xtf-t;%;0;100;TXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Magnesium (Mg) - extractable;Extr_ap14;cmol/kg;0;1000;Method of Saunders and Metelerkamp (anion-exch. resin). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_ap15;cmol/kg;0;1000;Method of Hunter (1975) modified after ISFEI method. Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_ap20;cmol/kg;0;1000;Olsen (not acid soils) resp. Bray I (acid soils). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_ap21;cmol/kg;0;1000;Olsen (if pH > 7) resp. Mehlich (if pH < 7). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_c6h8o7-reeuwijk;cmol/kg;0;1000;Complexation with citric acid (van Reeuwijk). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_cacl2;cmol/kg;0;1000;CaCl2. Particularly used for soluble P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_capo4;cmol/kg;0;1000;Ca phosphate. Particularly used for available S.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_dtpa;cmol/kg;0;1000;DiethyneleTriaminePentaAcetic acid (DTPA) method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_edta;cmol/kg;0;1000;EthyleneDiamineTetraAcetic acid (EDTA) method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_h2so4-truog;cmol/kg;0;1000;Method of Truog (dilute H2SO4). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_hcl-h2so4-nelson;cmol/kg;0;1000;Method of Nelson (dilute HCl/H2SO4). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_hcl-nh4f-bray1;cmol/kg;0;1000;Method of Bray I  (dilute HCl/NH4F). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_hcl-nh4f-bray2;cmol/kg;0;1000;Method of Bray II (dilute HCl/NH4F). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_hcl-nh4f-kurtz-bray;cmol/kg;0;1000;Method of Kurtz-Bray I (0.025 M HCl + 0.03 M NH4F). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_hno3;cmol/kg;0;1000;Nitric acid (HNO3) method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_hotwater;cmol/kg;0;1000;Hot water. Particularly used for available B;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_m1;cmol/kg;0;1000;Mehlich1 method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_m2;cmol/kg;0;1000;Mehlich2 method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_m3;cmol/kg;0;1000;Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_m3-spec;cmol/kg;0;1000;Spectrally measured and converted to Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_nahco3-olsen;cmol/kg;0;1000;Method of Olsen (0.5 M Sodium Bicarbonate (NaHCO3) extraction at pH8.5). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_nahco3-olsen-dabin;cmol/kg;0;1000;Method of Olsen, modified by Dabin (ORSTOM). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_naoac-morgan;cmol/kg;0;1000;Method of Morgan (Na-acetate/acetic acid). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_nh4-co3-2-ambic1;cmol/kg;0;1000;Ambic1 method (ammonium bicarbonate) (South Africa). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - extractable;Extr_nh4ch3ch-oh-cooh-leuven;cmol/kg;0;1000;NH4-lactate extraction method (KU-Leuven). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg) - total;Total_h2so4;cmol/kg;0;1000;Total P-/- colorimetric in H2SO4-Se-Salicylic acid digest( sulfuric acid) Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_hcl;cmol/kg;0;1000;HCl extraction. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_hcl-aquaregia;cmol/kg;0;1000;Hydrocloric (HCl) extraction in nitric/perchloric acid mixture (totals) aqua regia;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_hclo4;cmol/kg;0;1000;Perchloric acid percolation. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_hno3-aquafortis;cmol/kg;0;1000;Nitric acid attack. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_nh4-6mo7o24;cmol/kg;0;1000;COLORIMETRIC VANADATE MOLYBDATE. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_tp03;cmol/kg;0;1000;reagent of Baeyens. Precipitation in form of Phosphomolybdate. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_tp04;cmol/kg;0;1000;acid fleischman. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_tp05;cmol/kg;0;1000;8 M HCl extraction. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_tp06;cmol/kg;0;1000;Molybdenum blue method, using ascorbic acid as reductant after heating of soil to 550 C and extraction with 6M sulphuric acid. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_tp07;cmol/kg;0;1000;1:1 H2SO4 : HNO3. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_tp08;cmol/kg;0;1000;After Nitric acid attack (boiling with HNO3), colometric determination (method of Duval).. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_tp09;cmol/kg;0;1000;Walker and Adams, 1958. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_tp10;cmol/kg;0;1000;Colorimetric, unspecified extract;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_unkn;cmol/kg;0;1000;Unspecified method;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_xrd;cmol/kg;0;1000;XRD;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_xrf;cmol/kg;0;1000;XRF;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_xrf-p;cmol/kg;0;1000;PXRF;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg) - total;Total_xtf-t;cmol/kg;0;1000;TXRF;"cmol/kg;%;g/kg;mg/kg";"1;4.12;0.412;0.00823";Total Mg can be % or cmol/kg
+Magnesium (Mg++) - exchangeable;ExchBases_ph-unkn-edta;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unknown buffer, in EDTA solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg++) - exchangeable;ExchBases_ph-unkn-m3;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unknown buffer, in Mehlich3 solution with extractable ppm assumed exchangeable cmolc/kg;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg++) - exchangeable;ExchBases_ph-unkn-m3-spec;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) spectrally measured and converted to, unknown buffer, in Mehlich3 solution with extractable ppm assumed exchangeable cmolc/kg;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg++) - exchangeable;ExchBases_ph0-cohex;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unbuffered, in Cobalt(III) hexamine chloride solution 0,0166M (Cohex) [Co[NH3]6]Cl3 ), ISO 23470 (2007);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg++) - exchangeable;ExchBases_ph0-nh4cl;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unbuffered, in 1 M NH4Cl (0.05-1.0 m?);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg++) - exchangeable;ExchBases_ph7-nh4oac;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg++) - exchangeable;ExchBases_ph7-nh4oac-aas;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc, Ca and Mg with AAS (Atomic Absorption Spectrometry);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg++) - exchangeable;ExchBases_ph7-nh4oac-fp;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc, K and Na with FP (Flame Photometry);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg++) - exchangeable;ExchBases_ph7-unkn;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in unknown solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg++) - exchangeable;ExchBases_ph8-bacl2tea;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 8.0-8.5, in 0.5 M BaCl2 - TEA solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Magnesium (Mg++) - exchangeable;ExchBases_ph8-unkn;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 8.0-8.5, in unknown solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00823";"cmol/kg = meq/100g; 1 cmol/kg Mg = 121.5 mg/kg"
+Manganese (Mn) - extractable;Extr_ap14;cmol/kg;0;1000;Method of Saunders and Metelerkamp (anion-exch. resin). Particularly used for available P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_ap15;cmol/kg;0;1000;Method of Hunter (1975) modified after ISFEI method. Particularly used for available P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_ap20;cmol/kg;0;1000;Olsen (not acid soils) resp. Bray I (acid soils). Particularly used for available P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_ap21;cmol/kg;0;1000;Olsen (if pH > 7) resp. Mehlich (if pH < 7). Particularly used for available P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_c6h8o7-reeuwijk;cmol/kg;0;1000;Complexation with citric acid (van Reeuwijk). Particularly used for available P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_cacl2;cmol/kg;0;1000;CaCl2. Particularly used for soluble P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_capo4;cmol/kg;0;1000;Ca phosphate. Particularly used for available S.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_dtpa;cmol/kg;0;1000;DiethyneleTriaminePentaAcetic acid (DTPA) method;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_edta;cmol/kg;0;1000;EthyleneDiamineTetraAcetic acid (EDTA) method;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_h2so4-truog;cmol/kg;0;1000;Method of Truog (dilute H2SO4). Particularly used for available P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_hcl-h2so4-nelson;cmol/kg;0;1000;Method of Nelson (dilute HCl/H2SO4). Particularly used for available P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_hcl-nh4f-bray1;cmol/kg;0;1000;Method of Bray I  (dilute HCl/NH4F). Particularly used for available P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_hcl-nh4f-bray2;cmol/kg;0;1000;Method of Bray II (dilute HCl/NH4F). Particularly used for available P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_hcl-nh4f-kurtz-bray;cmol/kg;0;1000;Method of Kurtz-Bray I (0.025 M HCl + 0.03 M NH4F). Particularly used for available P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_hno3;cmol/kg;0;1000;Nitric acid (HNO3) method;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_hotwater;cmol/kg;0;1000;Hot water. Particularly used for available B;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_m1;cmol/kg;0;1000;Mehlich1 method;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_m2;cmol/kg;0;1000;Mehlich2 method;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_m3;cmol/kg;0;1000;Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_m3-spec;cmol/kg;0;1000;Spectrally measured and converted to Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_nahco3-olsen;cmol/kg;0;1000;Method of Olsen (0.5 M Sodium Bicarbonate (NaHCO3) extraction at pH8.5). Particularly used for available P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_nahco3-olsen-dabin;cmol/kg;0;1000;Method of Olsen, modified by Dabin (ORSTOM). Particularly used for available P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_naoac-morgan;cmol/kg;0;1000;Method of Morgan (Na-acetate/acetic acid). Particularly used for available P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_nh4-co3-2-ambic1;cmol/kg;0;1000;Ambic1 method (ammonium bicarbonate) (South Africa). Particularly used for available P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - extractable;Extr_nh4ch3ch-oh-cooh-leuven;cmol/kg;0;1000;NH4-lactate extraction method (KU-Leuven). Particularly used for available P.;"cmol/kg;mg/kg;ppm;ug/g";"1;0.0182;0.0182;0.0182";1 cmol/kg Mn = 549 mg/kg
+Manganese (Mn) - total;Total_h2so4;cmol/kg;0;1000;Total P-/- colorimetric in H2SO4-Se-Salicylic acid digest( sulfuric acid) Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_hcl;cmol/kg;0;1000;HCl extraction. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_hcl-aquaregia;cmol/kg;0;1000;Hydrocloric (HCl) extraction in nitric/perchloric acid mixture (totals) aqua regia;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_hclo4;cmol/kg;0;1000;Perchloric acid percolation. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_hno3-aquafortis;cmol/kg;0;1000;Nitric acid attack. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_nh4-6mo7o24;cmol/kg;0;1000;COLORIMETRIC VANADATE MOLYBDATE. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_tp03;cmol/kg;0;1000;reagent of Baeyens. Precipitation in form of Phosphomolybdate. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_tp04;cmol/kg;0;1000;acid fleischman. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_tp05;cmol/kg;0;1000;8 M HCl extraction. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_tp06;cmol/kg;0;1000;Molybdenum blue method, using ascorbic acid as reductant after heating of soil to 550 C and extraction with 6M sulphuric acid. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_tp07;cmol/kg;0;1000;1:1 H2SO4 : HNO3. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_tp08;cmol/kg;0;1000;After Nitric acid attack (boiling with HNO3), colometric determination (method of Duval).. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_tp09;cmol/kg;0;1000;Walker and Adams, 1958. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_tp10;cmol/kg;0;1000;Colorimetric, unspecified extract;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_unkn;cmol/kg;0;1000;Unspecified method;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_xrd;cmol/kg;0;1000;XRD;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_xrf;cmol/kg;0;1000;XRF;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_xrf-p;cmol/kg;0;1000;PXRF;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+Manganese (Mn) - total;Total_xtf-t;cmol/kg;0;1000;TXRF;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn can be % or cmol/kg
+manganeseProperty;ExchBases_ph-unkn-edta;cmol/kg;0;1000;Exch bases (Ca, Mg, K, Na) unknown buffer, in EDTA solution;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn
+manganeseProperty;ExchBases_ph-unkn-m3;cmol/kg;0;1000;Exch bases (Ca, Mg, K, Na) unknown buffer, in Mehlich3 solution with extractable ppm assumed exchangeable cmolc/kg;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn
+manganeseProperty;ExchBases_ph-unkn-m3-spec;cmol/kg;0;1000;Exch bases (Ca, Mg, K, Na) spectrally measured and converted to, unknown buffer, in Mehlich3 solution with extractable ppm assumed exchangeable cmolc/kg;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn
+manganeseProperty;ExchBases_ph0-cohex;cmol/kg;0;1000;Exch bases (Ca, Mg, K, Na) unbuffered, in Cobalt(III) hexamine chloride solution 0,0166M (Cohex) [Co[NH3]6]Cl3 ), ISO 23470 (2007);"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn
+manganeseProperty;ExchBases_ph0-nh4cl;cmol/kg;0;1000;Exch bases (Ca, Mg, K, Na) unbuffered, in 1 M NH4Cl (0.05-1.0 m?);"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn
+manganeseProperty;ExchBases_ph7-nh4oac;cmol/kg;0;1000;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn
+manganeseProperty;ExchBases_ph7-nh4oac-aas;cmol/kg;0;1000;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc, Ca and Mg with AAS (Atomic Absorption Spectrometry);"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn
+manganeseProperty;ExchBases_ph7-nh4oac-fp;cmol/kg;0;1000;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc, K and Na with FP (Flame Photometry);"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn
+manganeseProperty;ExchBases_ph7-unkn;cmol/kg;0;1000;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in unknown solution;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn
+manganeseProperty;ExchBases_ph8-bacl2tea;cmol/kg;0;1000;Exch bases (Ca, Mg, K, Na) buffered at pH 8.0-8.5, in 0.5 M BaCl2 - TEA solution;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn
+manganeseProperty;ExchBases_ph8-unkn;cmol/kg;0;1000;Exch bases (Ca, Mg, K, Na) buffered at pH 8.0-8.5, in unknown solution;"cmol/kg;%;g/kg;mg/kg";"1;2.75;0.275;0.0182";Total Mn
+molybdenumProperty;Extr_ap14;%;0;100;Method of Saunders and Metelerkamp (anion-exch. resin). Particularly used for available P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_ap15;%;0;100;Method of Hunter (1975) modified after ISFEI method. Particularly used for available P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_ap20;%;0;100;Olsen (not acid soils) resp. Bray I (acid soils). Particularly used for available P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_ap21;%;0;100;Olsen (if pH > 7) resp. Mehlich (if pH < 7). Particularly used for available P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_c6h8o7-reeuwijk;%;0;100;Complexation with citric acid (van Reeuwijk). Particularly used for available P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_cacl2;%;0;100;CaCl2. Particularly used for soluble P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_capo4;%;0;100;Ca phosphate. Particularly used for available S.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_dtpa;%;0;100;DiethyneleTriaminePentaAcetic acid (DTPA) method;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_edta;%;0;100;EthyleneDiamineTetraAcetic acid (EDTA) method;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_h2so4-truog;%;0;100;Method of Truog (dilute H2SO4). Particularly used for available P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_hcl-h2so4-nelson;%;0;100;Method of Nelson (dilute HCl/H2SO4). Particularly used for available P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_hcl-nh4f-bray1;%;0;100;Method of Bray I  (dilute HCl/NH4F). Particularly used for available P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_hcl-nh4f-bray2;%;0;100;Method of Bray II (dilute HCl/NH4F). Particularly used for available P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_hcl-nh4f-kurtz-bray;%;0;100;Method of Kurtz-Bray I (0.025 M HCl + 0.03 M NH4F). Particularly used for available P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_hno3;%;0;100;Nitric acid (HNO3) method;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_hotwater;%;0;100;Hot water. Particularly used for available B;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_m1;%;0;100;Mehlich1 method;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_m2;%;0;100;Mehlich2 method;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_m3;%;0;100;Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_m3-spec;%;0;100;Spectrally measured and converted to Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_nahco3-olsen;%;0;100;Method of Olsen (0.5 M Sodium Bicarbonate (NaHCO3) extraction at pH8.5). Particularly used for available P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_nahco3-olsen-dabin;%;0;100;Method of Olsen, modified by Dabin (ORSTOM). Particularly used for available P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_naoac-morgan;%;0;100;Method of Morgan (Na-acetate/acetic acid). Particularly used for available P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_nh4-co3-2-ambic1;%;0;100;Ambic1 method (ammonium bicarbonate) (South Africa). Particularly used for available P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Extr_nh4ch3ch-oh-cooh-leuven;%;0;100;NH4-lactate extraction method (KU-Leuven). Particularly used for available P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_h2so4;%;0;100;Total P-/- colorimetric in H2SO4-Se-Salicylic acid digest( sulfuric acid) Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_hcl;%;0;100;HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_hcl-aquaregia;%;0;100;Hydrocloric (HCl) extraction in nitric/perchloric acid mixture (totals) aqua regia;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_hclo4;%;0;100;Perchloric acid percolation. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_hno3-aquafortis;%;0;100;Nitric acid attack. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_nh4-6mo7o24;%;0;100;COLORIMETRIC VANADATE MOLYBDATE. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_tp03;%;0;100;reagent of Baeyens. Precipitation in form of Phosphomolybdate. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_tp04;%;0;100;acid fleischman. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_tp05;%;0;100;8 M HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_tp06;%;0;100;Molybdenum blue method, using ascorbic acid as reductant after heating of soil to 550 C and extraction with 6M sulphuric acid. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_tp07;%;0;100;1:1 H2SO4 : HNO3. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_tp08;%;0;100;After Nitric acid attack (boiling with HNO3), colometric determination (method of Duval).. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_tp09;%;0;100;Walker and Adams, 1958. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_tp10;%;0;100;Colorimetric, unspecified extract;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_unkn;%;0;100;Unspecified method;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_xrd;%;0;100;XRD;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_xrf;%;0;100;XRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_xrf-p;%;0;100;PXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+molybdenumProperty;Total_xtf-t;%;0;100;TXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Nitrogen (N) - total;TotalN_bremner;g/kg;0;1000;Total N (Bremner, 1965, p. 1162-1164);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Nitrogen (N) - total;TotalN_calcul;g/kg;0;1000;OC * 1.72 / 20 (gives C/N=11.6009);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Nitrogen (N) - total;TotalN_calcul-oc10;g/kg;0;1000;Calculated from OrgC and C/N ratio of 10;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Nitrogen (N) - total;TotalN_dc;g/kg;0;1000;Dry combustion;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Nitrogen (N) - total;TotalN_dc-ht-dumas;g/kg;0;1000;Dry combustion at 800-1000 C celcius (Dumas method);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Nitrogen (N) - total;TotalN_dc-ht-leco;g/kg;0;1000;Element analyzer (LECO analyzer), Dry Combustion;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Nitrogen (N) - total;TotalN_dc-spec;g/kg;0;1000;Spectrally measured and converted to N by dry combustion;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Nitrogen (N) - total;TotalN_h2so4;g/kg;0;1000;H2SO4;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Nitrogen (N) - total;TotalN_kjeldahl;g/kg;0;1000;Method of Kjeldahl (digestion);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Nitrogen (N) - total;TotalN_kjeldahl-nh4;g/kg;0;1000;Kjeldahl, and ammonia distillation;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Nitrogen (N) - total;TotalN_nelson;g/kg;0;1000;Nelson and Sommers, 1980;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Nitrogen (N) - total;TotalN_tn04;g/kg;0;1000;Dry combustion using a CN-corder and cobalt oxide or copper oxide as an oxidation accelerator (Tanabe and Araragi, 1970);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Nitrogen (N) - total;TotalN_tn06;g/kg;0;1000;Continuous flow analyser after digestion with H2SO4/salicyclic acid/H2O2/Se;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+Nitrogen (N) - total;TotalN_tn08;g/kg;0;1000;Sample digested by sulphuric acid, distillation of released ammonia, back titration against sulpuric acid;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+organicMatterProperty;FulAcidC_unkn;g/kg;0;1000;Fulvic acid carbon_unknown method;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+organicMatterProperty;HumAcidC_unkn;g/kg;0;1000;Humic acid carbon_unknown method;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+organicMatterProperty;OrgM_calcul-oc1.73;g/kg;0;1000;Organic carbon * 1,73;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+organicMatterProperty;TotHumC_unkn;g/kg;0;1000;Total humic carbon_unknown method;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";% = g/100g
+pH - Hydrogen potential;pHCaCl2;pH;1.5;13;pHCaCl2 (soil reaction) in a soil/CaCl2 solution (0.01-1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHCaCl2_ratio1-1;pH;1.5;13;pHCaCl2 (soil reaction) in 1:1 soil/1 M CaCl2 solution (1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHCaCl2_ratio1-10;pH;1.5;13;pHCaCl2 (soil reaction) in 1:10 soil/CaCl2 solution (0.01-1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHCaCl2_ratio1-2;pH;1.5;13;pHCaCl2 (soil reaction) in 1:2 soil/CaCl2 solution (0.01-1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHCaCl2_ratio1-2.5;pH;1.5;13;pHCaCl2 (soil reaction) in 1:2.5 soil/CaCl2 solution (0.01-1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHCaCl2_ratio1-5;pH;1.5;13;pHCaCl2 (soil reaction) in 1:5 soil/CaCl2 solution (0.01-1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHCaCl2_sat;pH;1.5;13;pHCaCl2 (soil reaction) in saturated paste;pH;1;pH is dimensionless
+pH - Hydrogen potential;pHH2O;pH;1.5;13;pHH2O (soil reaction) in a soil/water solution;pH;1;pH is dimensionless
+pH - Hydrogen potential;pHH2O_ratio1-1;pH;1.5;13;pHH2O (soil reaction) in 1:1 soil/water solution;pH;1;pH is dimensionless
+pH - Hydrogen potential;pHH2O_ratio1-10;pH;1.5;13;pHH2O (soil reaction) in 1:10 soil/water solution;pH;1;pH is dimensionless
+pH - Hydrogen potential;pHH2O_ratio1-2;pH;1.5;13;pHH2O (soil reaction) in 1:2 soil/water solution;pH;1;pH is dimensionless
+pH - Hydrogen potential;pHH2O_ratio1-2.5;pH;1.5;13;pHH2O (soil reaction) in 1:2.5 soil/water solution;pH;1;pH is dimensionless
+pH - Hydrogen potential;pHH2O_ratio1-5;pH;1.5;13;pHH2O (soil reaction) in 1:5 soil/water solution;pH;1;pH is dimensionless
+pH - Hydrogen potential;pHH2O_sat;pH;1.5;13;pHH2O (soil reaction) in water saturated paste;pH;1;pH is dimensionless
+pH - Hydrogen potential;pHH2O_unkn-spec;pH;1.5;13;Spectrally measured and converted to pHH2O (soil reaction) in unknown soil/water solution;pH;1;pH is dimensionless
+pH - Hydrogen potential;pHKCl;pH;1.5;13;pHKCl (soil reaction) in a soil/KCl solution (0.01-1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHKCl_ratio1-1;pH;1.5;13;pHKCl (soil reaction) in 1:1 soil/KCl solution (1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHKCl_ratio1-10;pH;1.5;13;pHKCl (soil reaction) in 1:10 soil/KCl solution (0.01-1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHKCl_ratio1-2;pH;1.5;13;pHKCl (soil reaction) in 1:2 soil/KCl solution (0.01-1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHKCl_ratio1-2.5;pH;1.5;13;pHKCl (soil reaction) in 1:2.5 soil/KCl solution (0.01-1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHKCl_ratio1-5;pH;1.5;13;pHKCl (soil reaction) in 1:5 soil/KCl solution (0.01-1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHKCl_sat;pH;1.5;13;pHKCl (soil reaction) in saturated paste;pH;1;pH is dimensionless
+pH - Hydrogen potential;pHNaF;pH;1.5;13;pHNaF (soil reaction) in a soil/NaF solution (0.01-1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHNaF_ratio1-1;pH;1.5;13;pHNaF (soil reaction) in 1:1 soil/NaF solution (1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHNaF_ratio1-10;pH;1.5;13;pHNaF (soil reaction) in 1:10 soil/NaF solution (0.01-1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHNaF_ratio1-2;pH;1.5;13;pHNaF (soil reaction) in 1:2 soil/NaF solution (0.01-1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHNaF_ratio1-2.5;pH;1.5;13;pHNaF (soil reaction) in 1:2.5 soil/NaF solution (0.01-1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHNaF_ratio1-5;pH;1.5;13;pHNaF (soil reaction) in 1:5 soil/NaF solution (0.01-1 M);pH;1;pH is dimensionless
+pH - Hydrogen potential;pHNaF_sat;pH;1.5;13;pHNaF (soil reaction) in saturated paste;pH;1;pH is dimensionless
+Phosphorus (P) - extractable;Extr_ap14;%;0;100;Method of Saunders and Metelerkamp (anion-exch. resin). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_ap15;%;0;100;Method of Hunter (1975) modified after ISFEI method. Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_ap20;%;0;100;Olsen (not acid soils) resp. Bray I (acid soils). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_ap21;%;0;100;Olsen (if pH > 7) resp. Mehlich (if pH < 7). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_c6h8o7-reeuwijk;%;0;100;Complexation with citric acid (van Reeuwijk). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_cacl2;%;0;100;CaCl2. Particularly used for soluble P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_capo4;%;0;100;Ca phosphate. Particularly used for available S.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_dtpa;%;0;100;DiethyneleTriaminePentaAcetic acid (DTPA) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_edta;%;0;100;EthyleneDiamineTetraAcetic acid (EDTA) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_h2so4-truog;%;0;100;Method of Truog (dilute H2SO4). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_hcl-h2so4-nelson;%;0;100;Method of Nelson (dilute HCl/H2SO4). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_hcl-nh4f-bray1;%;0;100;Method of Bray I  (dilute HCl/NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_hcl-nh4f-bray2;%;0;100;Method of Bray II (dilute HCl/NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_hcl-nh4f-kurtz-bray;%;0;100;Method of Kurtz-Bray I (0.025 M HCl + 0.03 M NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_hno3;%;0;100;Nitric acid (HNO3) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_hotwater;%;0;100;Hot water. Particularly used for available B;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_m1;%;0;100;Mehlich1 method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_m2;%;0;100;Mehlich2 method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_m3;%;0;100;Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_m3-spec;%;0;100;Spectrally measured and converted to Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_nahco3-olsen;%;0;100;Method of Olsen (0.5 M Sodium Bicarbonate (NaHCO3) extraction at pH8.5). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_nahco3-olsen-dabin;%;0;100;Method of Olsen, modified by Dabin (ORSTOM). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_naoac-morgan;%;0;100;Method of Morgan (Na-acetate/acetic acid). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_nh4-co3-2-ambic1;%;0;100;Ambic1 method (ammonium bicarbonate) (South Africa). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - extractable;Extr_nh4ch3ch-oh-cooh-leuven;%;0;100;NH4-lactate extraction method (KU-Leuven). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Phosphorus (P) - retention;RetentP_blakemore;g/hg;0;100;P retention at ~pH4.6  (acc. Blakemore 1987);"g/hg;%;g/100g";"1;1;1";P retention: g/hg = % = g/100g
+Phosphorus (P) - retention;RetentP_unkn-spec;g/hg;0;100;Spectrally measured and converted to P retention (P buffer index);"g/hg;%;g/100g";"1;1;1";P retention: g/hg = % = g/100g
+Phosphorus (P) - total;Total_h2so4;%;0;100;Total P-/- colorimetric in H2SO4-Se-Salicylic acid digest( sulfuric acid) Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_hcl;%;0;100;HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_hcl-aquaregia;%;0;100;Hydrocloric (HCl) extraction in nitric/perchloric acid mixture (totals) aqua regia;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_hclo4;%;0;100;Perchloric acid percolation. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_hno3-aquafortis;%;0;100;Nitric acid attack. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_nh4-6mo7o24;%;0;100;COLORIMETRIC VANADATE MOLYBDATE. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_tp03;%;0;100;reagent of Baeyens. Precipitation in form of Phosphomolybdate. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_tp04;%;0;100;acid fleischman. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_tp05;%;0;100;8 M HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_tp06;%;0;100;Molybdenum blue method, using ascorbic acid as reductant after heating of soil to 550 C and extraction with 6M sulphuric acid. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_tp07;%;0;100;1:1 H2SO4 : HNO3. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_tp08;%;0;100;After Nitric acid attack (boiling with HNO3), colometric determination (method of Duval).. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_tp09;%;0;100;Walker and Adams, 1958. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_tp10;%;0;100;Colorimetric, unspecified extract;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_unkn;%;0;100;Unspecified method;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_xrd;%;0;100;XRD;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_xrf;%;0;100;XRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_xrf-p;%;0;100;PXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Phosphorus (P) - total;Total_xtf-t;%;0;100;TXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+pHProperty;pHCaCl2;pH;1.5;13;pHCaCl2 (soil reaction) in a soil/CaCl2 solution (0.01-1 M);pH;1;pH is dimensionless
+pHProperty;pHCaCl2_ratio1-1;pH;1.5;13;pHCaCl2 (soil reaction) in 1:1 soil/1 M CaCl2 solution (1 M);pH;1;pH is dimensionless
+pHProperty;pHCaCl2_ratio1-10;pH;1.5;13;pHCaCl2 (soil reaction) in 1:10 soil/CaCl2 solution (0.01-1 M);pH;1;pH is dimensionless
+pHProperty;pHCaCl2_ratio1-2;pH;1.5;13;pHCaCl2 (soil reaction) in 1:2 soil/CaCl2 solution (0.01-1 M);pH;1;pH is dimensionless
+pHProperty;pHCaCl2_ratio1-2.5;pH;1.5;13;pHCaCl2 (soil reaction) in 1:2.5 soil/CaCl2 solution (0.01-1 M);pH;1;pH is dimensionless
+pHProperty;pHCaCl2_ratio1-5;pH;1.5;13;pHCaCl2 (soil reaction) in 1:5 soil/CaCl2 solution (0.01-1 M);pH;1;pH is dimensionless
+pHProperty;pHCaCl2_sat;pH;1.5;13;pHCaCl2 (soil reaction) in saturated paste;pH;1;pH is dimensionless
+pHProperty;pHH2O;pH;1.5;13;pHH2O (soil reaction) in a soil/water solution;pH;1;pH is dimensionless
+pHProperty;pHH2O_ratio1-1;pH;1.5;13;pHH2O (soil reaction) in 1:1 soil/water solution;pH;1;pH is dimensionless
+pHProperty;pHH2O_ratio1-10;pH;1.5;13;pHH2O (soil reaction) in 1:10 soil/water solution;pH;1;pH is dimensionless
+pHProperty;pHH2O_ratio1-2;pH;1.5;13;pHH2O (soil reaction) in 1:2 soil/water solution;pH;1;pH is dimensionless
+pHProperty;pHH2O_ratio1-2.5;pH;1.5;13;pHH2O (soil reaction) in 1:2.5 soil/water solution;pH;1;pH is dimensionless
+pHProperty;pHH2O_ratio1-5;pH;1.5;13;pHH2O (soil reaction) in 1:5 soil/water solution;pH;1;pH is dimensionless
+pHProperty;pHH2O_sat;pH;1.5;13;pHH2O (soil reaction) in water saturated paste;pH;1;pH is dimensionless
+pHProperty;pHH2O_unkn-spec;pH;1.5;13;Spectrally measured and converted to pHH2O (soil reaction) in unknown soil/water solution;pH;1;pH is dimensionless
+pHProperty;pHKCl;pH;1.5;13;pHKCl (soil reaction) in a soil/KCl solution (0.01-1 M);pH;1;pH is dimensionless
+pHProperty;pHKCl_ratio1-1;pH;1.5;13;pHKCl (soil reaction) in 1:1 soil/KCl solution (1 M);pH;1;pH is dimensionless
+pHProperty;pHKCl_ratio1-10;pH;1.5;13;pHKCl (soil reaction) in 1:10 soil/KCl solution (0.01-1 M);pH;1;pH is dimensionless
+pHProperty;pHKCl_ratio1-2;pH;1.5;13;pHKCl (soil reaction) in 1:2 soil/KCl solution (0.01-1 M);pH;1;pH is dimensionless
+pHProperty;pHKCl_ratio1-2.5;pH;1.5;13;pHKCl (soil reaction) in 1:2.5 soil/KCl solution (0.01-1 M);pH;1;pH is dimensionless
+pHProperty;pHKCl_ratio1-5;pH;1.5;13;pHKCl (soil reaction) in 1:5 soil/KCl solution (0.01-1 M);pH;1;pH is dimensionless
+pHProperty;pHKCl_sat;pH;1.5;13;pHKCl (soil reaction) in saturated paste;pH;1;pH is dimensionless
+pHProperty;pHNaF;pH;1.5;13;pHNaF (soil reaction) in a soil/NaF solution (0.01-1 M);pH;1;pH is dimensionless
+pHProperty;pHNaF_ratio1-1;pH;1.5;13;pHNaF (soil reaction) in 1:1 soil/NaF solution (1 M);pH;1;pH is dimensionless
+pHProperty;pHNaF_ratio1-10;pH;1.5;13;pHNaF (soil reaction) in 1:10 soil/NaF solution (0.01-1 M);pH;1;pH is dimensionless
+pHProperty;pHNaF_ratio1-2;pH;1.5;13;pHNaF (soil reaction) in 1:2 soil/NaF solution (0.01-1 M);pH;1;pH is dimensionless
+pHProperty;pHNaF_ratio1-2.5;pH;1.5;13;pHNaF (soil reaction) in 1:2.5 soil/NaF solution (0.01-1 M);pH;1;pH is dimensionless
+pHProperty;pHNaF_ratio1-5;pH;1.5;13;pHNaF (soil reaction) in 1:5 soil/NaF solution (0.01-1 M);pH;1;pH is dimensionless
+pHProperty;pHNaF_sat;pH;1.5;13;pHNaF (soil reaction) in saturated paste;pH;1;pH is dimensionless
+physioChemicalPropertyCode-CaN;C/N_ratio;ratio;0;100;Not included in the original GLOSIS list;ratio;1;No conversion defined
+porosityProperty;Poros_calcul-pf0;m3/100 m3;0;100;Porosity calculated from volumetric moisture content at pF 0 (1 cm);"m3/100 m3;%;cm3/100cm3;vol/vol";"1;1;1;100";m3/100 m3 = % = cm3/100cm3
+Potassium (K) - extractable;Extr_ap14;cmol/kg;0;1000;Method of Saunders and Metelerkamp (anion-exch. resin). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_ap15;cmol/kg;0;1000;Method of Hunter (1975) modified after ISFEI method. Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_ap20;cmol/kg;0;1000;Olsen (not acid soils) resp. Bray I (acid soils). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_ap21;cmol/kg;0;1000;Olsen (if pH > 7) resp. Mehlich (if pH < 7). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_c6h8o7-reeuwijk;cmol/kg;0;1000;Complexation with citric acid (van Reeuwijk). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_cacl2;cmol/kg;0;1000;CaCl2. Particularly used for soluble P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_capo4;cmol/kg;0;1000;Ca phosphate. Particularly used for available S.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_dtpa;cmol/kg;0;1000;DiethyneleTriaminePentaAcetic acid (DTPA) method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_edta;cmol/kg;0;1000;EthyleneDiamineTetraAcetic acid (EDTA) method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_h2so4-truog;cmol/kg;0;1000;Method of Truog (dilute H2SO4). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_hcl-h2so4-nelson;cmol/kg;0;1000;Method of Nelson (dilute HCl/H2SO4). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_hcl-nh4f-bray1;cmol/kg;0;1000;Method of Bray I  (dilute HCl/NH4F). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_hcl-nh4f-bray2;cmol/kg;0;1000;Method of Bray II (dilute HCl/NH4F). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_hcl-nh4f-kurtz-bray;cmol/kg;0;1000;Method of Kurtz-Bray I (0.025 M HCl + 0.03 M NH4F). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_hno3;cmol/kg;0;1000;Nitric acid (HNO3) method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_hotwater;cmol/kg;0;1000;Hot water. Particularly used for available B;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_m1;cmol/kg;0;1000;Mehlich1 method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_m2;cmol/kg;0;1000;Mehlich2 method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_m3;cmol/kg;0;1000;Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_m3-spec;cmol/kg;0;1000;Spectrally measured and converted to Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_nahco3-olsen;cmol/kg;0;1000;Method of Olsen (0.5 M Sodium Bicarbonate (NaHCO3) extraction at pH8.5). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_nahco3-olsen-dabin;cmol/kg;0;1000;Method of Olsen, modified by Dabin (ORSTOM). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_naoac-morgan;cmol/kg;0;1000;Method of Morgan (Na-acetate/acetic acid). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_nh4-co3-2-ambic1;cmol/kg;0;1000;Ambic1 method (ammonium bicarbonate) (South Africa). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - extractable;Extr_nh4ch3ch-oh-cooh-leuven;cmol/kg;0;1000;NH4-lactate extraction method (KU-Leuven). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K) - total;Total_h2so4;cmol/kg;0;1000;Total P-/- colorimetric in H2SO4-Se-Salicylic acid digest( sulfuric acid) Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_hcl;cmol/kg;0;1000;HCl extraction. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_hcl-aquaregia;cmol/kg;0;1000;Hydrocloric (HCl) extraction in nitric/perchloric acid mixture (totals) aqua regia;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_hclo4;cmol/kg;0;1000;Perchloric acid percolation. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_hno3-aquafortis;cmol/kg;0;1000;Nitric acid attack. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_nh4-6mo7o24;cmol/kg;0;1000;COLORIMETRIC VANADATE MOLYBDATE. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_tp03;cmol/kg;0;1000;reagent of Baeyens. Precipitation in form of Phosphomolybdate. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_tp04;cmol/kg;0;1000;acid fleischman. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_tp05;cmol/kg;0;1000;8 M HCl extraction. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_tp06;cmol/kg;0;1000;Molybdenum blue method, using ascorbic acid as reductant after heating of soil to 550 C and extraction with 6M sulphuric acid. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_tp07;cmol/kg;0;1000;1:1 H2SO4 : HNO3. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_tp08;cmol/kg;0;1000;After Nitric acid attack (boiling with HNO3), colometric determination (method of Duval).. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_tp09;cmol/kg;0;1000;Walker and Adams, 1958. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_tp10;cmol/kg;0;1000;Colorimetric, unspecified extract;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_unkn;cmol/kg;0;1000;Unspecified method;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_xrd;cmol/kg;0;1000;XRD;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_xrf;cmol/kg;0;1000;XRF;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_xrf-p;cmol/kg;0;1000;PXRF;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K) - total;Total_xtf-t;cmol/kg;0;1000;TXRF;"cmol/kg;%;g/kg;mg/kg";"1;2.56;0.256;0.00256";Total K can be % or cmol/kg
+Potassium (K+) - exchangeable;ExchBases_ph-unkn-edta;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unknown buffer, in EDTA solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K+) - exchangeable;ExchBases_ph-unkn-m3;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unknown buffer, in Mehlich3 solution with extractable ppm assumed exchangeable cmolc/kg;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K+) - exchangeable;ExchBases_ph-unkn-m3-spec;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) spectrally measured and converted to, unknown buffer, in Mehlich3 solution with extractable ppm assumed exchangeable cmolc/kg;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K+) - exchangeable;ExchBases_ph0-cohex;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unbuffered, in Cobalt(III) hexamine chloride solution 0,0166M (Cohex) [Co[NH3]6]Cl3 ), ISO 23470 (2007);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K+) - exchangeable;ExchBases_ph0-nh4cl;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unbuffered, in 1 M NH4Cl (0.05-1.0 m?);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K+) - exchangeable;ExchBases_ph7-nh4oac;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K+) - exchangeable;ExchBases_ph7-nh4oac-aas;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc, Ca and Mg with AAS (Atomic Absorption Spectrometry);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K+) - exchangeable;ExchBases_ph7-nh4oac-fp;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc, K and Na with FP (Flame Photometry);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K+) - exchangeable;ExchBases_ph7-unkn;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in unknown solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K+) - exchangeable;ExchBases_ph8-bacl2tea;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 8.0-8.5, in 0.5 M BaCl2 - TEA solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Potassium (K+) - exchangeable;ExchBases_ph8-unkn;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 8.0-8.5, in unknown solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00256";"cmol/kg = meq/100g; 1 cmol/kg K = 391 mg/kg"
+Sand texture fraction;SaSiCl_2-20-2000u;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-20-2000u-adj100;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-20-2000u-disp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-20-2000u-disp-beaker;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-20-2000u-disp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-20-2000u-disp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-20-2000u-disp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-20-2000u-disp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-20-2000u-disp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-20-2000u-fld;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-20-2000u-nodisp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-20-2000u-nodisp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-20-2000u-nodisp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-20-2000u-nodisp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-20-2000u-nodisp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-20-2000u-nodisp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u-adj100;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u-disp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u-disp-beaker;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u-disp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u-disp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u-disp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u-disp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u-disp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u-fld;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u-nodisp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u-nodisp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u-nodisp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u-nodisp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u-nodisp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-50-2000u-nodisp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u-adj100;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u-disp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u-disp-beaker;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u-disp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u-disp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u-disp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u-disp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u-disp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u-fld;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u-nodisp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u-nodisp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u-nodisp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u-nodisp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u-nodisp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sand texture fraction;SaSiCl_2-64-2000u-nodisp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u-adj100;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u-disp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u-disp-beaker;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u-disp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u-disp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u-disp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u-disp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u-disp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u-fld;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u-nodisp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u-nodisp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u-nodisp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u-nodisp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u-nodisp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-20-2000u-nodisp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u-adj100;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u-disp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u-disp-beaker;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u-disp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u-disp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u-disp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u-disp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u-disp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u-fld;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u-nodisp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u-nodisp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u-nodisp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u-nodisp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u-nodisp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-50-2000u-nodisp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u-adj100;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u-disp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u-disp-beaker;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u-disp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u-disp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u-disp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u-disp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u-disp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u-fld;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u-nodisp;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u-nodisp-hydrometer;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u-nodisp-hydrometer-bouy;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u-nodisp-laser;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u-nodisp-pipette;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Silt texture fraction;SaSiCl_2-64-2000u-nodisp-spec;%;0;100;;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sodium (Na) - extractable;Extr_ap14;cmol/kg;0;1000;Method of Saunders and Metelerkamp (anion-exch. resin). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_ap15;cmol/kg;0;1000;Method of Hunter (1975) modified after ISFEI method. Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_ap20;cmol/kg;0;1000;Olsen (not acid soils) resp. Bray I (acid soils). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_ap21;cmol/kg;0;1000;Olsen (if pH > 7) resp. Mehlich (if pH < 7). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_c6h8o7-reeuwijk;cmol/kg;0;1000;Complexation with citric acid (van Reeuwijk). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_cacl2;cmol/kg;0;1000;CaCl2. Particularly used for soluble P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_capo4;cmol/kg;0;1000;Ca phosphate. Particularly used for available S.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_dtpa;cmol/kg;0;1000;DiethyneleTriaminePentaAcetic acid (DTPA) method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_edta;cmol/kg;0;1000;EthyleneDiamineTetraAcetic acid (EDTA) method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_h2so4-truog;cmol/kg;0;1000;Method of Truog (dilute H2SO4). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_hcl-h2so4-nelson;cmol/kg;0;1000;Method of Nelson (dilute HCl/H2SO4). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_hcl-nh4f-bray1;cmol/kg;0;1000;Method of Bray I  (dilute HCl/NH4F). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_hcl-nh4f-bray2;cmol/kg;0;1000;Method of Bray II (dilute HCl/NH4F). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_hcl-nh4f-kurtz-bray;cmol/kg;0;1000;Method of Kurtz-Bray I (0.025 M HCl + 0.03 M NH4F). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_hno3;cmol/kg;0;1000;Nitric acid (HNO3) method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_hotwater;cmol/kg;0;1000;Hot water. Particularly used for available B;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_m1;cmol/kg;0;1000;Mehlich1 method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_m2;cmol/kg;0;1000;Mehlich2 method;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_m3;cmol/kg;0;1000;Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_m3-spec;cmol/kg;0;1000;Spectrally measured and converted to Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_nahco3-olsen;cmol/kg;0;1000;Method of Olsen (0.5 M Sodium Bicarbonate (NaHCO3) extraction at pH8.5). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_nahco3-olsen-dabin;cmol/kg;0;1000;Method of Olsen, modified by Dabin (ORSTOM). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_naoac-morgan;cmol/kg;0;1000;Method of Morgan (Na-acetate/acetic acid). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_nh4-co3-2-ambic1;cmol/kg;0;1000;Ambic1 method (ammonium bicarbonate) (South Africa). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - extractable;Extr_nh4ch3ch-oh-cooh-leuven;cmol/kg;0;1000;NH4-lactate extraction method (KU-Leuven). Particularly used for available P.;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na) - total;Total_h2so4;cmol/kg;0;1000;Total P-/- colorimetric in H2SO4-Se-Salicylic acid digest( sulfuric acid) Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_hcl;cmol/kg;0;1000;HCl extraction. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_hcl-aquaregia;cmol/kg;0;1000;Hydrocloric (HCl) extraction in nitric/perchloric acid mixture (totals) aqua regia;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_hclo4;cmol/kg;0;1000;Perchloric acid percolation. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_hno3-aquafortis;cmol/kg;0;1000;Nitric acid attack. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_nh4-6mo7o24;cmol/kg;0;1000;COLORIMETRIC VANADATE MOLYBDATE. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_tp03;cmol/kg;0;1000;reagent of Baeyens. Precipitation in form of Phosphomolybdate. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_tp04;cmol/kg;0;1000;acid fleischman. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_tp05;cmol/kg;0;1000;8 M HCl extraction. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_tp06;cmol/kg;0;1000;Molybdenum blue method, using ascorbic acid as reductant after heating of soil to 550 C and extraction with 6M sulphuric acid. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_tp07;cmol/kg;0;1000;1:1 H2SO4 : HNO3. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_tp08;cmol/kg;0;1000;After Nitric acid attack (boiling with HNO3), colometric determination (method of Duval).. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_tp09;cmol/kg;0;1000;Walker and Adams, 1958. Particularly used for Total P.;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_tp10;cmol/kg;0;1000;Colorimetric, unspecified extract;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_unkn;cmol/kg;0;1000;Unspecified method;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_xrd;cmol/kg;0;1000;XRD;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_xrf;cmol/kg;0;1000;XRF;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_xrf-p;cmol/kg;0;1000;PXRF;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na) - total;Total_xtf-t;cmol/kg;0;1000;TXRF;"cmol/kg;%;g/kg;mg/kg";"1;4.35;0.435;0.00435";Total Na can be % or cmol/kg
+Sodium (Na+) - exchangeable;ExchBases_ph-unkn-edta;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unknown buffer, in EDTA solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na+) - exchangeable;ExchBases_ph-unkn-m3;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unknown buffer, in Mehlich3 solution with extractable ppm assumed exchangeable cmolc/kg;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na+) - exchangeable;ExchBases_ph-unkn-m3-spec;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) spectrally measured and converted to, unknown buffer, in Mehlich3 solution with extractable ppm assumed exchangeable cmolc/kg;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na+) - exchangeable;ExchBases_ph0-cohex;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unbuffered, in Cobalt(III) hexamine chloride solution 0,0166M (Cohex) [Co[NH3]6]Cl3 ), ISO 23470 (2007);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na+) - exchangeable;ExchBases_ph0-nh4cl;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) unbuffered, in 1 M NH4Cl (0.05-1.0 m?);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na+) - exchangeable;ExchBases_ph7-nh4oac;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na+) - exchangeable;ExchBases_ph7-nh4oac-aas;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc, Ca and Mg with AAS (Atomic Absorption Spectrometry);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na+) - exchangeable;ExchBases_ph7-nh4oac-fp;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in 1M NH4OAc, K and Na with FP (Flame Photometry);"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na+) - exchangeable;ExchBases_ph7-unkn;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 7, in unknown solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na+) - exchangeable;ExchBases_ph8-bacl2tea;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 8.0-8.5, in 0.5 M BaCl2 - TEA solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+Sodium (Na+) - exchangeable;ExchBases_ph8-unkn;cmol/kg;0;100;Exch bases (Ca, Mg, K, Na) buffered at pH 8.0-8.5, in unknown solution;"cmol/kg;meq/100g;mmol/kg;mg/kg";"1;1;10;0.00435";"cmol/kg = meq/100g; 1 cmol/kg Na = 230 mg/kg"
+solubleSaltsProperty;SlbAn_calcul-unkn;cmol/L;0;1000;Sum of soluble anions (Cl, SO4, HCO2, CO3, NO3, F);cmol/L;1;No conversion defined
+solubleSaltsProperty;SlbCat_calcul-unkn;cmol/L;0;1000;Sum of soluble cations (Ca, Mg, K, Na);cmol/L;1;No conversion defined
+Sulfur (S) - extractable;Extr_ap14;%;0;100;Method of Saunders and Metelerkamp (anion-exch. resin). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_ap15;%;0;100;Method of Hunter (1975) modified after ISFEI method. Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_ap20;%;0;100;Olsen (not acid soils) resp. Bray I (acid soils). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_ap21;%;0;100;Olsen (if pH > 7) resp. Mehlich (if pH < 7). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_c6h8o7-reeuwijk;%;0;100;Complexation with citric acid (van Reeuwijk). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_cacl2;%;0;100;CaCl2. Particularly used for soluble P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_capo4;%;0;100;Ca phosphate. Particularly used for available S.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_dtpa;%;0;100;DiethyneleTriaminePentaAcetic acid (DTPA) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_edta;%;0;100;EthyleneDiamineTetraAcetic acid (EDTA) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_h2so4-truog;%;0;100;Method of Truog (dilute H2SO4). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_hcl-h2so4-nelson;%;0;100;Method of Nelson (dilute HCl/H2SO4). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_hcl-nh4f-bray1;%;0;100;Method of Bray I  (dilute HCl/NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_hcl-nh4f-bray2;%;0;100;Method of Bray II (dilute HCl/NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_hcl-nh4f-kurtz-bray;%;0;100;Method of Kurtz-Bray I (0.025 M HCl + 0.03 M NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_hno3;%;0;100;Nitric acid (HNO3) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_hotwater;%;0;100;Hot water. Particularly used for available B;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_m1;%;0;100;Mehlich1 method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_m2;%;0;100;Mehlich2 method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_m3;%;0;100;Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_m3-spec;%;0;100;Spectrally measured and converted to Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_nahco3-olsen;%;0;100;Method of Olsen (0.5 M Sodium Bicarbonate (NaHCO3) extraction at pH8.5). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_nahco3-olsen-dabin;%;0;100;Method of Olsen, modified by Dabin (ORSTOM). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_naoac-morgan;%;0;100;Method of Morgan (Na-acetate/acetic acid). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_nh4-co3-2-ambic1;%;0;100;Ambic1 method (ammonium bicarbonate) (South Africa). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - extractable;Extr_nh4ch3ch-oh-cooh-leuven;%;0;100;NH4-lactate extraction method (KU-Leuven). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Sulfur (S) - total;Total_h2so4;%;0;100;Total P-/- colorimetric in H2SO4-Se-Salicylic acid digest( sulfuric acid) Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_hcl;%;0;100;HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_hcl-aquaregia;%;0;100;Hydrocloric (HCl) extraction in nitric/perchloric acid mixture (totals) aqua regia;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_hclo4;%;0;100;Perchloric acid percolation. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_hno3-aquafortis;%;0;100;Nitric acid attack. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_nh4-6mo7o24;%;0;100;COLORIMETRIC VANADATE MOLYBDATE. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_tp03;%;0;100;reagent of Baeyens. Precipitation in form of Phosphomolybdate. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_tp04;%;0;100;acid fleischman. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_tp05;%;0;100;8 M HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_tp06;%;0;100;Molybdenum blue method, using ascorbic acid as reductant after heating of soil to 550 C and extraction with 6M sulphuric acid. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_tp07;%;0;100;1:1 H2SO4 : HNO3. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_tp08;%;0;100;After Nitric acid attack (boiling with HNO3), colometric determination (method of Duval).. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_tp09;%;0;100;Walker and Adams, 1958. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_tp10;%;0;100;Colorimetric, unspecified extract;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_unkn;%;0;100;Unspecified method;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_xrd;%;0;100;XRD;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_xrf;%;0;100;XRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_xrf-p;%;0;100;PXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+Sulfur (S) - total;Total_xtf-t;%;0;100;TXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+totalCarbonateEquivalentProperty;CaCO3_acid-ch3cooh-dc;g/kg;0;1000;Dissolution of carbonates by Acetic acid [CH3COOH], external heat (dry combustion);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_acid-ch3cooh-nodc;g/kg;0;1000;Dissolution of carbonates by Acetic acid [CH3COOH], no external (no dry combustion);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_acid-ch3cooh-unkn;g/kg;0;1000;Dissolution of carbonates by Acetic acid [CH3COOH], external heat unknown;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_acid-dc;g/kg;0;1000;Dissolution of carbonates by acid, external heat (dry combustion);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_acid-h2so4-dc;g/kg;0;1000;Dissolution of carbonates by Sulfuric acid [H2SO4], external heat (dry combustion);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_acid-h2so4-nodc;g/kg;0;1000;Dissolution of carbonates by Sulfuric acid [H2SO4], no external (no dry combustion);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_acid-h2so4-unkn;g/kg;0;1000;Dissolution of carbonates by Sulfuric acid [H2SO4], external heat unknown;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_acid-h3po4-dc;g/kg;0;1000;Dissolution of carbonates by Phosphoric acid [H3PO4], external heat (dry combustion);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_acid-h3po4-nodc;g/kg;0;1000;Dissolution of carbonates by Phosphoric acid [H3PO4], no external (no dry combustion);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_acid-h3po4-unkn;g/kg;0;1000;Dissolution of carbonates by Phosphoric acid [H3PO4], external heat unknown;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_acid-hcl-dc;g/kg;0;1000;Dissolution of carbonates by Hydrochloric acid [HCl], or Perchloric acid [HClO4], external heat (dry combustion);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_acid-hcl-nodc;g/kg;0;1000;Dissolution of carbonates by Hydrochloric acid [HCl], or Perchloric acid [HClO4], no external (no dry combustion);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_acid-hcl-unkn;g/kg;0;1000;Dissolution of carbonates by Hydrochloric acid [HCl], or Perchloric acid [HClO4], external heat unknown;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_acid-nodc;g/kg;0;1000;Dissolution of carbonates by acid, no external (no dry combustion);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_acid-unkn;g/kg;0;1000;Dissolution of carbonates by acid, external heat unknown;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_ca01;g/kg;0;1000;Method of Scheibler (volumetric);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_ca02;g/kg;0;1000;Method of Wesemael;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_ca03;g/kg;0;1000;Method of Piper (HCl);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_ca04;g/kg;0;1000;Calcimeter method (volumetric after adition of dilute acid);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_ca05;g/kg;0;1000;Gravimetric (USDA Agr. Hdbk 60-/- method Richards et al., 1954);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_ca06;g/kg;0;1000;H3PO4 acid at 80C, conductometric in NaOH (Schlichting & Blume, 1966);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_ca07;g/kg;0;1000;Pressure calcimeter (Nelson, 1982);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_ca08;g/kg;0;1000;Bernard calcimeter (Total CaCO3);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_ca09;g/kg;0;1000;Carbonates: H3PO4 treatment at 80 deg. C and CO2 measurement like TOC (OC13), transformation into CaCO3 (Schlichting et al. 1995);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_ca10;g/kg;0;1000;CaCO3 Equivalent, CO2 evolution after HCl treatment. Gravimetric;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_ca11;g/kg;0;1000;Black, 1965-HCl;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_ca12;g/kg;0;1000;Treatment with H2SO4 N/2 acid followed by titration with NaOH N/2 in presence of an indicator;"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+totalCarbonateEquivalentProperty;CaCO3_calcul-tc-oc;g/kg;0;1000;Indirect estimate: inorganic carbon divided by 0.12 (computed as total carbon minus organic carbon);"g/kg;%;mg/kg;g/100g";"1;10;0.001;10";CaCO3 equivalent: % = g/100g
+Zinc (Zn) - extractable;Extr_ap14;%;0;100;Method of Saunders and Metelerkamp (anion-exch. resin). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_ap15;%;0;100;Method of Hunter (1975) modified after ISFEI method. Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_ap20;%;0;100;Olsen (not acid soils) resp. Bray I (acid soils). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_ap21;%;0;100;Olsen (if pH > 7) resp. Mehlich (if pH < 7). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_c6h8o7-reeuwijk;%;0;100;Complexation with citric acid (van Reeuwijk). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_cacl2;%;0;100;CaCl2. Particularly used for soluble P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_capo4;%;0;100;Ca phosphate. Particularly used for available S.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_dtpa;%;0;100;DiethyneleTriaminePentaAcetic acid (DTPA) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_edta;%;0;100;EthyleneDiamineTetraAcetic acid (EDTA) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_h2so4-truog;%;0;100;Method of Truog (dilute H2SO4). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_hcl-h2so4-nelson;%;0;100;Method of Nelson (dilute HCl/H2SO4). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_hcl-nh4f-bray1;%;0;100;Method of Bray I  (dilute HCl/NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_hcl-nh4f-bray2;%;0;100;Method of Bray II (dilute HCl/NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_hcl-nh4f-kurtz-bray;%;0;100;Method of Kurtz-Bray I (0.025 M HCl + 0.03 M NH4F). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_hno3;%;0;100;Nitric acid (HNO3) method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_hotwater;%;0;100;Hot water. Particularly used for available B;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_m1;%;0;100;Mehlich1 method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_m2;%;0;100;Mehlich2 method;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_m3;%;0;100;Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_m3-spec;%;0;100;Spectrally measured and converted to Mehlich3 method (extractant 0.2 N CH3COOH + 0.25 N NH4NO3 + 0.015 N NH4F + 0.013 N HNO3 + 0.001 M EDTA);"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_nahco3-olsen;%;0;100;Method of Olsen (0.5 M Sodium Bicarbonate (NaHCO3) extraction at pH8.5). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_nahco3-olsen-dabin;%;0;100;Method of Olsen, modified by Dabin (ORSTOM). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_naoac-morgan;%;0;100;Method of Morgan (Na-acetate/acetic acid). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_nh4-co3-2-ambic1;%;0;100;Ambic1 method (ammonium bicarbonate) (South Africa). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+Zinc (Zn) - extractable;Extr_nh4ch3ch-oh-cooh-leuven;%;0;100;NH4-lactate extraction method (KU-Leuven). Particularly used for available P.;"%;mg/kg;ppm;ug/g";"1;0.0001;0.0001;0.0001";mg/kg = ppm = ug/g
+zincProperty;Total_h2so4;%;0;100;Total P-/- colorimetric in H2SO4-Se-Salicylic acid digest( sulfuric acid) Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_hcl;%;0;100;HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_hcl-aquaregia;%;0;100;Hydrocloric (HCl) extraction in nitric/perchloric acid mixture (totals) aqua regia;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_hclo4;%;0;100;Perchloric acid percolation. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_hno3-aquafortis;%;0;100;Nitric acid attack. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_nh4-6mo7o24;%;0;100;COLORIMETRIC VANADATE MOLYBDATE. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_tp03;%;0;100;reagent of Baeyens. Precipitation in form of Phosphomolybdate. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_tp04;%;0;100;acid fleischman. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_tp05;%;0;100;8 M HCl extraction. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_tp06;%;0;100;Molybdenum blue method, using ascorbic acid as reductant after heating of soil to 550 C and extraction with 6M sulphuric acid. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_tp07;%;0;100;1:1 H2SO4 : HNO3. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_tp08;%;0;100;After Nitric acid attack (boiling with HNO3), colometric determination (method of Duval).. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_tp09;%;0;100;Walker and Adams, 1958. Particularly used for Total P.;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_tp10;%;0;100;Colorimetric, unspecified extract;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_unkn;%;0;100;Unspecified method;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_xrd;%;0;100;XRD;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_xrf;%;0;100;XRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_xrf-p;%;0;100;PXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
+zincProperty;Total_xtf-t;%;0;100;TXRF;"%;g/kg;mg/kg;g/100g";"1;0.1;0.0001;1";% = g/100g
