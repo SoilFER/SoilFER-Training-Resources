@@ -1068,34 +1068,6 @@ write.csv2(site_lab_spec, output)
 output <- paste0(output_dir,"KSSL_spectral_cleaned.xlsx")
 write_xlsx(site_lab_spec, output)
 
-# Remove spectral data object
-
-
-# ============================================================================
-# FINAL SUMMARY REPORT
-# ============================================================================
-cat("\n")
-cat("═══════════════════════════════════════════════════════════════\n")
-cat("DATA CLEANING SUMMARY\n")
-cat("═══════════════════════════════════════════════════════════════\n\n")
-
-cat("Initial records:        ", nrow(raw_data), "\n")
-cat("Final records:          ", nrow(site_lab), "\n")
-cat("Records removed:        ", nrow(raw_data) - nrow(site_lab), 
-    " (", round(100*(nrow(raw_data) - nrow(site_lab))/nrow(raw_data), 1), "%)", "\n")
-cat("Final profiles:         ", n_distinct(site_lab$ProfID), "\n\n")
-
-cat("Output files:\n")
-cat("  1.", output_csv, "\n")
-cat("  2.", output_xlsx, "\n\n")
-cat("  4.", output1_csv, "\n")
-cat("  5.", output1_xlsx, "\n")
-cat("  6.", output2_csv, "\n")
-cat("  7.", output2_xlsx, "\n")
-if (length(out_of_bounds_issues) > 0) {
-  cat("  8. soil_property_validation_report.xlsx\n\n")
-}
-cat("═══════════════════════════════════════════════════════════════\n")
 
 # ============================================================================
 # END OF SCRIPT
