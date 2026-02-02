@@ -97,10 +97,10 @@ library(readxl)           # Read Excel files
 library(knitr)            # For formatted tables
 
 # Read Excel file containing raw soil data
-raw_data <- read_excel("../../../01_data/module1/MIR_KANSAS_data.xlsx", sheet = 1) 
+raw_data <- read_excel("../../01_data/module1/MIR_KANSAS_data.xlsx", sheet = 1) 
 
 # Define the folder to store the results of the exercise
-output_dir <-"../../../03_outputs/module1/"
+output_dir <-"../../03_outputs/module1/"
 
 # Create the output directory if not existing
 if (!file.exists(output_dir)){
@@ -110,10 +110,12 @@ if (!file.exists(output_dir)){
 
 str(raw_data) # Examine the structure of the data
 head(raw_data, 10) # Show the first 10 rows
-summary(raw_data) # Summarize the data in each column
+summary(raw_data[,1:25]) # Summarize the data in 25 first columns
+
 ```
 
-This dataset contains four types of information: site data (location and depth), laboratory data (measured soil properties), metadata (sample IDs), and spectral data (Middle Infrared (MIR) reflectance). In many cases, soil datasets lack spectral data. Understanding these components helps you organize the cleaning process systematically.
+This dataset contains four types of information: *site* data (location and depth), *laboratory* data (measured soil properties), and *spectral* data (mid-infrared, MIR, reflectance). In addition, each row includes identifiers for the sample (`smp_id`), and other keys related to the spectral analyses (`join_key`, `scan_path_name`, `file_name`). In many cases, soil datasets do not include spectral data. Understanding these components will help you organize the cleaning process systematically.
+
 
 ### Data components and organization
 
