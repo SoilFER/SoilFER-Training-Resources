@@ -113,7 +113,7 @@ head(raw_data, 10) # Show the first 10 rows
 summary(raw_data) # Summarize the data in each column
 ```
 
-This dataset contains four types of information: site data (location and depth), laboratory data (measured soil properties), metadata (sample IDs), and spectral data (VIS-NIR reflectance values). In many cases, soil datasets lack spectral data. Understanding these components helps you organize the cleaning process systematically.
+This dataset contains four types of information: site data (location and depth), laboratory data (measured soil properties), metadata (sample IDs), and spectral data (Middle Infrared (MIR) reflectance). In many cases, soil datasets lack spectral data. Understanding these components helps you organize the cleaning process systematically.
 
 ### Data components and organization
 
