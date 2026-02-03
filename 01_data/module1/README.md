@@ -1,4 +1,4 @@
-# Module 1: Introduction to R
+# Module 1: Introduction to R, Spatial Data and Data preparation for Digital Soil Mapping
 
  Data for exercises in Module 1 of the SoilFER training program:
 
