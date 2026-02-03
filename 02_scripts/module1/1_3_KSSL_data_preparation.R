@@ -712,7 +712,7 @@ site_lab <- site_lab %>%
 # Save clean data
   # Save to CSV
   output <- paste0(output_dir,"KSSL_cleaned.csv")
-  write.csv2(site_lab, output, row.names = FALSE)
+  write.csv(site_lab, output, row.names = FALSE)
   
   # Save to Excel
   output <- paste0(output_dir,"KSSL_cleaned.xslx")
@@ -818,8 +818,6 @@ horizons <- site_lab %>%
   inner_join(site_lab, by = c("lon", "lat", "ProfID")) %>%
   ungroup()
 
-# Since ProfIDs are now unique at each location, remove tailings ProfID values
-horizons$ProfID <- sub("_[12]$", "", horizons$ProfID)
 
 cat("Total horizons after cleaning:", nrow(horizons), "\n")
 cat("Total profiles:", n_distinct(horizons$ProfID), "\n\n")
@@ -913,7 +911,6 @@ KSSL_standardized <- slab(
 
 cat("✓ Standardization complete\n")
 cat("  Rows in output:", nrow(KSSL_standardized), "\n")
-cat("  Expected:", n_distinct(horizons$ProfID) * 2, "rows")
 cat("  Properties included:", n_distinct(target), "parameters")
 cat("  (profiles × 2 depth intervals)\n\n")
 
@@ -978,6 +975,9 @@ KSSL_standardized <- KSSL_standardized %>%
   # Move coordinates to front for readability
   relocate(lon, lat, .after = ProfID)
 
+# Since ProfIDs are now unique at each location, remove tailings ProfID values
+KSSL_standardized$ProfID <- sub("_[12]$", "", KSSL_standardized$ProfID)
+
 cat("✓ Coordinates added to each row\n")
 cat("  Both depth intervals for each profile have same coordinates\n\n")
 
@@ -1001,7 +1001,7 @@ print(head(KSSL_standardized, n = 6))
 
 # Save to CSV
 output <- paste0(output_dir,"KSSL_standardized.csv")
-write.csv2(KSSL_standardized, output, row.names = FALSE)
+write.csv(KSSL_standardized, output, row.names = FALSE)
 
 # Save to Excel
 output <- paste0(output_dir,"KSSL_standardized.xlsx")
@@ -1030,13 +1030,13 @@ subset_data <- KSSL_standardized %>%
   )
 
 # Save to CSV
-output_csv <- paste0(output_dir,"KSSL_DSM.csv")
-write.csv2(subset_data, output_csv, row.names = FALSE)
+output <- paste0(output_dir,"KSSL_DSM_0-30.csv")
+write.csv(subset_data, output, row.names = FALSE)
 cat("✓ Saved to:", output_csv, "\n")
 
 # Save to Excel
-output_xlsx <- paste0(output_dir,"KSSL_DSM.xlsx")
-write_xlsx(subset_data, output_xlsx)
+output <- paste0(output_dir,"KSSL_DSM_0-30.xlsx")
+write_xlsx(subset_data, output)
 cat("✓ Saved to:", output_xlsx, "\n")
 
 cat("✓ Subset data ready for Digital Soil Mapping\n")
@@ -1062,7 +1062,7 @@ site_lab_spec <- left_join (site_lab,spec, by=c("HorID"="smp_id") )
 
 # Save to CSV
 output <- paste0(output_dir,"KSSL_spectral_cleaned.csv")
-write.csv2(site_lab_spec, output)
+write.csv(site_lab_spec, output, row.names = FALSE)
 
 # Save to Excel
 output <- paste0(output_dir,"KSSL_spectral_cleaned.xlsx")

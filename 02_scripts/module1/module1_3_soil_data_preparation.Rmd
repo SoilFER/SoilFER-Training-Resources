@@ -920,7 +920,7 @@ This database can be exported to `csv` and `.xlsx` files.
 
 # Save to CSV
 output <- paste0(output_dir,"KSSL_cleaned.csv")
-write.csv2(site_lab, output, row.names = FALSE)
+write.csv(site_lab, output, row.names = FALSE)
 
 # Save to Excel
 output <- paste0(output_dir,"KSSL_cleaned.xslx")
@@ -952,9 +952,6 @@ horizons <- site_lab %>%
   select(lon, lat, ProfID) %>%
   inner_join(site_lab, by = c("lon", "lat", "ProfID")) %>%
   ungroup()
-
-# Since ProfIDs are now unique at each location, remove tailings ProfID values
-horizons$ProfID <- sub("_[12]$", "", horizons$ProfID)
 
 ```
 
@@ -1056,6 +1053,9 @@ KSSL_standardized <- KSSL_standardized %>%
   # Move coordinates to front for readability
   relocate(lon, lat, .after = ProfID)
 
+# Since ProfIDs are now unique at each location, remove tailings ProfID values
+KSSL_standardized$ProfID <- sub("_[12]$", "", KSSL_standardized$ProfID)
+
 # Result: One row per profile-depth, with standardized soil properties
 head(KSSL_standardized)
 
@@ -1067,7 +1067,7 @@ The final step is to save this dataset with standardized soil properties at two 
 
 # Save to CSV
 output <- paste0(output_dir,"KSSL_standardized.csv")
-write.csv2(KSSL_standardized, output, row.names = FALSE)
+write.csv(KSSL_standardized, output, row.names = FALSE)
 
 # Save to Excel
 output <- paste0(output_dir,"KSSL_standardized.xlsx")
@@ -1100,12 +1100,12 @@ subset_data <- data %>%
   )
 
 # Save to CSV
-output_csv <- paste0(output_dir,"KSSL_DSM.csv")
-write.csv2(subset_data, output_csv, row.names = FALSE)
+output_csv <- paste0(output_dir,"KSSL_DSM_0-301.csv")
+write.csv(subset_data, output_csv, row.names = FALSE)
 cat("✓ Saved to:", output_csv, "\n")
 
 # Save to Excel
-output_xlsx <- paste0(output_dir,"KSSL_DSM.xlsx")
+output_xlsx <- paste0(output_dir,"KSSL_DSM_0-30.xlsx")
 write_xlsx(subset_data, output_xlsx)
 cat("✓ Saved to:", output_xlsx, "\n")
 
@@ -1135,7 +1135,7 @@ site_lab_spec <- left_join (site_lab,spec, by=c("HorID"="smp_id") )
 
 # Save to CSV
 output <- paste0(output_dir,"KSSL_spectral_cleaned.csv")
-write.csv2(site_lab_spec, output)
+write.csv(site_lab_spec, output, row.names = FALSE)
 
 # Save to Excel
 output <- paste0(output_dir,"KSSL_spectral_cleaned.xlsx")
