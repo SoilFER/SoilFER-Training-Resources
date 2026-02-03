@@ -55,7 +55,7 @@ if (!file.exists(output_dir)){
 # - Inspect the first few rows
 
 # Read Excel file containing raw soil data
-raw_data <- read_excel("../../01_data/module1/MIR_KANSAS_data.xlsx", sheet = 1) 
+raw_data <- read_excel("../../01_data/module1/KSSL_data.xlsx", sheet = 1) 
 
 # -----
 # EXPLORE: What do we have?
@@ -67,7 +67,6 @@ str(raw_data)
 head(raw_data, 5)
 # Summarize the data in 30 first columns
 summary(raw_data[,1:25])
-
 
 # ============================================================================
 # SECTION 3: PREPARE SITE DATA - EXTRACT AND RENAME KEY COLUMNS
@@ -715,7 +714,7 @@ site_lab <- site_lab %>%
   write.csv(site_lab, output, row.names = FALSE)
   
   # Save to Excel
-  output <- paste0(output_dir,"KSSL_cleaned.xslx")
+  output <- paste0(output_dir,"KSSL_cleaned.xlsx")
   write_xlsx(site_lab, output)
 
 # ============================================================================
@@ -1054,7 +1053,8 @@ cat("  Output file: KSSL_DSM\n")
 # - Clean and depth consistent depths data ensures better parameter estimation
 #   using spectral data. 
 
-# Read spectral data from the original dataset
+# Read and subset spectral data from the original dataset
+raw_data <- read_excel("../../01_data/module1/MIR_KANSAS_data.xlsx", sheet = 1) 
 spec <- raw_data[,-c(1,2,4:22)]
 
 # Merge site_lab data to the original Spectral data by their common IDs
@@ -1067,7 +1067,6 @@ write.csv(site_lab_spec, output, row.names = FALSE)
 # Save to Excel
 output <- paste0(output_dir,"KSSL_spectral_cleaned.xlsx")
 write_xlsx(site_lab_spec, output)
-
 
 # ============================================================================
 # END OF SCRIPT
