@@ -686,13 +686,13 @@ Such inconsistencies must be resolved before depth harmonization and Digital Soi
 
 The objective of this section is to:
 
- -Detect duplicated or overlapping depth descriptions
+ - Detect duplicated or overlapping depth descriptions
 
- -Merge replicated analytical measurements when appropriate
+ - Merge replicated analytical measurements when appropriate
 
-- Separate or select among competing depth sequences
+ - Separate or select among competing depth sequences
 
- -Retain only complete and internally consistent profiles
+ - Retain only complete and internally consistent profiles
 
 ### Why duplicates occur
 
