@@ -469,7 +469,7 @@ Store thresholds in a configuration file (e.g., `property_thresholds.csv`) to en
 ```{r thresholds-lab, eval=FALSE}
 # -----
 # Load valid ranges for soil properties
-# NOTE: These thresholds are based on global soil datasets and/or literature.
+# NOTE: These thresholds are based on global soil datasets and literature.
 #       Adjust for your specific region and soil types.
 property_thresholds <- read_csv("property_thresholds.csv")
 # Display thresholds
