@@ -11,9 +11,21 @@ editor_options:
  border-left: 5px solid #4CAF50;
  margin: 20px 0;
  border-radius: 5px;
- font-weight: 500;
 }
-
+.highlights {
+ background-color: #fce5e3;
+ padding: 20px;
+ border-left: 5px solid #4CAF50;
+ margin: 20px 0;
+ border-radius: 5px;
+}
+.exercises {
+ background-color: #cfecff;
+ padding: 20px;
+ border-left: 5px solid #4CAF50;
+ margin: 20px 0;
+ border-radius: 5px;
+}
 .warning-box {
  background-color: #fff3cd;
  padding: 20px;
@@ -21,7 +33,6 @@ editor_options:
  margin: 20px 0;
  border-radius: 5px;
 }
-
 .key-concept {
  background-color: #cfe5ff;
  padding: 20px;
@@ -29,7 +40,6 @@ editor_options:
  margin: 20px 0;
  border-radius: 5px;
 }
-
 .example-box {
  background-color: #f0f0f0;
  padding: 15px;
@@ -39,16 +49,12 @@ editor_options:
  font-family: monospace;
  font-size: 0.9em;
 }
-
 .code-block {
   background-color: #f5f5f5;
   padding: 10px;
   border-radius: 5px;
   margin: 10px 0;
 }
-
-
-
 ```
 
 # Soil Data Preparation for Digital Soil Mapping
