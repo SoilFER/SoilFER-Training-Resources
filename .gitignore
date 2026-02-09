@@ -1,0 +1,6 @@
+
+# Large raster files (downloaded from Zenodo)
+01_data/module5/*.tif
+
+# Output map rasters (too large for GitHub, regenerate from scripts)
+03_outputs/module5/maps/
