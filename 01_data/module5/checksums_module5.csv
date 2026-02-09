@@ -1,0 +1,4 @@
+filename,size_bytes,sha256,source_url,version
+Env_Cov_250m_KANSAS.tif,213092998,83a738d025276a495a260c50a36951aa13c32f4eb71fa59a184a0abfe6533b59,https://zenodo.org/records/18548350/files/Env_Cov_250m_KANSAS.tif,1.0
+HighRes_Cov_100m_KANSAS.tif,578861049,5ed0d0d49b2094c169ed3aee1f0f5c634faf30e44c80a5c94e6d85139c3e8f40,https://zenodo.org/records/18548350/files/HighRes_Cov_100m_KANSAS.tif,1.0
+Cropland_Mask_KANSAS.tif,24648103,a3c87abc03aca130260add359ceade7671d012e1e361282c6a9899d4d5350761,https://zenodo.org/records/18548350/files/Cropland_Mask_KANSAS.tif,1.0
