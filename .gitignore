@@ -4,3 +4,10 @@
 
 # Output map rasters (too large for GitHub, regenerate from scripts)
 03_outputs/module5/maps/
+
+.Rproj.user
+.Rhistory
+.Ruserdata
+.DS_Store
+
+.Rproj
