@@ -1,7 +1,6 @@
 # =============================================================================
 # app.R - GLOSIS Harmonization Shiny App
 # =============================================================================
-
 # =============================================================================
 # BOX STATUS COLORS SUMMARY
 # =============================================================================
@@ -33,10 +32,11 @@ library(lubridate)
 # ---------- Helpers ----------
 
 # Define your keyword list
-keywords <- c("bd", "bulk_density", "soc","som", "ph", "ph_h2o", "ph_water", 
-              "clay", "silt", "sand", "ec", "cec", "esp", "sar", 
+keywords <- c("bd", "bulk_density", "soc", "som", "c_tot", "ph", "ph_h2o",
+              "ph_water", "clay", "silt", "sand", "ec", "cec", "esp", "sar", 
               "n_tot", "p_tot", "p_mehlich", "p_olsen", "p_avail", 
               "k_tot", "k_ext", "k_avail")
+
 
 # Create a pattern that matches columns starting with any keyword (case-insensitive)
 pattern <- paste0("^(", paste(keywords, collapse = "|"), ")", collapse = "")
@@ -355,7 +355,7 @@ ui <- dashboardPage(
         ),
         conditionalPanel(
           condition = "input.use_project_col == false",
-          textInput("project_name", NULL, value = "KSSL", placeholder = "Enter project name")
+          textInput("project_name", NULL, value = "MyProject", placeholder = "Enter project name")
         ),
         conditionalPanel(
           condition = "input.use_project_col == true",
@@ -378,7 +378,7 @@ ui <- dashboardPage(
         ),
         conditionalPanel(
           condition = "input.use_site_col == false",
-          textInput("site_code", NULL, value = "Kansas", placeholder = "Enter site code")
+          textInput("site_code", NULL, value = "MySite", placeholder = "Enter site code")
         ),
         conditionalPanel(
           condition = "input.use_site_col == true",
@@ -556,7 +556,7 @@ ui <- dashboardPage(
       
       # SECTION 4: Map Properties ----
       #tags$strong(style = "color:#4f4f4f;", "4) Map fields"),
-      tags$strong(style = "color:#4f4f4f;", "3) Map fields"),
+      tags$strong(style = "color:#4f4f4f;", "3) Map Plot Parameters"),
       tags$br(),
       tags$br(),
       
@@ -2444,7 +2444,7 @@ server <- function(input, output, session) {
                       paste("Selected site code column not found in data:", input$site_code_col)))
         use_site_column <- TRUE
       } else {
-        site_code <- input$site_code %||% "Kansas"
+        site_code <- input$site_code %||% "MySite"
         use_site_column <- FALSE
       }
       
@@ -2872,30 +2872,6 @@ server <- function(input, output, session) {
   
   # ---- download ----
 
-  # output$download_xlsx <- downloadHandler(
-  #   filename = function() paste0("my_Glosis_data_", Sys.Date(), ".xlsx"),
-  #   contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  #   content = function(file) {
-  #     tryCatch({
-  #       withProgress(message = "Generating XLSX…", value = 0, {
-  #         incProgress(0.2, detail = "Building workbook")
-  #         wb <- build_workbook()
-  #         incProgress(0.8, detail = "Writing file")
-  #         openxlsx::saveWorkbook(wb, file = file, overwrite = TRUE)
-  #         incProgress(1, detail = "Done")
-  #       })
-  #     }, error = function(e) {
-  #       error_msg <- paste("XLSX generation failed:", e$message)
-  #       cat("Full error:\n")
-  #       print(e)
-  #       cat("\nTraceback:\n")
-  #       print(traceback())
-  #       showNotification(error_msg, type = "error", duration = 30)
-  #       stop(e)
-  #     })
-  #   }
-  # )
-  
   output$download_xlsx <- downloadHandler(
     filename = function() paste0("my_Glosis_data_", Sys.Date(), ".xlsx"),
     contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
