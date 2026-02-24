@@ -227,11 +227,19 @@ if(exists("legacy")){
   legacy <- legacy[!duplicated(st_geometry(legacy)), ]  # Remove duplicates
 }
 
+png(
+  filename = "results/imgs/legacy_map.png",
+  width = 4000,      # pixels
+  height = 2800,     # pixels
+  res = 400          # DPI
+)
 # Visualize boundaries and legacy points
 ggplot() +
   geom_spatvector(data = country_boundaries, fill = NA, color = "black") +
   geom_spatvector(data = legacy, aes(geometry = geometry), size = 0.7, color = "red") +
   theme_minimal()
+
+dev.off()
 
 ## 5 - LOAD OPTIONAL EXCLUSION LAYERS ==========================================
 # Purpose: Load masks to exclude protected areas, steep slopes, etc.
@@ -249,6 +257,21 @@ if(file.exists(npa)){
 } else {
   rm(npa)
 }
+
+png(
+  filename = "results/imgs/non_protected_map.png",
+  width = 4000,      # pixels
+  height = 2800,     # pixels
+  res = 400          # DPI
+)
+
+ggplot() +
+  geom_sf(data = npa, fill = "grey90", color = "black", linewidth = 0.3) +
+  coord_sf(datum = NA) +
+  labs(title = "Accessible area mask (non-protected in grey)") +
+  theme_minimal(base_size = 11)
+
+dev.off()
 
 # Slope mask (exclude areas with slope > threshold)
 # This should be a BINARY RASTER where:
@@ -283,6 +306,19 @@ if(file.exists(slope)){
   rm(slope)
 }
 
+png("results/imgs/slope_mask.png",
+    width = 4000,
+    height = 2800,
+    res = 400,
+    type = "cairo")
+
+plot(slope,
+     col = "#66c2a5",
+     legend = FALSE,
+     main = "Slope accessibility mask in green")
+
+dev.off()
+
 # Geology data (for stratification) - If available
 geo <- file.path(paste0(shp.path,"ecoregions_kansas_epsg_4326.shp"))
 geo.classes <- "US_L3NAME"  # Field name for geology classes
@@ -296,6 +332,22 @@ if(file.exists(geo)){
 } else {
   rm(geo)
 }
+
+png(
+  filename = "results/imgs/geology_ecoregion_map.png",
+  width = 4000,      # pixels
+  height = 2800,     # pixels
+  res = 400          # DPI
+)
+
+ggplot() +
+  geom_sf(data = geo, aes(fill = US_L3NAME), color = "black", linewidth = 0.2) +
+  labs(title = "Level III Ecoregions",
+       fill = "Ecoregion (US_L3NAME)") +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "right")
+
+dev.off()
 
 # Geomorphology data
 geomorph <- file.path(paste0(raster.path,"/GEE_Exports/Geomorphon_Landforms_KANSAS.tif"))
@@ -323,6 +375,70 @@ if (file.exists(geomorph)) {
   rm(geomorph)
 }
 
+# Visualisation
+# Create a class lookup table (Geomorpho90m / geomorphons)
+geomorph_lut <- data.frame(
+  value = 1:10,
+  class = c(
+    "Flat",
+    "Peak / summit",
+    "Ridge",
+    "Shoulder",
+    "Spur",
+    "Slope",
+    "Hollow",
+    "Footslope",
+    "Valley",
+    "Pit / depression"
+  )
+)
+
+# Semantically meaningful colors: warm tones for highs, cool tones for lows
+geomorph_colors <- c(
+  "Flat"             = "#F5F5DC",  # beige      – level ground
+  "Peak / summit"    = "#8B0000",  # dark red   – highest points
+  "Ridge"            = "#CD5C5C",  # indian red – elongated highs
+  "Shoulder"         = "#D2691E",  # chocolate  – convex upper slopes
+  "Spur"             = "#DAA520",  # goldenrod  – diverging slopes
+  "Slope"            = "#6B8E23",  # olive      – planar slopes
+  "Hollow"           = "#4682B4",  # steel blue – converging slopes
+  "Footslope"        = "#5F9EA0",  # cadet blue – concave lower slopes
+  "Valley"           = "#00008B",  # dark blue  – linear lows
+  "Pit / depression" = "#191970"   # midnight   – lowest points
+)
+
+# Attach labels to the raster as categories
+geomorph_cat <- as.factor(geomorph)
+levels(geomorph_cat) <- list(data.frame(
+  ID    = geomorph_lut$value,
+  class = geomorph_lut$class
+))
+
+png(
+  filename = "results/imgs/geomorph_classes.png",
+  width    = 4000,
+  height   = 2800,
+  res      = 400
+)
+
+par(mar = c(3, 3, 4, 3), bg = "white")
+
+plot(
+  geomorph_cat,
+  col  = geomorph_colors[levels(geomorph_cat)[[1]]$class],
+  main = "Geomorphology",
+  axes = FALSE,
+  box = FALSE,
+  plg = list(
+    inset = c(0.02, 0.03),
+    cex = 0.75,
+    title = "Geomorphons",
+    bty = "n"
+  )
+)
+
+dev.off()
+
 ## 6 - LOAD AND PROCESS ENVIRONMENTAL COVARIATES (PSU LEVEL) ===================
 # Purpose: Load environmental data at 2km resolution for PSU selection from GEE code
 # Note: These covariates determine WHERE PSUs are placed
@@ -342,6 +458,7 @@ if(crs(cov.dat)!=epsg){
 psu_size_template <- rast(ext(cov.dat), resolution = psu_size, crs = crs(cov.dat))
 cov.dat <- resample(cov.dat, psu_size_template, method = "bilinear")
 cov.dat <- terra::mask(cov.dat, country_boundaries)
+names(cov.dat)
 
 # Load and process soil climate data
 newhall <- list.files(raster.path, pattern = "newhall.tif$", recursive = TRUE, full.names = TRUE)
@@ -405,6 +522,8 @@ gc()
 cov.dat <- crop(cov.dat, country_boundaries, mask=TRUE, overwrite=TRUE)
 writeRaster(cov.dat, paste0(raster.path,"cov_dat_stack_psus.tif"), overwrite=TRUE)
 
+names(cov.dat)
+
 ## 7 - DIMENSIONALITY REDUCTION WITH PCA =======================================
 # Purpose: Reduce many covariates to fewer principal components
 # Why: Makes clustering faster and reduces multicollinearity
@@ -437,6 +556,70 @@ if(crs(cov.dat)!=epsg){
   cov.dat <- terra::project(cov.dat, epsg, method="near")
 }
 
+
+png(
+  filename = "results/imgs/cum_var_pcas_map.png",
+  width = 4000,      # pixels
+  height = 2800,     # pixels
+  res = 400          # DPI
+)
+
+cum_var <- pca$summaryPCA["Cumulative", ]
+
+plot(cum_var,
+     type = "l",
+     lwd = 2,
+     xlab = "Principal Component",
+     ylab = "Cumulative Variance Explained",
+     main = "Cumulative Variance")
+
+abline(h = 0.99, col = "red", lty = 2)
+
+dev.off()
+
+png(
+  filename = "results/imgs/pcas_map.png",
+  width = 4000,      # pixels
+  height = 2800,     # pixels
+  res = 400          # DPI
+)
+
+# Consistent color scale across PC1–PC3
+minmax_vals <- minmax(pca$PCA[[1:3]])
+zlim_vals <- range(minmax_vals)
+
+cols <- hcl.colors(100, "Blue-Red 3", rev = TRUE)
+
+par(mfrow = c(1,3), mar = c(3,3,3,6))  # extra space for legend
+
+plot(pca$PCA[[1]],
+     col = cols,
+     zlim = zlim_vals,
+     main = "PC1",
+     axes = FALSE,
+     box = FALSE,
+     plg = list(title = "PC value"))
+
+plot(pca$PCA[[2]],
+     col = cols,
+     zlim = zlim_vals,
+     axes = FALSE,
+     box = FALSE,
+     main = "PC2",
+     plg = list(title = "PC value"))
+
+plot(pca$PCA[[3]],
+     col = cols,
+     zlim = zlim_vals,
+     main = "PC3",
+     axes = FALSE,
+     box = FALSE,
+     plg = list(title = "PC value"))
+
+dev.off()
+
+par(mfrow = c(1,1))
+
 ## 8 - LOAD AND PREPARE LAND USE DATA ==========================================
 # Purpose: Define sampling universe (where samples CAN be taken)
 # Uses TWO resolutions: 20m for TSU placement, 100m for PSU filtering
@@ -451,6 +634,22 @@ names(crops) <- "lu"
 if(crs(crops)!=epsg){
   crops <- terra::project(crops, epsg, method="near")
 }
+
+png(
+  filename = "results/imgs/crop_20m_map.png",
+  width = 4000,      # pixels
+  height = 2800,     # pixels
+  res = 400          # DPI
+)
+# Visualize (it takes a few minutes)
+ggplot() +
+  geom_spatraster(data = as.factor(crops)) +
+  scale_fill_viridis_d(na.value = "transparent") +
+  geom_spatvector(data = country_boundaries, fill = NA, color = "black") +
+#  geom_spatvector(data = legacy, size = 0.7, color = "red") +
+  theme_minimal()
+
+dev.off()
 
 # Resample to 20m resolution (for TSU placement)
 # CRITICAL: This resolution determines precision of TSU point placement
@@ -477,7 +676,7 @@ crops <- rast(paste0(raster.path,"crop_mask_20m_clean.tif"))
 
 # Create 100m resolution version for PSU filtering
 # Aggregate: (20m × 5) = 100m pixels
-lu <- aggregate(crops, 5, fun=modal, cores = 4, na.rm=T)
+lu <- aggregate(crops, 5, fun=modal, cores = 2, na.rm=T)
 names(lu) <- "lu"
 writeRaster(lu, paste0(raster.path,"crop_mask_100m.tif"), overwrite=TRUE)
 # Same situation as loading "cov.dat"
@@ -489,13 +688,22 @@ if (exists("legacy")){
   legacy <- legacy[!is.na(legacy$INSIDE),] %>% dplyr::select(-"INSIDE")
 }
 
+png(
+  filename = "results/imgs/crop_100m_legacy_map.png",
+  width = 4000,      # pixels
+  height = 2800,     # pixels
+  res = 400          # DPI
+)
+
 # Visualize (it takes a few minutes)
 ggplot() +
-  geom_spatraster(data = as.factor(crops)) +
+  geom_spatraster(data = as.factor(lu)) +
   scale_fill_viridis_d(na.value = "transparent") +
   geom_spatvector(data = country_boundaries, fill = NA, color = "black") +
   geom_spatvector(data = legacy, size = 0.7, color = "red") +
   theme_minimal()
+
+dev.off()
 
 ## 9 - GENERATE PSU GRID ========================================================
 # Purpose: Create 2×2 km grid covering the study area
@@ -535,12 +743,21 @@ if(crs(psu_grid)!=epsg){
   psu_grid <- psu_grid %>% sf::st_transform(crs=epsg)
 }
 
+png(
+  filename = "results/imgs/psu_grid_lu_coverage.png",
+  width = 4000,      # pixels
+  height = 2800,     # pixels
+  res = 400          # DPI
+)
+
 # Visualize crop coverage
 ggplot() +
   geom_sf(data = psu_grid, aes(fill = crop_perc)) +
   scale_fill_distiller(palette = "Spectral") +
   labs(title = "Crop Coverage by PSU", fill = "% Cropland") +
   theme_minimal()
+
+dev.off()
 
 # Filter: Keep only PSUs with n > percent_crop coverage
 psu_grid <- psu_grid[psu_grid$crop_perc > percent_crop, "ID"]
@@ -687,6 +904,13 @@ target.PSUs <- psu_grid[psu_grid$ID %in% PSUs$ID,] %>% dplyr::select(ID)
 
 cat(sprintf("Selected %d target PSUs\n", nrow(target.PSUs)))
 
+png(
+  filename = "results/imgs/csc_psu_distribution.png",
+  width = 4000,      # pixels
+  height = 2800,     # pixels
+  res = 400          # DPI
+)
+
 # Visualize
 ggplot() +
   geom_raster(data = as.data.frame(PSU.r$PC1, xy = TRUE), aes(x = x, y = y, fill = PC1)) +
@@ -695,6 +919,8 @@ ggplot() +
   geom_sf(data = new[1], color = "#D81B60", size = 0.5, shape = 19) +
   labs(title = "Target Primary Sampling Units") +
   theme_minimal()
+
+dev.off()
 
 ## 14 - LOAD HIGH-RESOLUTION COVARIATES (SSU LEVEL) ============================
 # Purpose: Load 100m resolution data for SSU clustering WITHIN each PSU
@@ -724,9 +950,11 @@ if (any(is.na(values(cov.dat.ssu)))) {
   cat("No NA values found in SSU covariates\n\n")
 }
 
+names(cov.dat.ssu)
+
 writeRaster(cov.dat.ssu, paste0(raster.path,"cov_dat_ssu_100m_clean.tif"), overwrite=TRUE)
 # Load if needed. Similar process to cov.dat and land use vars.
-cov.dat.ssu <- rast(paste0(raster.path,"cov_dat_ssu_100m_clean.tif")) # don't forget to run line 706 CRS
+cov.dat.ssu <- rast(paste0(raster.path,"cov_dat_ssu_100m_clean.tif")) # don't forget to check CRS
 
 ## 15 - GENERATE SSUs AND TSUs FOR TARGET PSUs =================================
 # Purpose: Within each target PSU, create SSUs and TSUs
@@ -1025,6 +1253,13 @@ ssus_plot <- all_ssus[all_ssus$PSU_ID == viz_psu_id, ]
 # Create detailed map
 labels <- c("Target PSU", "Target SSUs", "Replacement SSUs", "TSUs")
 
+png(
+  filename = "results/imgs/target_psu_ssu_tsu.png",
+  width = 4000,      # pixels
+  height = 2800,     # pixels
+  res = 400          # DPI
+)
+
 ggplot() +
   geom_raster(data = as.data.frame(lu_bbox, xy = TRUE), aes(x = x, y = y, fill = lu)) +
   guides(fill = "none") +
@@ -1038,7 +1273,7 @@ ggplot() +
           size = 0.5, shape = 19, show.legend = TRUE) +
   coord_sf(xlim = c(bbox_psu["xmin"], bbox_psu["xmax"]),
            ylim = c(bbox_psu["ymin"], bbox_psu["ymax"])) +
-  labs(title = "Three-Stage Sampling Design Example",
+  labs(title = "Example: three-stage sampling design",
        subtitle = sprintf("PSU %d", viz_psu_id),
        x = "Longitude", y = "Latitude", color = "Legend") +
   scale_color_manual(values = c("Target PSU" = "blue",
@@ -1046,6 +1281,8 @@ ggplot() +
                                 "Replacement SSUs" = "red",
                                 "TSUs" = "black")) +
   theme_minimal()
+
+dev.off()
 
 ggsave(paste0(results.path,"../sampling_design_example.png"), 
        width = 10, height = 10, dpi = 300)
