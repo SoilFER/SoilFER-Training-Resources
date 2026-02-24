@@ -15,10 +15,10 @@
  * 1 . Wanderson de Sousa Mendes, PhD
  *     LinkedIn: https://www.linkedin.com/in/mendesw/
  *     Scopus: https://www.scopus.com/authid/detail.uri?authorId=57193830300
- * 2. Luis Rodriguez-Lado 
+ * 2. Luis Rodriguez-Lado, PhD
  *    LinkedIn: https://www.linkedin.com/in/luis-rodriguez-lado-2ab53922/
  *    Scopus: https://www.scopus.com/authid/detail.uri?authorId=14040318400
- * 3. Marcos Angelini
+ * 3. Marcos Angelini, PhD
  *    LinkedIn: https://www.linkedin.com/in/angelinimarcos/
  *    Scopus: https://www.scopus.com/authid/detail.uri?authorId=55969250400
  * 
