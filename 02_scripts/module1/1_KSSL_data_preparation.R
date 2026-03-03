@@ -65,7 +65,7 @@
 # WHY: 
 # - Start understanding how many valid points you have in the dataset
 # - Standardized column names make cleaning easier and less error-prone
-# The raw daya includes information of:
+# The raw data includes information of:
 # - Position and depth (SITE)
 # - Analytical values of soil parameters (LAB)
 # - Dry Chemistry Data (SPECTRAL)
@@ -819,7 +819,7 @@ lab <- raw_data %>%
   plot(density(horizons$pH, na.rm=TRUE), main="Density plot of pH")
 
 
-# StandardizeE Properties to Fixed Depths  =====================================
+# Standardize Properties to Fixed Depths  =====================================
   # HOW SLAB WORKS:
   #
   # Input: Profiles with variable-depth horizons

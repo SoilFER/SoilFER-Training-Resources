@@ -1,0 +1,15 @@
+property,description,unit,min_valid,max_valid
+SOC,Soil Organic Carbon,%,0,60
+Carbon_Total,Total Carbon,%,0,100
+Bulk.Density_1_3.BAR,Bulk Density (1.3 bar),g/cm³,0.2,2.4
+Bulk.Density_ovendry,Bulk Density (oven-dry),g/cm³,0.2,2.4
+Sand,Sand,%,0,100
+Silt,Silt,%,0,100
+Clay,Clay,%,0,100
+pH,pH,pH,2,12
+CEC,Cation Exchange Capacity,cmol(+)/kg,0,200
+Nitrogen_Total,Total Nitrogen,%,0,10
+Phosphorus_Mehlich3,Phosphorus (Mehlich),mg/kg,0,2000
+Phosphorus_Olsen,Phosphorus (Olsen),mg/kg,0,1000
+Potassium,Potassium,cmol(+)/kg,0,20
+Calcium_Carbonate_equivalent,Calcium Carbonate Equivalent,%,0,100

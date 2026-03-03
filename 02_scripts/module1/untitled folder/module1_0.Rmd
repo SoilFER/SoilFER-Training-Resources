@@ -1,0 +1,644 @@
+
+```{css, echo=FALSE}
+.objectives {
+ background-color: #e8f5e8;
+ padding: 20px;
+ border-left: 5px solid #4CAF50;
+ margin: 20px 0;
+ border-radius: 5px;
+}
+.highlights {
+ background-color: #fce5e3;
+ padding: 20px;
+ border-left: 5px solid #4CAF50;
+ margin: 20px 0;
+ border-radius: 5px;
+}
+.exercises {
+ background-color: #cfecff;
+ padding: 20px;
+ border-left: 5px solid #4CAF50;
+ margin: 20px 0;
+ border-radius: 5px;
+}
+.warning-box {
+ background-color: #fff3cd;
+ padding: 20px;
+ border-left: 5px solid #ffc107;
+ margin: 20px 0;
+ border-radius: 5px;
+}
+.key-concept {
+ background-color: #cfe5ff;
+ padding: 20px;
+ border-left: 5px solid #0066cc;
+ margin: 20px 0;
+ border-radius: 5px;
+}
+.example-box {
+ background-color: #f0f0f0;
+ padding: 15px;
+ border-left: 5px solid #666;
+ margin: 15px 0;
+ border-radius: 5px;
+ font-family: monospace;
+ font-size: 0.9em;
+}
+.code-block {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+```
+
+```{r setup, include=FALSE}
+
+# Define the module title once
+ module_title <- "Module 1 - Session 0: Presentation"
+
+# Define number of questions in the final evaluation
+nquiz = 30
+
+# knitr options
+knitr::opts_chunk$set(
+ echo = TRUE,
+ warning = FALSE,
+ message = FALSE,
+ fig.width = 8,
+ fig.height = 6,
+ fig.align = "center"
+)
+# Load libraries
+library(learnr)
+library(gradethis)
+library(terra)
+library(tidyverse)
+library(readxl)
+library(openxlsx)
+library(knitr)
+
+# Set tutorial options
+tutorial_options(
+ exercise.timelimit = 120,
+ exercise.checker = gradethis::gradethis_exercise_checker
+)
+
+gradethis_setup(
+ pass = "Great work! 🎉",
+ fail = "Not quite right. Try again! 💪",
+ code_correct = "Your code is correct! ✅",
+ code_incorrect = "Check your code again 🔍"
+)
+
+# Remove stored data to ensure a clean start
+options(tutorial.storage = list(
+ # save an arbitrary R object "data" to storage
+ save_object = function(...) { },
+ # retrieve a single R object from storage
+ get_object = function(...) NULL,
+ # retrieve a list of all R objects stored
+ get_objects = function(...) list(),
+ # remove all stored R objects
+ remove_all_objects = function(...) { }
+
+))
+
+# Create an example dataframe for exercises
+soil_example <- data.frame(
+ plot_id = c("P001", "P002", "P003", "P004", "P005"),
+ latitude = c(-1.25, -1.27, -1.23, -1.29, -1.26),
+ longitude = c(36.85, 36.83, 36.87, 36.81, 36.84),
+ ph = c(5.2, 6.5, 7.1, 5.8, 6.9),
+ organic_carbon = c(2.1, 3.2, 1.8, 2.7, 2.9),
+ clay_content = c(25, 30, 18, 42, 35),
+ soil_type = c("Acrisol", "Ferralsol", "Vertisol", "Andosol", "Cambisol")
+)
+```
+
+```{r data, include=FALSE}
+# Read Excel file containing raw soil data
+setwd(file.path(getwd(), "..", ".."))
+k.data <- read_excel("01_data/module1/KSSL_data.xlsx", sheet = 1) 
+```
+
+
+## Presentation
+
+##	Background and Objective {-}
+Healthy and productive soils are fundamental to resilient agrifood systems, sustainable land management, and climate adaptation. Yet, in many regions, soil information remains fragmented, outdated, or inaccessible. The Soil Mapping for Resilient Agrifood Systems (SoilFER) programme responds to this challenge by building comprehensive soil information systems that integrate sampling design, laboratory analysis, soil spectroscopy, digital modeling, and decision support tools. These systems aim to empower governments, researchers, and farmers with actionable knowledge for crop selection, fertilizer recommendations, and soil health management. 
+
+This manual, provides a step-by-step guide along the entire soil data value chain. It is designed as both a technical reference and a practical training resource, bridging the gap between raw soil data and its functional use in agricultural and environmental decision-making. 
+
+The objectives of this manual are to: 
+
+* Present harmonized approaches for soil sampling design used under the SoilFER programme
+
+* Provide guidance on the integration soil spectroscopy estimated soil parameters into the digital soil mapping process
+
+* Introduce best practices in soil data preparation and management, aligned with the Global Soil Information System (GloSIS)
+
+* Demonstrate methods for digital soil modeling and mapping, covering classical statistics, machine learning, and hybrid inference for both continuous and categorical soil properties. 
+
+* Explain how to generate functional soil information to support evidence-based decision-making. 
+
+* Facilitate data sharing and dissemination, promoting open standards, metadata documentation, and web-based services. 
+
+By integrating these components, the manual equips users to move from raw samples to reliable soil information products that inform policy, guide sustainable soil management, and strengthen food and nutrition security. 
+
+
+## How to use this book {-}
+
+This manual is designed to be used **hands-on**. Each chapter combines conceptual explanations with practical exercises that rely on scripts, tabular datasets, and spatial data. To follow the workflows as intended, participants are expected to work locally with the predefined project structure used throughout the SoilFER training.
+
+
+### Required downloads {-}
+
+All training materials are distributed across **two complementary sources**.
+
+1. Scripts and lightweight tabular data (GitHub)
+
+The GitHub repository contains:
+
+- All scripts used throughout the manual  
+- Lightweight tabular datasets  
+- The full project folder structure, organised by module  
+
+Download the repository as a ZIP file from:  
+[https://github.com/SoilFER/SoilFER-Training-Resources](https://github.com/SoilFER/SoilFER-Training-Resources/archive/refs/heads/main.zip)
+
+2. Large input datasets (Google Drive)
+
+The Google Drive folder contains files that are too large to be hosted on GitHub, including:
+
+- Raster covariates and maps  
+- Large spectral datasets  
+- Other supporting input data used in selected modules  
+
+Download the data from:  
+[https://drive.google.com/drive/folders/1K7tq9zX5HsqbqWcNoT27WtfPtehcKBCu](https://drive.google.com/drive/folders/1K7tq9zX5HsqbqWcNoT27WtfPtehcKBCu?usp=drive_link)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### ⚠️ What this Tutorial is not
+
+::: highlights
+This is not a comprehensive course in R, statistics, or modeling.
+This tutorial focuses on the essentials needed to start working effectively with soil data in R, including data import, wrangling, visualization, and modeling.
+Its main advantage lies in providing a complete learning environment, combining **lessons**, **examples**, hands-on **exercises**, and evaluation **tests** to help you build practical competences in R.
+
+For deeper learning, we highly recommend to complement this module with other dedicated resources such as:
+
+[R for Data Science (Grolemund & Wickham, 2017)](https://r4ds.had.co.nz/ "R for Data Science") : A complete free, beginner-friendly guide to doing data science with R while teaching best practices for reproducible and efficient analysis.
+
+[Spatial Sampling with R (DJ Brus, 2023)](https://dickbrus.github.io/SpatialSamplingwithR/ "Spatial Sampling with R") : A practical guide to designing and analyzing spatial surveys using R, with examples and exercises for environmental and natural resource studies.
+
+[Predictive Soil Mapping with R (Hengl & MacMillan, 2019)](https://soilmapper.org/ "Predictive Soil Mapping with R"): This book introduces statistical and machine learning methods for creating soil property and class maps.
+It explains key concepts, workflows, and practical steps using R `{packages}` designed for soil science, with code examples to support learning and application.
+
+[Statistics for Soil Survey (Soil Survey Staff, 2025)](https://ncss-tech.github.io/stats_for_soil_example/ "USDA Statistics for Soil Survey"): An open, R-based textbook introducing fundamental statistical concepts and methods for soil survey, covering data exploration, visualization, and analysis with practical soil data examples, and with a strong focus on the *Algorithms for Quantitative Pedology* from the`{aqp}` package.
+
+[Spatial Data Science with R and 'terra'](https://rspatial.org/ "Spatial Data Science with R and 'terra'"): Online resources to learn spatial data analysis and modeling with R.
+
+[What They Forgot to Teach You About R](https://rstats.wtf/): A short bookdown with useful tips to work with R.
+:::
+
+### How to use this Tutorial?
+
+This tutorial introduces the essential concepts of R programming using examples with soil datasets.
+Concepts are explained with code demonstrations, interactive coding exercises, and quiz-style test questions.
+At the end of every module, learners complete a comprehensive quiz that covers the main topics presented.
+
+## R concepts
+
+Essential R programming concepts are introduced throughout this tutorial.
+
+Each topic is accompanied by code examples that illustrate the syntax and functionality of R functions in context-specific applications, especially those relevant to soil science.
+
+For instance, here is an example demonstrating basic variable assignment and printing in R:
+
+*Example: Variable assignment and output*
+
+```{r concepts, eval=TRUE, echo=TRUE, warning=TRUE, error=TRUE}
+# Assigning values to variables
+ph_topsoil <- 6.3    # pH of topsoil
+ph_subsoil <- 5.8    # pH of subsoil
+
+# Displaying values
+print(ph_topsoil)
+print(ph_subsoil)
+```
+
+Code chunks in this module illustrate examples of use of the specific R concepts, including comments to describe them, along with the expected outcome of the process in the R console.
+These examples aim to build intuition and familiarity with R syntax, one concept at a time.
+
+As a convention in this manual, package names mentioned in the text are shown within curly brackets (for example, `{ggplot2}`), making them easy for the reader to recognize.
+
+### Conventions
+
+1) Not every line in a script is meant to produce a results. Commented lines are include explanatory text to clarify what the code is doing.
+In R, these notes are written as *comments*, which start with the character `#`.
+Writing *comments* is a good practice because it helps describe the purpose of the script, records authorship and version information, and makes the code easier to understand both for others and for ourselves when we return to it later.
+
+<br>*Example: 1.1:*
+
+```{r, echo=TRUE, eval=FALSE}
+# Script to create a sampling design
+# Created at FAO-GSP on 25-04-2025
+# Last modified on 12-09-2025
+```
+
+::: highlights
+-   Script *comments* start with the `#` character.\
+-   Commented lines do not produce any output.\
+:::
+
+2) 
+As a convention in this manual, package names mentioned in the text are shown within curly brackets (for example, `{ggplot2}`), making them easy for the reader to recognize.
+
+Commented lines: Not every line in a script is meant to be executed as code.
+Often, we need to include explanatory text to clarify what the code is doing.
+In R, these notes are written as *comments*, which start with the character `#`.
+
+
+
+
+
+## What is R?
+
+<img src="images/Rlogo.png" width="20" style="vertical-align:top;"/> is a programming language and software environment designed for statistical computing, data analysis, and visualization.
+It was created in the early 1990s by Ross Ihaka and Robert Gentleman at the University of Auckland, New Zealand, and has since grown into one of the most widely used tools in data science, particularly for statistical modeling.
+
+R is open-source, meaning it is freely available and supported by a large global community of users and developers.
+This community continuously develops new tools and packages that extend R's capabilities, making it highly adaptable to diverse fields such as ecology, genetics, economics, social sciences and, as in this case, soil science.
+
+
+### Why R for Soil Science?
+
+R is particularly well-suited for soil science applications because it offers comprehensive tools for:
+
+-   **Data management**: Efficiently handle, clean, and transform large soil datasets
+
+-   **Statistical analysis**: Perform descriptive and inferential statistics, ANOVA, regression models, and more
+
+-   **Spatial analysis**: Work with geographic data using packages like `{terra}` and `{sf}`
+
+-   **Digital Soil Mapping**: Apply machine learning algorithms for predictive soil mapping
+
+-   **Visualization**: Create publication-quality maps, charts, and graphs using `{ggplot2}` and other visualization tools
+
+-   **Reproducibility**: Share analyses through scripts that others can replicate and verify
+
+In the context of SoilFER, the FAO Global Soil Partnership (GSP) and Digital Soil Mapping initiatives, R provides standardized workflows that promote collaboration, transparency, and scientific rigor.
+
+::: highlights
+ - R is a analytical go-to platform which unites statistical, spatial, and visualization capabilities in a single ecosystem.
+ - It powers digital soil mapping, supports machine learning and reproducible reporting, and connects seamlessly with GIS and database tools.
+
+:::
+
+------------------------------------------------------------------------
+
+## Installing R and RStudio
+
+To start using R, you need two main components:
+
+1.  **R**: The core programming language and computational engine
+
+2.  **RStudio**: An integrated development environment (IDE) that makes working with R easier
+
+### Installing R
+
+**Step 1**: Visit the Comprehensive R Archive Network (CRAN): <https://cran.r-project.org/>
+
+**Step 2**: Choose your operating system:
+
+-   **Windows**: Click "Download R for Windows" → "base" → "Download R-4.x.x for Windows"
+
+-   **macOS**: Click "Download R for macOS" → Select the appropriate `.pkg` file for your macOS version
+
+-   **Linux**: Follow the distribution-specific instructions
+
+**Step 3**: Run the installer and follow the prompts. Accept the default settings unless you have specific preferences.
+
+### Installing RStudio
+
+**Step 1**: Visit RStudio's website: <https://posit.co/download/rstudio-desktop/>
+
+**Step 2**: Download the free RStudio Desktop version for your operating system
+
+**Step 3**: Install RStudio by running the installer
+
+Once installed, R provides the underlying engine for data analysis---but working directly in base R can be challenging due to its command-line interface.
+
+::: warning-box
+**Important**: Install R before installing RStudio, as RStudio requires R to function.
+:::
+
+### Verifying Installation
+
+After installation, open RStudio. You should see a window with several panes:
+
+-   **Console** (bottom left): Where R commands are executed
+
+-   **Source** (top left): Where you write and edit scripts
+
+-   **Environment/History** (top right): Shows variables and command history
+
+-   **Files/Plots/Packages/Help** (bottom right): File browser, plot viewer, package manager, and help documentation
+
+Try typing a simple command in the Console window:
+
+```{r verify-install, eval=FALSE}
+# Simple arithmetic
+2 + 2
+
+# Check R version
+R.version.string
+```
+
+If you see the results, R and RStudio are properly installed in your system.
+
+------------------------------------------------------------------------
+
+## Understanding the RStudio Interface
+
+**RStudio** provides an integrated environment that simplifies working with R. The interface is divided into four main panes (Fig. 1):
+
+[![Fig. 1: RStudio interface](images/2_RStudio-interface.png){width=100%}](images/2_RStudio-interface.png)
+
+### 1. Console Pane (Bottom Left)
+
+The **Console** is where R code is executed.
+You can type commands directly here or run them from your script.
+The Console displays results, warnings, and error messages.
+
+```{r console-example, eval=FALSE}
+# Type directly in the console
+5 * 3
+
+# R will immediately show the result
+# [1] 15
+```
+
+### 2. Code Editor Pane (Top Left)
+
+You can write commands directly in the Console and execute them line by line. However, it is usually more convenient to write code in a script editor—the **Code Editor** pane. Here you can create and edit R scripts (`.R` files), R Markdown documents (`.Rmd` files), and other file types. Scripts allow you to save your code and run it repeatedly, which is essential for reproducible analysis.
+
+Working in the **Code Editor** also makes it easier to organize code for later use. You can send any line or selected block of code to the **Console** for execution by pressing `Ctrl + Enter` (Windows/Linux) or `Cmd + Enter` (macOS). You can also run code by clicking the **Run** button in the top-right corner of the **Code Editor** pane.
+
+::: highlights
+-   Code can be written and executed directly in the **Console**.\
+-   Using  the **Code Editor** is more convenient for organizing and reusing code.\
+-   Send a line or block of code to the console with `Ctrl + Enter` (Windows(), `Cmd + Enter` (macOS), or the equivalent shortcut in Linux.\
+-   You can also run code by clicking the **Run** button in the script editor.\
+
+**Creating a new script:**
+-   File → New File → R Script (or press `Ctrl+Shift+N` / `Cmd+Shift+N`)
+
+:::
+
+### 3. Environment/History Pane (Top Right)
+
+-   **Environment**: Shows all objects (variables, datasets, functions) currently in your R session
+
+-   **History**: Records all commands you've run during the session
+
+### 4. Files/Plots/Packages/Help Pane (Bottom Right)
+
+-   **Files**: Browse your computer's file system
+
+-   **Plots**: View visualizations created with R
+
+-   **Packages**: Manage installed packages
+
+-   **Help**: Access R documentation and function help pages
+
+::: highlights
+**Best Practice**: Always work in scripts rather than typing directly in the Console.
+Scripts preserve your workflow and make your analysis reproducible.
+
+:::
+
+------------------------------------------------------------------------
+
+## R Packages: Extending R's Capabilities
+
+R's strength lies in its extensibility through **packages**.
+A package is a collection of functions, data, and documentation that extends R's functionality for specific tasks.
+
+### What are Packages?
+
+The base R installation includes fundamental functions for data manipulation and statistical analysis.
+However, specialized tasks often require additional tools provided by contributed packages.
+
+For soil science work, key packages include:
+
+-   `{tidyverse}`: A collection of packages for data manipulation and visualization, including `{dplyr}` and `{tidyr}`, among others
+
+-   `{terra}`: Spatial data analysis and raster operations
+
+-   `{sf}`: Working with vector spatial data
+
+-   `{aqp}`: Algorithms for Quantitative Pedology (soil profile data)
+
+-   `{ggplot2}` : Advanced data visualization (part of tidyverse)
+
+
+### Installing Packages
+
+Packages need to be installed once before you can use them.
+Use `install.packages()`:
+
+```{r install-packages, eval=FALSE}
+# Install a single package
+install.packages("tidyverse")
+
+# Install multiple packages at once
+install.packages(c("terra", "sf", "aqp"))
+```
+
+You only need to install a package once, but you must load it with `library()` each time you start a new R session.
+
+You can check which *{packages}* are installed with:
+
+```{r, echo=TRUE, eval=FALSE}
+installed.packages()
+```
+<br>
+
+#### Install Packages from GitHub or Other Sources
+
+Some *{packages}* are not yet available on CRAN or you may want a newer development versions from GitHub, Gitlab, bitbucket, or an URL.
+In these cases, you can use the `remotes` or `devtools` *{packages}*, with the functions `install_github()`, `install_gitlab()`, `install_bitbucket()` or `install_url()`:
+
+```{r, echo=TRUE, eval=FALSE}
+# First, install remotes package (if not already installed)
+install.packages("remotes")
+
+# Install an R package from GitHub
+remotes::install_github("rspatial/terra")
+```
+
+This is useful for accessing cutting-edge versions, experimental features, or tools developed by research groups.
+
+#### Manual Installation of R Packages
+
+You may need to install R *{packages}* manually---especially when working in environments without internet access or when using custom-built *{packages}*.
+
+There are two common methods:
+
+- **1. Installing from a compressed source package file** (e.g., `mypackage_1.0.0.tar.gz`)
+
+
+```{r, echo=TRUE, eval=FALSE}
+install.packages("path/to/mypackage_1.0.0.tar.gz", repos = NULL, type = "source")
+```
+
+- **2. Installing from a Local `.zip` file** (Windows Binary)
+
+```{r, echo=TRUE, eval=FALSE}
+install.packages("path/to/mypackage.zip", repos = NULL, type = "win.binary")
+```
+
+This method does not require compilation and is usually faster on Windows.
+
+::: warning-box
+**Note**: Package installation typically requires an internet connection.
+Depending on the package size and your connection speed, installation may take several minutes.
+
+:::
+
+### Loading Packages
+
+After installation, you must **load** a package into your R session each time you start R.
+Use the `library()` function:
+
+```{r load-packages, eval=FALSE}
+# Load tidyverse package
+library(tidyverse)
+
+# Load multiple packages
+library(terra)
+library(sf)
+library(aqp)
+```
+
+::: highlights
+**Key Difference:**
+
+-   `install.packages()`: Downloads and installs a package (once)
+-   `library()`: Loads a package into your current session (every time you start R)
+
+:::
+
+### Finding Help on Packages
+
+```{r package-help, eval=FALSE}
+# Get help on a package
+help(package = "tidyverse")
+
+# Or use
+?tidyverse
+
+# View vignettes (tutorials) for a package
+vignette(package = "ggplot2")
+```
+
+
+
+------------------------------------------------------------------------
+
+
+## **Google Earth Engine (GEE)**
+
+In this tutorial, we often deal with soil and environmental data that require spatial analysis at large scales.
+Traditional desktop tools may struggle with the volume of data (e.g., satellite imagery, climate surfaces, soil maps) or 
+demand significant computing resources.
+**Google Earth Engine (GEE)** provides an accessible way to overcome these limitations by offering cloud-based processing and ready-to-use datasets.
+By integrating GEE into our workflow, you can complement R-based analysis with powerful remote sensing tools, enabling more efficient handling of large datasets and direct access to global geospatial information.
+
+[Google Earth Engine (GEE)](https://earthengine.google.com/) is a powerful cloud-based platform designed for planetary-scale geospatial analysis.
+It provides access to an extensive catalog of remote sensing datasets and enables users to process large volumes of spatial data using Google's cloud computing infrastructure.
+
+One of the key benefits of GEE is that it allows users with limited local computing power to perform complex spatial analyses.
+This is possible because all operations are executed on Google's servers.
+
+To start using GEE, you'll need to create a user account.
+**Note:** account approval may take some time, as it is manually reviewed.
+Once approved, you can access the GEE **Code Editor**, a browser-based integrated development environment (IDE) where you can write and execute *scripts* using **JavaScript**.
+Alternatively, you can interact with GEE using **Python** via the Earth Engine Python API.
+
+### GEE Code Editor Interface
+
+The Code Editor is organized into **three main panels** plus a **map viewer** (Figure 2).
+This interface is designed to facilitate both data exploration and code execution.
+
+```{r GEE2, echo = FALSE, fig.cap = "Figure 2. Google Earth Engine Code Editor interface.", out.width='100%'}
+knitr::include_graphics("images/2.1_GEE_codeeditor.png")
+```
+
+**Left Panel:**
+
+-   **Scripts:** This section allows you to save, organize, and manage your own code projects.
+
+-   **Docs:** Here, you'll find extensive documentation on server-side functions that GEE provides.
+    These functions allow you to load, filter, and analyze remote sensing data efficiently.
+
+-   **Assets:** This is where users can upload their own spatial data (e.g., shapefiles `.shp`, raster files `.tif`) for use in *scripts*.
+
+**Center Panel:** - This is the **code editor**, where you write your *scripts*.
+You can execute your code by clicking the **Run** button above the editor.
+The results of your analysis will be shown either in the map viewer or the console.
+
+**Right Panel:**
+
+-   **Inspector:** Click on a point in the map viewer to retrieve its latitude, longitude, and associated pixel values from loaded datasets.
+
+-   **Console:** This displays outputs of print() statements, error messages, and visual summaries such as charts.
+
+-   **Tasks:** If your script involves exporting data (e.g., to Google Drive or Earth Engine assets), the export task will appear here.
+    You must manually click "Run" in this tab to launch the task.
+
+At the top of the page, you'll also find a **search bar** that gives you access to GEE's rich data catalog.
+This includes metadata on datasets, spatial resolution, data source, and related documentation or scientific references.
+
+------------------------------------------------------------------------
+
+
+
+### Command lines and scripts
+
+*Command lines* and *scripts* can be written directly in the R console and executed line by line.
+However, it is usually more convenient to write code in a *script editor*.
+Working in the *script editor* makes it easier to organize and prepare code for later use, and any line or block of code can be sent to the console for execution by pressing `Ctrl + Enter` on Windows, `Cmd + Enter` on macOS, or the equivalent shortcut in Linux.
+Code can also be executed by clicking the **Run** button in the top-right corner of the script panel.
+
+::: highlights
+-   Code can be written and executed directly in the **R console**.\
+-   Using a **script editor** is more convenient for organizing and reusing code.\
+-   Send a line or block of code to the console with `Ctrl + Enter` (Windows(), `Cmd + Enter` (macOS), or the equivalent shortcut in Linux.\
+-   You can also run code by clicking the **Run** button in the script editor.\
+:::
+
+------------------------------------------------------------------------
+
+

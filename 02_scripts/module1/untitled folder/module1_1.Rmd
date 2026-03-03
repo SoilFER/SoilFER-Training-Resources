@@ -1,0 +1,3680 @@
+---
+title: "Module 1 - Session 1: Introduction to R for DSM"
+author: 
+  name: "FAO-GSP SoilFER Project"
+  affiliations: "FAO Global Soil Partnership"
+date: "`r Sys.Date()`"
+output:
+  learnr::tutorial:
+    toc: true
+    toc_depth: 5
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+    progressive: false       # ✅ disable Next/Previous navigation
+    allow_skip: true
+    clean: true
+    theme: "cosmo"
+runtime: shiny_prerendered
+tutorial:
+  id: module-1
+  name: "1 - Introduction to R for Soil Sciences"
+  description: "Learn R programming basic concepts for soil data management"
+  version: 2.0
+description: >
+  This tutorial introduces R programming fundamentals and spatial data concepts
+  specifically for soil scientists and digital soil mapping applications.
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+```{css, echo=FALSE}
+.objectives {
+ background-color: #e8f5e8;
+ padding: 20px;
+ border-left: 5px solid #4CAF50;
+ margin: 20px 0;
+ border-radius: 5px;
+}
+.highlights {
+ background-color: #fce5e3;
+ padding: 20px;
+ border-left: 5px solid #4CAF50;
+ margin: 20px 0;
+ border-radius: 5px;
+}
+.exercises {
+ background-color: #cfecff;
+ padding: 20px;
+ border-left: 5px solid #4CAF50;
+ margin: 20px 0;
+ border-radius: 5px;
+}
+.warning-box {
+ background-color: #fff3cd;
+ padding: 20px;
+ border-left: 5px solid #ffc107;
+ margin: 20px 0;
+ border-radius: 5px;
+}
+.key-concept {
+ background-color: #cfe5ff;
+ padding: 20px;
+ border-left: 5px solid #0066cc;
+ margin: 20px 0;
+ border-radius: 5px;
+}
+.example-box {
+ background-color: #f0f0f0;
+ padding: 15px;
+ border-left: 5px solid #666;
+ margin: 15px 0;
+ border-radius: 5px;
+ font-family: monospace;
+ font-size: 0.9em;
+}
+.code-block {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+```
+
+```{r setup, include=FALSE}
+
+# Define the module title once
+ module_title <- "Module 1: Introduction to R for Soil Science"
+
+# Define number of questions in the final evaluation
+nquiz = 30
+
+# knitr options
+knitr::opts_chunk$set(
+ echo = TRUE,
+ warning = FALSE,
+ message = FALSE,
+ fig.width = 8,
+ fig.height = 6,
+ fig.align = "center"
+)
+# Load libraries
+library(learnr)
+library(gradethis)
+library(terra)
+library(tidyverse)
+library(readxl)
+library(openxlsx)
+library(knitr)
+
+# Set tutorial options
+tutorial_options(
+ exercise.timelimit = 120,
+ exercise.checker = gradethis::gradethis_exercise_checker
+)
+
+gradethis_setup(
+ pass = "Great work! 🎉",
+ fail = "Not quite right. Try again! 💪",
+ code_correct = "Your code is correct! ✅",
+ code_incorrect = "Check your code again 🔍"
+)
+
+# Remove stored data to ensure a clean start
+options(tutorial.storage = list(
+ # save an arbitrary R object "data" to storage
+ save_object = function(...) { },
+ # retrieve a single R object from storage
+ get_object = function(...) NULL,
+ # retrieve a list of all R objects stored
+ get_objects = function(...) list(),
+ # remove all stored R objects
+ remove_all_objects = function(...) { }
+
+))
+
+# Create an example dataframe for exercises
+soil_example <- data.frame(
+ plot_id = c("P001", "P002", "P003", "P004", "P005"),
+ latitude = c(-1.25, -1.27, -1.23, -1.29, -1.26),
+ longitude = c(36.85, 36.83, 36.87, 36.81, 36.84),
+ ph = c(5.2, 6.5, 7.1, 5.8, 6.9),
+ organic_carbon = c(2.1, 3.2, 1.8, 2.7, 2.9),
+ clay_content = c(25, 30, 18, 42, 35),
+ soil_type = c("Acrisol", "Ferralsol", "Vertisol", "Andosol", "Cambisol")
+)
+```
+
+```{r data, include=FALSE}
+# Read Excel file containing raw soil data
+setwd(file.path(getwd(), "..", ".."))
+k.data <- read_excel("01_data/module1/KSSL_data.xlsx", sheet = 1) 
+```
+
+
+## Presentation {-}
+
+Welcome to Module 1 - Introduction to R for Soil Science - of the **SoilFER Online Training Program**.
+This module introduces you to the fundamentals of **R programming** with a focus on soil science applications.
+
+The tutorial is designed to present the basic concepts of R coding and data analysis using soil data.
+Its purpose is to provide participants with a foundation in R through a mix of theoretical and practical lessons, helping you develop skills in data management, basic statistics, and digital soil modeling, directly linked to the outputs and deliverables of the SoilFER project.
+
+::: objectives
+By the end of this module, you will be able to:
+
+-   Install R and RStudio
+-   Install and load R `{packages}`
+-   Create, explore, and manipulate R objects
+-   Understand the difference between data types and operators
+-   Create simple functions, loops, and conditional queries
+-   Import data into R and work with dataframes
+:::
+
+## ⚠️ What this Tutorial is not  {#is-not}
+
+::: highlights
+
+This is not a comprehensive course on R, statistics, or modeling. Instead, it focuses on the essential skills needed to work effectively with soil data.
+
+The main strength of this tutorial is that it provides a complete learning environment that combines lessons, hands-on examples, and assessments—with a strong emphasis on soil data workflows. The goal is to help you build practical skills in soil data management, soil sampling design, Digital Soil Mapping, and soil spectroscopy using R.
+
+For more information, we recommend the following dedicated resources:
+
+[R for Data Science (Grolemund & Wickham, 2017)](https://r4ds.had.co.nz/ "R for Data Science") : A free, beginner-friendly guide to doing data science with R, emphasizing best practices for reproducible and efficient analysis.
+
+[Spatial Sampling with R (DJ Brus, 2023)](https://dickbrus.github.io/SpatialSamplingwithR/ "Spatial Sampling with R") : A practical guide to designing and analyzing spatial surveys in R, with examples and exercises for environmental and natural resource studies.
+
+[Predictive Soil Mapping with R (Hengl & MacMillan, 2019)](https://soilmapper.org/ "Predictive Soil Mapping with R"): An introduction to statistical and machine-learning methods for producing soil property and soil class maps, with workflows and code examples in R.
+
+
+[Statistics for Soil Survey (Soil Survey Staff, 2025)](https://ncss-tech.github.io/stats_for_soil_example/ "USDA Statistics for Soil Survey"): An open, R-based textbook covering core statistical methods for soil survey,  with practical examples and a strong focus on *Algorithms for Quantitative Pedology* using the`{aqp}` package.
+
+[Spatial Data Science: With Applications in R(Pebesma & Bivand, 2023)](https://rspatial.org/ "https://r-spatial.org/book/"): Online materials for spatial data analysis in R, with a focus on the `{sf}` package.
+
+[Spatial Data Science with R and 'terra'](https://rspatial.org/ "Spatial Data Science with R and 'terra'"): Online materials for spatial data analysis and modeling in R, with a focus on `{terra}`.
+
+[What They Forgot to Teach You About R](https://rstats.wtf/): A short, practical guide with tips and workflows for working effectively in R.
+:::
+
+
+### How to use this Tutorial? {-}
+
+This tutorial introduces the essential concepts of R programming using examples with soil datasets.
+Concepts are explained with code demonstrations, interactive coding exercises, and quiz-style test questions.
+At the end of every module, learners complete a comprehensive quiz that covers the main topics presented.
+
+#### R concepts {-}
+
+Essential R programming concepts are introduced throughout this tutorial.
+These concepts are organized by topic and can be easily accessed via the sidebar menu.
+Each topic is accompanied by code examples that illustrate the syntax and functionality of R functions in context-specific applications, especially those relevant to soil science.
+
+For instance, here is an example demonstrating basic variable assignment and printing in R:
+
+*Example: Variable assignment and output*
+
+```{r concepts, eval=TRUE, echo=TRUE, warning=TRUE, error=TRUE}
+# Assigning values to variables
+ph_topsoil <- 6.3    # pH of topsoil
+ph_subsoil <- 5.8    # pH of subsoil
+
+# Displaying values
+print(ph_topsoil)
+print(ph_subsoil)
+```
+
+Code chunks in this module illustrate examples of use of the specific R concepts, including comments to describe them, along with the expected outcome of the process in the R console.
+These examples aim to build intuition and familiarity with R syntax, one concept at a time.
+
+As a convention in this manual, package names mentioned in the text are shown within curly brackets (for example, `{ggplot2}`), making them easy for the reader to recognize.
+<br>
+
+#### ❓️Quiz: Questions {-}
+
+Quiz questions are brief, interactive items embedded within the content sections to support the understanding of key concepts.
+They are typically presented in a multiple-choice format.
+
+*Question: Choose the right answer*
+
+```{r question_example, echo=FALSE, eval=TRUE}
+quiz(
+ question("What is R mainly used for in soil science?",
+ answer("Statistical computing and data analysis", correct = TRUE),
+ answer("Identifying soil profiles"),
+ answer("Editing photos"),
+ allow_retry = TRUE)
+)
+```
+
+In this example, you are asked to select the correct answer from a list of possible options.
+Feedback is immediate, and retries are allowed to encourage active learning.
+
+Questions are marked with the symbol `❓` to indicate that they are conceptual checks embedded within the lesson.
+
+
+#### ✏️ Coding exercises {-}
+
+Coding exercises are designed to test practical coding skills by asking you to complete partially written R code.
+For example:
+
+*Exercise: Use the library `ggplot2` to visualize data and display the first records in the "k.data", database*
+
+Replace the blanks (\_\_\_) to complete the code:
+
+```{r ex-m1, exercise=TRUE, exercise.lines=6}
+# Load the 'ggplot2' package
+library(___)
+
+# Display the first few rows of the dataset
+head(___)
+```
+
+```{r ex-m1-solution}
+# Load the 'ggplot2' package
+library(ggplot2)
+
+# Display the first few rows of the dataset
+head(k.data)
+```
+
+```{r ex-m1-check}
+grade_code(
+ correct = "Excellent!!!",
+ incorrect = "Not quite right."
+)
+```
+
+Exercises throughout this module provide opportunities to practice the concepts presented. Work through each exercise to reinforce your understanding.
+
+#### 🧠 Evaluation Quizzes {-}
+
+Evaluation Quizzes are provided at the conclusion of the module.
+These assessments consist of 25 to 30 questions designed to evaluate the knowledge acquired by the participant.
+Upon completion, the evaluation button will generate a score.
+A minimum score of 75% is required to successfully pass each quiz.
+
+------------------------------------------------------------------------
+
+## What is R? {-}
+
+<img src="images/Rlogo.png" width="20" style="vertical-align:top;"/> is a programming language and software environment designed for statistical computing, data analysis, and visualization.
+It was created in the early 1990s by Ross Ihaka and Robert Gentleman at the University of Auckland, New Zealand, and has since grown into one of the most widely used tools in data science, particularly for statistical modeling.
+
+R is open-source, meaning it is freely available and supported by a large global community of users and developers.
+This community continuously develops new tools and packages that extend R's capabilities, making it highly adaptable to diverse fields such as ecology, genetics, economics, social sciences and, as in this case, soil science.
+
+
+### Why R for Soil Science? {-}
+
+R is particularly well-suited for soil science applications because it offers comprehensive tools for:
+
+-   **Data management**: Efficiently handle, clean, and transform large soil datasets
+
+-   **Statistical analysis**: Perform descriptive and inferential statistics, ANOVA, regression models, and more
+
+-   **Spatial analysis**: Work with geographic data using packages like `{terra}` and `{sf}`
+
+-   **Digital Soil Mapping**: Apply machine learning algorithms for predictive soil mapping
+
+-   **Visualization**: Create publication-quality maps, charts, and graphs using `{ggplot2}` and other visualization tools
+
+-   **Reproducibility**: Share analyses through scripts that others can replicate and verify
+
+In the context of SoilFER, the FAO Global Soil Partnership (GSP) and Digital Soil Mapping initiatives, R provides standardized workflows that promote collaboration, transparency, and scientific rigor.
+
+::: highlights
+ - R is a analytical go-to platform which unites statistical, spatial, and visualization capabilities in a single ecosystem.
+ - It powers digital soil mapping, supports machine learning and reproducible reporting, and connects seamlessly with GIS and database tools.
+
+:::
+
+------------------------------------------------------------------------
+
+## Installing R and RStudio {-}
+
+To start using R, you need two main components:
+
+1.  **R**: The core programming language and computational engine
+
+2.  **RStudio**: An integrated development environment (IDE) that makes working with R easier
+
+### Installing R {-}
+
+**Step 1**: Visit the Comprehensive R Archive Network (CRAN): <https://cran.r-project.org/>
+
+**Step 2**: Choose your operating system:
+
+-   **Windows**: Click "Download R for Windows" → "base" → "Download R-4.x.x for Windows"
+
+-   **macOS**: Click "Download R for macOS" → Select the appropriate `.pkg` file for your macOS version
+
+-   **Linux**: Follow the distribution-specific instructions
+
+**Step 3**: Run the installer and follow the prompts. Accept the default settings unless you have specific preferences.
+
+### Installing RStudio {-}
+
+**Step 1**: Visit RStudio's website: <https://posit.co/download/rstudio-desktop/>
+
+**Step 2**: Download the free RStudio Desktop version for your operating system
+
+**Step 3**: Install RStudio by running the installer
+
+Once installed, R provides the underlying engine for data analysis---but working directly in base R can be challenging due to its command-line interface.
+
+::: warning-box
+**Important**: Install R before installing RStudio, as RStudio requires R to function.
+:::
+
+### Verifying Installation {-}
+
+After installation, open RStudio. You should see a window with several panes:
+
+-   **Console** (bottom left): Where R commands are executed
+
+-   **Source** (top left): Where you write and edit scripts
+
+-   **Environment/History** (top right): Shows variables and command history
+
+-   **Files/Plots/Packages/Help** (bottom right): File browser, plot viewer, package manager, and help documentation
+
+Try typing a simple command in the Console window:
+
+```{r verify-install, eval=FALSE}
+# Simple arithmetic
+2 + 2
+
+# Check R version
+R.version.string
+```
+
+If you see the results, R and RStudio are properly installed in your system.
+
+------------------------------------------------------------------------
+
+## Understanding the RStudio Interface {-}
+
+**RStudio** provides an integrated environment that simplifies working with R. The interface is divided into four main panes (Fig. 1):
+
+[![Fig. 1: RStudio interface](images/2_RStudio-interface.png){width=100%}](images/2_RStudio-interface.png)
+
+### 1. Console Pane (Bottom Left) {-}
+
+The **Console** is where R code is executed.
+You can type commands directly here or run them from your script.
+The Console displays results, warnings, and error messages.
+
+```{r console-example, eval=FALSE}
+# Type directly in the console
+5 * 3
+
+# R will immediately show the result
+# [1] 15
+```
+
+### 2. Code Editor Pane (Top Left) {-}
+
+You can write commands directly in the Console and execute them line by line. However, it is usually more convenient to write code in a script editor—the **Code Editor** pane. Here you can create and edit R scripts (`.R` files), R Markdown documents (`.Rmd` files), and other file types. Scripts allow you to save your code and run it repeatedly, which is essential for reproducible analysis.
+
+Working in the **Code Editor** also makes it easier to organize code for later use. You can send any line or selected block of code to the **Console** for execution by pressing `Ctrl + Enter` (Windows/Linux) or `Cmd + Enter` (macOS). You can also run code by clicking the **Run** button in the top-right corner of the **Code Editor** pane.
+
+::: highlights
+-   Code can be written and executed directly in the **Console**.\
+-   Using  the **Code Editor** is more convenient for organizing and reusing code.\
+-   Send a line or block of code to the console with `Ctrl + Enter` (Windows(), `Cmd + Enter` (macOS), or the equivalent shortcut in Linux.\
+-   You can also run code by clicking the **Run** button in the script editor.\
+
+**Creating a new script:**
+-   File → New File → R Script (or press `Ctrl+Shift+N` / `Cmd+Shift+N`)
+
+:::
+
+### 3. Environment/History Pane (Top Right) {-}
+
+-   **Environment**: Shows all objects (variables, datasets, functions) currently in your R session
+
+-   **History**: Records all commands you've run during the session
+
+### 4. Files/Plots/Packages/Help Pane (Bottom Right) {-}
+
+-   **Files**: Browse your computer's file system
+
+-   **Plots**: View visualizations created with R
+
+-   **Packages**: Manage installed packages
+
+-   **Help**: Access R documentation and function help pages
+
+::: highlights
+**Best Practice**: Always work in scripts rather than typing directly in the Console.
+Scripts preserve your workflow and make your analysis reproducible.
+
+:::
+------------------------------------------------------------------------
+
+## R Packages: Extending R's Capabilities {-}
+
+R's strength lies in its extensibility through **packages**.
+A package is a collection of functions, data, and documentation that extends R's functionality for specific tasks.
+
+### What are Packages? {-}
+
+The base R installation includes fundamental functions for data manipulation and statistical analysis.
+However, specialized tasks often require additional tools provided by contributed packages.
+
+For soil science work, key packages include:
+
+-   `{tidyverse}`: A collection of packages for data manipulation and visualization, including `{dplyr}` and `{tidyr}`, among others
+
+-   `{terra}`: Spatial data analysis and raster operations
+
+-   `{sf}`: Working with vector spatial data
+
+-   `{aqp}`: Algorithms for Quantitative Pedology (soil profile data)
+
+-   `{ggplot2}` : Advanced data visualization (part of tidyverse)
+
+### Installing Packages {-}
+
+Packages need to be installed once before you can use them.
+Use `install.packages()`:
+
+```{r install-packages, eval=FALSE}
+# Install a single package
+install.packages("tidyverse")
+
+# Install multiple packages at once
+install.packages(c("terra", "sf", "aqp"))
+```
+
+You only need to install a package once, but you must load it with `library()` each time you start a new R session.
+
+You can check which *{packages}* are installed with:
+
+```{r, echo=TRUE, eval=FALSE}
+installed.packages()
+```
+<br>
+
+#### Install Packages from GitHub or Other Sources {-}
+
+Some *{packages}* are not yet available on CRAN or you may want a newer development versions from GitHub, Gitlab, bitbucket, or an URL.
+In these cases, you can use the `remotes` or `devtools` *{packages}*, with the functions `install_github()`, `install_gitlab()`, `install_bitbucket()` or `install_url()`:
+
+```{r, echo=TRUE, eval=FALSE}
+# First, install remotes package (if not already installed)
+install.packages("remotes")
+
+# Install an R package from GitHub
+remotes::install_github("rspatial/terra")
+```
+
+This is useful for accessing cutting-edge versions, experimental features, or tools developed by research groups.
+
+#### Manual Installation of R Packages {-}
+
+You may need to install R *{packages}* manually---especially when working in environments without internet access or when using custom-built *{packages}*.
+
+There are two common methods:
+
+- **1. Installing from a compressed source package file** (e.g., `mypackage_1.0.0.tar.gz`)
+
+
+```{r, echo=TRUE, eval=FALSE}
+install.packages("path/to/mypackage_1.0.0.tar.gz", repos = NULL, type = "source")
+```
+
+- **2. Installing from a Local `.zip` file** (Windows Binary)
+
+```{r, echo=TRUE, eval=FALSE}
+install.packages("path/to/mypackage.zip", repos = NULL, type = "win.binary")
+```
+
+This method does not require compilation and is usually faster on Windows.
+
+::: warning-box
+**Note**: Package installation typically requires an internet connection.
+Depending on the package size and your connection speed, installation may take several minutes.
+
+:::
+
+### Loading Packages {-}
+
+After installation, you must **load** a package into your R session each time you start R.
+Use the `library()` function:
+
+```{r load-packages, eval=FALSE}
+# Load tidyverse package
+library(tidyverse)
+
+# Load multiple packages
+library(terra)
+library(sf)
+library(aqp)
+```
+
+::: highlights
+**Key Difference:**
+
+-   `install.packages()`: Downloads and installs a package (once)
+-   `library()`: Loads a package into your current session (every time you start R)
+
+:::
+
+### Finding Help on Packages {-}
+
+```{r package-help, eval=FALSE}
+# Get help on a package
+help(package = "tidyverse")
+
+# Or use
+?tidyverse
+
+# View vignettes (tutorials) for a package
+vignette(package = "ggplot2")
+```
+
+
+## R Basics: Objects and Data Types {-}
+
+In R, everything you work with is an **object** (numbers, text, vectors, tables, models, and maps). When you create an object, R stores it in your computer’s **memory** (RAM) so you can reuse it later. Because memory is limited, especially when working with large soil datasets, rasters, or spatial objects, it is good practice to keep your workspace tidy: reuse objects when appropriate, remove objects you no longer need with `rm()`, and occasionally trigger garbage collection with ´gc()´ to free memory that is no longer in use.
+
+### Creating Objects with Assignment {-}
+
+If you run an operation without assigning it to an object, R will compute the result but won’t store it for later use.
+You can assign values to objects using either `<-` or `=`. 
+
+However, the preferred and most common assignment operator is `<-` while `=` is most commonly used inside function calls to name arguments. This avoids confusion between assigning objects and passing inputs to functions.
+
+
+```{r assignment, eval=FALSE}
+# Assign a value to a variable
+soil_depth <- 30
+
+# Assignment `<-` to objects and `=` to function arguments
+soil_depth <- mean(x = ph_values, na.rm = TRUE)
+
+```
+
+::: warning-box
+**Naming Rules:**
+
+-   Object names must start with a letter
+-   Names can contain letters, numbers, underscores `_`, and periods `.`
+-   Names are case-sensitive: `SoilDepth` is different from `soildepth`
+-   Avoid using reserved words like `TRUE`, `FALSE`, `NA`, `function`, etc.
+
+**Good naming practices:**
+
+```{r naming-good, eval=FALSE}
+# Descriptive names
+soil_ph <- 6.5
+organic_carbon_percent <- 2.1
+clay_content_gkg <- 350
+
+# Use consistent style
+plot_id <- "P001"      # snake_case (recommended)
+plotID <- "P001"       # camelCase (alternative)
+```
+
+**Avoid:**
+
+```{r naming-bad, eval=FALSE}
+# Too short, unclear
+x <- 6.5
+a <- 2.1
+
+# Too long
+the_ph_value_of_the_topsoil_at_site_one <- 6.5
+```
+
+:::
+
+------------------------------------------------------------------------
+
+### ✏️ Exercise 1: Create R objects {-}
+
+::: exercises
+Replace the blanks (\_\_\_) to complete the code:
+
+```{r ex1-m1, exercise=TRUE, exercise.lines=24}
+# Create an object called 'organic_carbon' with the value 2.5
+# (representing soil organic carbon percentage)
+___ <- 2.5
+
+# Create a vector called 'clay_content' with these values: 25, 30, 18, 42, 35
+# (representing clay percentage in different soil samples)
+clay_content <- c(___)
+
+# Check the class of your 'organic_carbon' object using class()
+class(___)
+
+# Create a numeric object for bulk density = 1.25
+bulk_density <- ___
+
+# Create a character object for soil texture "Clay loam"
+soil_texture <- ___
+
+# Create a logical object indicating that soil is not saline
+is_saline <- ___
+
+# Check the class of these three objects
+class(___)
+class(___)
+class(___)
+
+```
+
+```{r ex1-m1-solution}
+
+# Create an object called 'organic_carbon' with the value 2.5
+organic_carbon <- 2.5
+
+# Create a vector called 'clay_content' with these values: 25, 30, 18, 42, 35
+clay_content <- c(25, 30, 18, 42, 35)
+
+# Check the class of your organic_carbon object
+class(organic_carbon)
+
+# Create a numeric object for bulk density = 1.25
+bulk_density <- 1.25
+
+# Create a character object for soil texture "Clay loam"
+soil_texture <- "Clay loam"
+
+# Create a logical object indicating that soil is not saline
+is_saline <- FALSE
+
+# Check the class of these three objects
+class(bulk_density)
+class(soil_texture)
+class(is_saline)
+```
+
+```{r ex1-m1-check}
+grade_code(
+ correct = "Excellent! You've successfully created your first soil data objects in R!",
+ incorrect = "Not quite right. Remember to use <- for assignment and c() to combine multiple values.
+ Numbers without quotes are numeric, text in quotes is character, and TRUE/FALSE are logical."
+)
+```
+:::
+
+------------------------------------------------------------------------
+
+### Data Types in R {-}
+
+Every object in R has a data type, which tells R what kind of information it contains and how it can be used (for example, whether you can do math with it or use it as text labels).
+
+R has several basic data types:
+
+#### 1. Numeric (Numbers) {-}
+
+Numeric values store measurements that can include decimals (e.g., pH, clay %, temperature).
+
+```{r numeric, eval=FALSE}
+# Numeric values
+ph_value <- 6.8
+clay_percent <- 25.5
+temperature <- 15.2
+```
+
+#### 2. Integer (Whole Numbers) {-}
+
+Integers are whole numbers. In R, you can create them explicitly using the L suffix.
+
+```{r integer, eval=FALSE}
+# Integer values (use L suffix)
+sample_count <- 100L
+plot_number <- 5L
+```
+
+#### 3. Character (Text Strings) {-}
+
+Character values store text (soil types, locations, notes). They must be written inside quotes.
+
+```{r character, eval=FALSE}
+# Character values (use quotes)
+soil_type <- "Acrisol"
+location <- "Kansas"
+notes <- "Sample collected from topsoil"
+```
+
+#### 4. Logical (TRUE/FALSE) {-}
+
+Logical values represent yes/no conditions and are commonly used for filtering and decision-making.
+
+```{r logical, eval=FALSE}
+# Logical values
+is_valid <- TRUE
+has_missing_data <- FALSE
+```
+
+#### 5. Dates {-}
+
+Dates often are imported as character strings, but it is better to convert them to the Date class for sorting, filtering, and plotting.
+
+```{r date, eval=FALSE}
+# ISO 8601 date format, YYYY-MM-DD
+sampling_date <- "2024-03-12"
+sampling_date <- as.Date(sampling_date, format = "%Y-%m-%d")
+class(sampling_date)
+```
+
+::: warning-box
+- The ISO 8601 date format (**YYYY-MM-DD**) is preferred for storing date values, since it is the date format adopted in the **GloSIS** database.
+:::
+
+### Checking Data Types {-}
+
+```{r check-types, eval=FALSE}
+# Check the class (high-level type)
+class(ph_value)   # "numeric"
+class(soil_type)  # "character"
+class(is_valid)   # "logical"
+
+# Check the internal storage type
+typeof(ph_value)
+
+# Helpful checks
+is.numeric(ph_value)
+is.character(soil_type)
+is.logical(is_valid)
+```
+
+`class()` is what you’ll use most in practice. `typeof()` is more 'internal' (how R stores the object).
+
+::: highlights
+- Every R object has a **data type**, which tells R how to store the information and what operations are possible.
+
+- **Numeric**: measurements such as pH, clay (%), bulk density, or organic carbon.
+
+- **Numeric vectors**: multiple numeric values (e.g., pH readings from several samples or horizons).
+
+- **Character**: text labels such as soil type, land use, site code, or field notes.
+
+- **Character vectors**: multiple text values (e.g., a list of soil classes).
+
+- **Logical**: `TRUE`/`FALSE` values, often used for conditions, filtering, and quality checks.
+:::
+
+::: warning-box
+**Caution:** 
+- When importing data from external sources (CSV, Excel, databases), always check that columns have the expected data types. For example, pH or SOC may be imported as text instead of numeric.
+
+- Check types with `str()`, `class()`, or `typeof()`.
+
+- Convert types when needed using `as.numeric()`, `as.character()`, `as.logical()`, or `as.Date()`.
+:::
+
+
+## Data Structures in R {-}
+
+R can store data in different structures, depending on how many values you have and how you want to organize them. For example, a single measurement can be stored as a number, a series of measurements as a vector, and a full dataset as a data frame. Understanding these structures is essential because it determines how you subset data, apply functions, summarize results, and prepare data for plotting or modeling.
+
+### Vectors {-}
+
+A **vector** is the simplest data structure - a one-dimensional sequence of elements of the same type.
+
+#### Creating Vectors {-}
+
+```{r vectors-create, eval=FALSE}
+# Create a numeric vector using c() (combine)
+ph_values <- c(5.2, 6.5, 7.1, 5.8, 6.9)
+print(ph_values)
+
+# Character vector
+soil_types <- c("Acrisol", "Ferralsol", "Vertisol", "Andosol", "Cambisol")
+print(soil_types)
+
+# Logical vector
+valid_samples <- c(TRUE, TRUE, FALSE, TRUE, TRUE)
+print(valid_samples)
+
+# Create sequences
+depths <- 0:100                    # Integers from 0 to 100
+depths_seq <- seq(0, 100, by=10)   # 0, 10, 20, ..., 100
+```
+
+#### Vector Operations {-}
+
+```{r vector-operations, eval=FALSE}
+# Arithmetic on vectors (element-wise)
+ph_values * 10
+ph_values + 1
+
+# Summary statistics
+mean(ph_values)
+median(ph_values)
+sd(ph_values)        # standard deviation
+min(ph_values)
+max(ph_values)
+```
+
+#### Accessing Vector Elements {-}
+
+```{r vector-access, eval=FALSE}
+# Access by index (position)
+ph_values[1]        # First element
+ph_values[3]        # Third element
+
+# Access multiple elements
+ph_values[c(1,3,5)]  # Elements 1, 3, and 5
+
+# Access by logical condition
+ph_values[ph_values > 6]     # All pH values greater than 6
+
+# Negative indices exclude elements
+ph_values[-1]       # All except first
+ph_values[-c(1,2)]  # All except first two
+```
+
+### Factors {-}
+
+**Factors** are used to represent categorical data.
+They store values as levels (categories).
+
+```{r factors, eval=FALSE}
+# Create a factor from character vector
+soil_class <- factor(c("Clay", "Loam", "Sand", "Clay", "Loam"))
+print(soil_class)
+
+# Check levels
+levels(soil_class)
+
+# Count observations per level
+table(soil_class)
+
+# Ordered factors (when order matters)
+texture_class <- factor(
+  c("Coarse", "Fine", "Medium", "Fine", "Coarse"),
+  levels = c("Coarse", "Medium", "Fine"),
+  ordered = TRUE
+)
+print(texture_class)
+```
+
+### Matrices {-}
+
+A **matrix** is a two-dimensional structure where all elements must be of the same type.
+
+```{r matrices, eval=FALSE}
+# Create a matrix
+soil_matrix <- matrix(
+  c(5.2, 25, 30,
+    6.5, 30, 28,
+    7.1, 18, 35),
+  nrow = 3,
+  ncol = 3,
+  byrow = TRUE
+)
+
+# Add column names
+colnames(soil_matrix) <- c("pH", "Clay", "Sand")
+rownames(soil_matrix) <- c("Sample1", "Sample2", "Sample3")
+
+print(soil_matrix)
+
+# Access elements
+soil_matrix[1, 2]        # Row 1, Column 2
+soil_matrix[1, ]         # All of row 1
+soil_matrix[, 2]         # All of column 2
+```
+
+### Data Frames {-}
+
+A **data frame** is the most commonly used structure for storing datasets.
+It's like a spreadsheet: rows represent observations, columns represent variables, and different columns can have different data types.
+
+#### Creating Data Frames {-}
+
+```{r dataframes-create, eval=FALSE}
+# Create a data frame
+soil_data <- data.frame(
+  plot_id = c("P001", "P002", "P003", "P004", "P005"),
+  latitude = c(-1.25, -1.27, -1.23, -1.29, -1.26),
+  longitude = c(36.85, 36.83, 36.87, 36.81, 36.84),
+  ph = c(5.2, 6.5, 7.1, 5.8, 6.9),
+  organic_carbon = c(2.1, 3.2, 1.8, 2.7, 2.9),
+  clay_content = c(25, 30, 18, 42, 35),
+  soil_type = c("Acrisol", "Ferralsol", "Vertisol", "Andosol", "Cambisol")
+)
+
+# View the data frame
+print(soil_data)
+
+# View structure
+str(soil_data)
+
+# View first few rows
+head(soil_data)
+
+# View last few rows
+tail(soil_data)
+
+# Get dimensions
+dim(soil_data)         # rows, columns
+nrow(soil_data)        # number of rows
+ncol(soil_data)        # number of columns
+```
+
+#### Accessing Data Frame Elements {-}
+
+```{r dataframes-access, eval=FALSE}
+# Access columns by name
+soil_data$ph
+soil_data$soil_type
+
+# Alternative: use brackets
+soil_data[, "ph"]
+soil_data[["ph"]]
+
+# Access rows
+soil_data[1, ]           # First row
+soil_data[c(1,3,5), ]    # Rows 1, 3, and 5
+
+# Access specific cells
+soil_data[2, 4]          # Row 2, Column 4 (pH of second plot)
+
+# Subset based on conditions
+soil_data[soil_data$ph > 6, ]              # Plots with pH > 6
+soil_data[soil_data$soil_type == "Acrisol", ]  # Only Acrisols
+```
+
+#### Adding Columns {-}
+
+```{r dataframes-add, eval=FALSE}
+# Add a new column
+soil_data$silt_content <- c(40, 35, 52, 23, 30)
+
+# Calculate new columns from existing ones
+soil_data$clay_plus_silt <- soil_data$clay_content + soil_data$silt_content
+
+# View updated data frame
+head(soil_data)
+```
+
+### Lists {-}
+
+A **list** is a flexible structure that can contain elements of different types and sizes (vectors, data frames, other lists, etc.).
+
+```{r lists, eval=FALSE}
+# Create a list
+soil_analysis <- list(
+  site_name = "Kansas Field",
+  coordinates = c(lat = -1.25, lon = 36.85),
+  measurements = data.frame(
+    depth = c(0, 10, 20, 30),
+    ph = c(6.5, 6.2, 5.8, 5.5)
+  ),
+  notes = "Collected during dry season"
+)
+
+# View list structure
+str(soil_analysis)
+
+# Access list elements
+soil_analysis$site_name
+soil_analysis[[1]]           # First element
+soil_analysis[["measurements"]]  # measurements data frame
+```
+
+------------------------------------------------------------------------
+
+## Operators in R {-}
+
+Operators perform operations on objects. R has several types of operators:
+
+### Arithmetic Operators {-}
+
+```{r arithmetic, eval=FALSE}
+# Basic arithmetic
+10 + 5      # Addition
+10 - 5      # Subtraction
+10 * 5      # Multiplication
+10 / 5      # Division
+10 ^ 2      # Exponentiation (10 squared)
+10 %% 3     # Modulus (remainder: 10 mod 3 = 1)
+10 %/% 3    # Integer division (10 divided by 3 = 3)
+
+# Order of operations (PEMDAS)
+result <- (10 + 5) * 2 / 4 - 1
+result
+```
+
+
+### Comparison Operators {-}
+
+```{r comparison, eval=FALSE}
+# Comparison operators return TRUE or FALSE
+5 == 5      # Equal to
+5 != 3      # Not equal to
+5 > 3       # Greater than
+5 < 3       # Less than
+5 >= 5      # Greater than or equal to
+5 <= 6      # Less than or equal to
+
+# Use in subsetting
+ph_values <- c(5.2, 6.5, 7.1, 5.8, 6.9)
+ph_values > 6                     # Logical vector
+ph_values[ph_values > 6]          # Values greater than 6
+```
+
+
+### Logical Operators {-}
+
+```{r logical-ops, eval=FALSE}
+# AND operator: & (element-wise) or && (single values)
+TRUE & TRUE      # TRUE
+TRUE & FALSE     # FALSE
+
+# OR operator: | (element-wise) or || (single values)
+TRUE | FALSE     # TRUE
+FALSE | FALSE    # FALSE
+
+# NOT operator: !
+!TRUE            # FALSE
+!FALSE           # TRUE
+
+# Combining conditions
+ph_values <- c(5.2, 6.5, 7.1, 5.8, 6.9)
+clay_content <- c(25, 30, 18, 42, 35)
+
+# Find samples with pH > 6 AND clay > 25
+ph_values > 6 & clay_content > 25
+
+# Find samples with pH > 6 OR clay > 40
+ph_values > 6 | clay_content > 40
+```
+
+------------------------------------------------------------------------
+
+### ✏️ Exercise 2: Arithmetic Operators {-}
+
+::: exercises
+Replace the blanks (\_\_\_) to complete the code:
+
+```{r ex2-m1, exercise=TRUE, exercise.lines=32}
+# Try changing the values of x and y and test each operator
+# Replace the blanks (___) with appropriate values
+x <- 12
+y <- 5
+
+sum <- x + ___
+diff <- ___ - y
+quot <- ___ / y
+power <- x^___
+
+sum
+diff
+quot
+power
+
+# Store two SOC values (1.8 and 2.4 %) from different plots
+soc_plot1 <- ___
+soc_plot2 <- ___
+
+# Compute the average SOC and store it in avg_soc
+avg_soc <- (___ + ___) / 2
+
+# Check if avg_soc is greater than 2%
+is_high_soc <- ___ > ___
+
+# Create a logical object that is TRUE only if
+# avg_soc is > 2 AND soc_plot2 is > soc_plot1
+flag_good_site <- (___ > ___) & (___ > ___)
+
+avg_soc
+is_high_soc
+flag_good_site
+
+```
+
+```{r ex2-m1-solution}
+# Try changing the values of x and y and test each operator
+# Replace the blanks (___) with appropriate values
+x <- 12
+y <- 5
+
+sum <- x + ___
+diff <- ___ - y
+quot <- ___ / y
+power <- x^___
+
+sum
+diff
+quot
+power
+
+# Store two SOC values (1.8 and 2.4 %) from different plots
+soc_plot1 <- 1.8
+soc_plot2 <- 2.4
+
+# Compute the average SOC and store it in avg_soc
+avg_soc <- (soc_plot1 + soc_plot2) / 2
+
+# Check if avg_soc is greater than 2%
+is_high_soc <- avg_soc > 2
+
+# Create a logical object that is TRUE only if
+# avg_soc is > 2 AND soc_plot2 is > soc_plot1
+flag_good_site <- (avg_soc > 2) & (soc_plot2 > soc_plot1)
+
+avg_soc
+is_high_soc
+flag_good_site
+
+```
+
+```{r ex2-m1-check}
+grade_code(
+ correct = "Excellent! You've successfully created your first soil data objects in R!",
+ incorrect = "Remember to use <- for assignment and c() to combine multiple values.
+ Numbers without quotes are numeric, text in quotes is character. 
+ Review the operator section: use > for comparison and & to combine conditions."
+)
+```
+:::
+
+------------------------------------------------------------------------
+
+### ❓️Quiz: Understanding Operators {-}
+
+```{r quiz-operators, echo=FALSE, warning=FALSE, message=FALSE}
+quiz(
+ caption = "Test your Knowledge (10 questions)",
+
+ question("What does the expression 7 %% 3 return?",
+  answer("1", correct = TRUE),
+  answer("2", correct = FALSE),
+  answer("0", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("What is the result of the expression (4 > 2) & (3 == 3)?",
+  answer("TRUE", correct = TRUE),
+  answer("FALSE", correct = FALSE),
+  answer("NA", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("Which operator is used for integer division in R?",
+  answer("%/%", correct = TRUE),
+  answer("%%", correct = FALSE),
+  answer("/", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("What does this return?\n\nx <- 10\nx != 10",
+  answer("FALSE", correct = TRUE),
+  answer("TRUE", correct = FALSE),
+  answer("Error", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("Which of the following is a valid logical operator in R?",
+  answer("&", correct = TRUE),
+  answer("&&&", correct = FALSE),
+  answer("=>", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("What will this code print?\n\nx <- 5; y <- 3\nx > y",
+  answer("TRUE", correct = TRUE),
+  answer("FALSE", correct = FALSE),
+  answer("Error", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("What does `10 %/% 3` return?",
+  answer("3", correct = TRUE),
+  answer("3.33", correct = FALSE),
+  answer("1", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("What will `!(TRUE | FALSE)` return?",
+  answer("FALSE", correct = TRUE),
+  answer("TRUE", correct = FALSE),
+  answer("NA", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("Which of these will evaluate to TRUE?",
+  answer("(4 <= 4) & (2 != 3)", correct = TRUE),
+  answer("(5 > 10) | (1 == 2)", correct = FALSE),
+  answer("(7 == 7) & FALSE", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("What is the difference between `&` and `&&` in R?",
+  answer("`&` is vectorized; `&&` only compares first element", correct = TRUE),
+  answer("They are identical", correct = FALSE),
+  answer("`&&` is used in loops only", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ )
+)
+```
+
+----------------------------------------------------------------------
+
+## Control Structures: Conditional Statements {-}
+
+Conditional statements let your code make decisions—running different blocks depending on whether a condition is `TRUE` or `FALSE`.
+
+### If-Else Statements {-}
+Use `if` / `else` when you are checking **a single condition** (one TRUE/FALSE value).
+
+```{r if-else, eval=FALSE}
+# Basic if statement
+ph_value <- 7.5
+
+# Basic if statement
+if (ph_value > 7) {
+  print("Alkaline soil")
+}
+
+# If-else
+if (ph_value > 7) {
+  print("Alkaline soil")
+} else {
+  print("Neutral or acidic soil")
+}
+
+# Multiple conditions (only the first TRUE branch runs)
+if (ph_value > 7.5) {
+  print("Strongly alkaline")
+} else if (ph_value > 7) {
+  print("Slightly alkaline")
+} else if (ph_value == 7) {
+  print("Neutral")
+} else {
+  print("Acidic")
+}
+```
+
+::: highlights
+`if (...)` expects a single logical value.
+If you have a vector of values, use a vectorized approach such as `ifelse()`, `cut()`, or `case_when()`.
+:::
+
+### Vectorized If-Else: `ifelse()` {-}
+`ifelse()` is vectorized: it applies a condition to each element of a vector.
+
+```{r ifelse, eval=FALSE}
+# Vectorized conditional assignment
+ph_values <- c(5.2, 6.5, 7.1, 5.8, 7.0)
+
+# Simple two-class example
+soil_reaction <- ifelse(ph_values > 7, "Alkaline", "Not alkaline")
+soil_reaction
+```
+
+### Vectorized Cut: `cut()` {-}
+Use `cut()` when you have a **numeric** variable and you want to classify values into **interval-based categories** (bins), such as pH classes, depth intervals, or temperature ranges. It is especially useful when:
+
+- the variable is **continuous or ordered** (numeric),
+- you can define meaningful **break points**, and
+- you want a clear, readable alternative to many nested conditions.
+
+For multiple classes, `cut()` is often easier to read than nested `ifelse()`:
+
+```{r cut, eval=FALSE}
+soil_class <- cut(
+  ph_values,
+  breaks = c(-Inf, 5.5, 7.0, Inf),
+  labels = c("Acidic", "Neutral", "Alkaline"),
+  right = TRUE, include.lowest = TRUE
+)
+soil_class
+
+# Notes:
+# - `right = TRUE` means intervals are **right-closed** (e.g., `(5.5, 7.0]`).
+# - `include.lowest = TRUE` ensures the smallest value is included in the first interval.
+
+```
+
+
+### ❓️Quiz: Understanding Conditionals {-}
+
+```{r conditionals, echo=FALSE, warning=FALSE, message=FALSE}
+quiz(
+ caption = "Test your Knowledge (10 questions)",
+     question("What will this code print?\n\nx <- 10\nif (x > 5) { print('High') }",
+          answer("High", correct = TRUE),
+          answer("Low", correct = FALSE),
+          answer("Nothing", correct = FALSE),
+          random_answer_order = TRUE,
+          allow_retry = TRUE
+     ),
+     question("What is the output?\n\nx <- 2\nif (x > 5) {\n print('Big')\n} else {\n print('Small')\n}",
+          answer("Small", correct = TRUE),
+          answer("Big", correct = FALSE),
+          answer("Error", correct = FALSE),
+          random_answer_order = TRUE,
+          allow_retry = TRUE
+     ),
+     question("Which keyword lets you check multiple conditions in sequence?",
+          answer("else if", correct = TRUE),
+          answer("else", correct = FALSE),
+          answer("switch", correct = FALSE),
+          random_answer_order = TRUE,
+          allow_retry = TRUE
+     ),
+     question("What will this code return?\n\nx <- 5\nif (x < 5) {\n 'Less'\n} else if (x == 5) {\n 'Equal'\n} else {\n 'More'\n}",
+          answer("Equal", correct = TRUE),
+          answer("Less", correct = FALSE),
+          answer("More", correct = FALSE),
+          random_answer_order = TRUE,
+          allow_retry = TRUE
+     ),
+     question("What’s the main difference between `if` and `ifelse()`?",
+          answer("`ifelse()` works on vectors; `if` does not", correct = TRUE),
+          answer("`if` is used inside loops only", correct = FALSE),
+          answer("There is no difference", correct = FALSE),
+          random_answer_order = TRUE,
+          allow_retry = TRUE
+     ),
+     question("Given: `ph <- c(4.2, 6.1)`\nWhat does `ifelse(ph < 5.5, 'Low', 'OK')` return?",
+          answer("Low, OK", correct = TRUE),
+          answer("OK, Low", correct = FALSE),
+          answer("Error", correct = FALSE),
+          random_answer_order = TRUE,
+          allow_retry = TRUE
+     ),
+     question("What is wrong with this code?\n\nif (x = 5) { print('yes') }",
+          answer("`=` should be `==` for comparison", correct = TRUE),
+          answer("You must use `ifelse()` instead", correct = FALSE),
+          answer("`x` must be in quotes", correct = FALSE),
+          random_answer_order = TRUE,
+          allow_retry = TRUE
+     ),
+     question("Which line best checks if a value is NOT equal to 10?",
+          answer("if (x != 10)", correct = TRUE),
+          answer("if (x =! 10)", correct = FALSE),
+          answer("if (x <> 10)", correct = FALSE),
+          random_answer_order = TRUE,
+          allow_retry = TRUE
+     ),
+     question("How many values does `ifelse(c(TRUE, FALSE, TRUE), 1, 0)` return?",
+          answer("3", correct = TRUE),
+          answer("1", correct = FALSE),
+          answer("Depends on condition", correct = FALSE),
+          random_answer_order = TRUE,
+          allow_retry = TRUE
+     ),
+     question("What does `ifelse(NA, 'yes', 'no')` return?",
+          answer("NA", correct = TRUE),
+          answer("yes", correct = FALSE),
+          answer("no", correct = FALSE),
+          random_answer_order = TRUE,
+          allow_retry = TRUE
+     )
+)
+```
+
+
+------------------------------------------------------------------------
+
+## Control Structures: Loops {-}
+
+Loops in R are used to **repeat a block of code** multiple times. They are helpful when you need to automate repetitive tasks, such as performing calculations over a sequence of values or processing each element of a dataset.
+
+R provides several loop constructs, but the most commonly used are `for` and `while`.
+
+
+### For Loops {-}
+
+Use a `for` loop when you want to iterate over a sequence or over the elements of an object.
+
+
+```{r for-loops, eval=FALSE}
+# Loop through a sequence
+for (i in 1:5) {
+  print(paste("Iteration:", i))
+}
+
+# Loop through a vector
+soil_types <- c("Acrisol", "Ferralsol", "Vertisol")
+
+for (soil in soil_types) {
+  print(paste("Soil type:", soil))
+}
+
+# Loop with conditional logic
+ph_values <- c(5.2, 6.5, 7.1, 5.8, 6.9)
+
+for (i in 1:length(ph_values)) {
+  if (ph_values[i] > 6) {
+    print(paste("Sample", i, "has pH =", ph_values[i], "(Acceptable)"))
+  } else {
+    print(paste("Sample", i, "has pH =", ph_values[i], "(Too acidic)"))
+  }
+}
+```
+
+### While Loops {-}
+
+A `while` loop repeats as long as a condition is `TRUE`. It is useful when you do not know in advance how many iterations you will need.
+
+```{r while-loops, eval=FALSE}
+# While loop continues until condition is FALSE
+counter <- 1
+
+while (counter <= 5) {
+  print(paste("Counter value:", counter))
+  counter <- counter + 1   # Increment counter
+}
+```
+
+::: warning-box
+**Caution:**
+- Always ensure loop conditions eventually become `FALSE` to avoid infinite loops!
+:::
+
+------------------------------------------------------------------------
+
+### ✏️ Exercise 3: Using Loops {-}
+
+::: exercises
+Replace the blanks (\_\_\_) to complete the code:
+
+```{r ex4-m1, exercise=TRUE}
+# Fill vector with a Loop
+# Modify the loop to store the cubes (x^3) of numbers 1 to 5
+  # Create an empty object "cubes
+  cubes <- c()
+  for (i in 1:5) {
+   cubes[i] <- ___ # change this to store the cubes of i
+  }
+  # Print results
+  cubes
+```
+
+```{r ex4-m1-solution}
+# Modify the loop to store the cubes (x^3) of numbers 1 to 5
+  # Create an empty object "cubes
+  cubes <- c()
+  for (i in 1:5) {
+   cubes[i] <- i^3 # change this to store the cubes of i
+  }
+  # Print results
+  cubes
+```
+
+```{r ex4-m1-check}
+grade_code(
+ correct = "You've successfully modified que behavior of the loop!",
+ incorrect = "Not quite right. Check the syntax of the square root funtion in R."
+)
+```
+:::
+
+------------------------------------------------------------------------
+
+### ❓️Quiz: Understanding Loops {-}
+
+```{r m1q2, echo=FALSE, warning=FALSE, message=FALSE}
+# 1–10: Understanding Loops
+quiz(
+  caption = "Test your Knowledge (10 questions)",
+  
+  question("What will this loop print?\n\nx <- 1\nwhile (x < 4) {\n print(x)\n x <- x + 1\n}",
+   answer("1, 2, 3", correct = TRUE),
+   answer("1, 2, 3, 4", correct = FALSE),
+   answer("Infinite loop", correct = FALSE),
+   random_answer_order = TRUE,
+   allow_retry = TRUE
+  ),
+  
+  question("What will this loop do?\n\nfor (i in 1:3) {\n print(i * 2)\n}",
+   answer("Print 2, 4, 6", correct = TRUE),
+   answer("Print 1, 2, 3", correct = FALSE),
+   answer("Print 3, 2, 1", correct = FALSE),
+   random_answer_order = TRUE,
+   allow_retry = TRUE
+  ),
+  
+  question("What is the main way to stop a `repeat` loop?",
+   answer("Using the `break` statement", correct = TRUE),
+   answer("Using the `next` statement", correct = FALSE),
+   answer("It stops automatically", correct = FALSE),
+   random_answer_order = TRUE,
+   allow_retry = TRUE
+  ),
+  
+  question("Which of the following will cause an infinite loop?",
+   answer("while(TRUE) { print('Hi') }", correct = TRUE),
+   answer("for (i in 1:3) { print(i) }", correct = FALSE),
+   answer("repeat { break }", correct = FALSE),
+   random_answer_order = TRUE,
+   allow_retry = TRUE
+  ),
+  
+  question("What is the output of this code?\n\nfor (i in 1:2) {\n for (j in 1:2) {\n  print(i + j)\n }\n}",
+   answer("2, 3, 3, 4", correct = TRUE),
+   answer("1, 2, 3, 4", correct = FALSE),
+   answer("1, 2, 2, 3", correct = FALSE),
+   random_answer_order = TRUE,
+   allow_retry = TRUE
+  ),
+  
+  question("What does the `next` statement do in a loop?",
+   answer("Skips the current iteration and continues with the next", correct = TRUE),
+   answer("Stops the loop immediately", correct = FALSE),
+   answer("Repeats the same iteration again", correct = FALSE),
+   random_answer_order = TRUE,
+   allow_retry = TRUE
+  ),
+  
+  question("What value will be printed last?\n\nx <- 1\nwhile (x <= 4) {\n print(x)\n x <- x + 1\n}",
+   answer("4", correct = TRUE),
+   answer("3", correct = FALSE),
+   answer("5", correct = FALSE),
+   random_answer_order = TRUE,
+   allow_retry = TRUE
+  ),
+  
+  question("Which loop type runs at least once no matter what?",
+   answer("repeat", correct = TRUE),
+   answer("while", correct = FALSE),
+   answer("for", correct = FALSE),
+   random_answer_order = TRUE,
+   allow_retry = TRUE
+  ),
+  
+  question("What does this code do?\n\nfor (i in 1:5) {\n if (i == 3) next\n print(i)\n}",
+   answer("Prints 1, 2, 4, 5", correct = TRUE),
+   answer("Prints 1, 2, 3, 4, 5", correct = FALSE),
+   answer("Skips printing all numbers", correct = FALSE),
+   random_answer_order = TRUE,
+   allow_retry = TRUE
+  ),
+  
+  question("Which statement is TRUE about `for` loops in R?",
+   answer("You can iterate over any vector, not just sequences", correct = TRUE),
+   answer("They only work with numeric values", correct = FALSE),
+   answer("They must always start at 1", correct = FALSE),
+   random_answer_order = TRUE,
+   allow_retry = TRUE
+  )
+)
+```
+
+------------------------------------------------------------------------
+
+## Functions in R {-}
+
+Functions are reusable blocks of code that take **inputs** (arguments), perform a task, and return an **output**. They help you avoid repeating code and make your scripts easier to read and maintain.
+
+### Using Built-in Functions {-}
+
+R comes with thousands of built-in functions. You can view help pages with `?function_name` (e.g., `?mean`).
+
+```{r builtin-functions, eval=FALSE}
+# Statistical functions
+mean(c(5, 10, 15, 20))
+median(c(5, 10, 15, 20))
+sd(c(5, 10, 15, 20))
+sum(c(5, 10, 15, 20))
+
+# String functions
+toupper("acrisol")
+tolower("FERRALSOL")
+nchar("soil science")         # Count characters
+
+# Math functions
+sqrt(16)
+log(10)
+exp(2)
+abs(-5)
+round(3.14159, 2)
+```
+
+::: highlights
+Function **arguments** can be provided by position (e.g., round(3.14159, 2)) or by name (e.g., round(**x =** 3.14159, **digits =** 2)).
+Using names is often clearer and reduces mistakes.
+:::
+
+### Creating Custom Functions {-}
+
+You can write your own functions using `function()`:
+
+```{r custom-functions, eval=FALSE}
+# Example: Bulk density (mass / volume)
+calculate_bulk_density <- function(mass, volume) {
+  if (any(volume <= 0)) stop("volume must be > 0")
+  mass / volume
+}
+
+calculate_bulk_density(mass = 150, volume = 100)
+
+# Function with a default argument
+classify_soil_ph <- function(ph, threshold = 7) {
+  if (ph > threshold) {
+    "Alkaline"
+  } else if (ph == threshold) {
+    "Neutral"
+  } else {
+    "Acidic"
+  }
+}
+
+classify_soil_ph(6.5)
+classify_soil_ph(6.5, threshold = 6)
+```
+
+::: highlights
+`return()` is optional in many cases—R returns the last evaluated expression.
+You can still use `return()` when you want to exit early or make the function’s output explicit.
+:::
+
+### Function Arguments and Defaults {-}
+
+```{r function-args, eval=FALSE}
+# SOC stock calculation (example)
+# Assumptions:
+# - soc_percent is in %
+# - bulk_density is in g/cm^3
+# - depth is in cm
+# Output: SOC stock in Mg/ha
+
+calculate_soc_stock <- function(soc_percent, bulk_density, depth, coarse_fragment = 0) {
+  if (any(coarse_fragment < 0 | coarse_fragment > 100)) stop("coarse_fragment must be between 0 and 100")
+  soc_percent * bulk_density * depth * (1 - coarse_fragment / 100)
+}
+
+calculate_soc_stock(soc_percent = 2.5, bulk_density = 1.3, depth = 30)
+calculate_soc_stock(soc_percent = 2.5, bulk_density = 1.3, depth = 30, coarse_fragment = 15)
+```
+
+
+### ❓️Quiz: Understanding Functions {-}
+
+```{r quiz-functions, echo=FALSE, warning=FALSE, message=FALSE}
+quiz(
+ caption = "Test your Knowledge (10 questions)",
+
+ question("What will this function return?\n\nf <- function(x) { x * 2 }\nf(4)",
+  answer("8", correct = TRUE),
+  answer("4", correct = FALSE),
+  answer("2", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("Which keyword is used to create a function in R?",
+  answer("function", correct = TRUE),
+  answer("fun", correct = FALSE),
+  answer("def", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("What is the output of this code?\n\nhello <- function(name = 'World') {\n paste('Hello', name) \n}\nhello()",
+  answer("Hello World", correct = TRUE),
+  answer("Hello", correct = FALSE),
+  answer("Error", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("What does the `return()` function do in R?",
+  answer("Specifies the output of a function", correct = TRUE),
+  answer("Repeats the function", correct = FALSE),
+  answer("Declares a variable", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("What happens if you don’t include `return()` in a function?",
+  answer("The last evaluated expression is returned", correct = TRUE),
+  answer("Nothing is returned", correct = FALSE),
+  answer("An error occurs", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("What does this function do?\n\nf <- function(x) { x^2 }\nf(3)",
+  answer("Returns 9", correct = TRUE),
+  answer("Returns 6", correct = FALSE),
+  answer("Returns 3", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("Variables created inside a function are:",
+  answer("Local to that function", correct = TRUE),
+  answer("Global by default", correct = FALSE),
+  answer("Automatically saved to workspace", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("What does this return?\n\nf <- function(x, y = 2) { x + y }\nf(5)",
+  answer("7", correct = TRUE),
+  answer("5", correct = FALSE),
+  answer("2", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("Which of these is a valid function name?",
+  answer("calculate_soc", correct = TRUE),
+  answer("1calculate", correct = FALSE),
+  answer("calculate soc", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("What is a benefit of using functions?",
+  answer("Avoid repeating code", correct = TRUE),
+  answer("Increase typing", correct = FALSE),
+  answer("Make code slower", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ )
+)
+```
+
+------------------------------------------------------------------------
+
+
+## Data Manipulation with Base R {-}
+
+This section shows common data manipulation tasks using base R: filtering rows, selecting columns, sorting, and summarizing by groups.
+
+
+### Subsetting and Filtering {-}
+
+Use subsetting and filtering to **extract only certain rows or columns** from a dataset. This is often the first step when you want to focus on data that meet specific criteria.
+
+In data frames, data access is organized by *rows* and *columns* using the pattern `data[rows, columns]`, where:
+ 
+- `rows` specifies which observations (records) to keep. It can be a number, a logical condition, or a vector of indices.
+
+- `columns` specifies which variables to keep. It can be a name, a position, or a vector of indices.
+
+In this context, **filtering** usually refers to selecting rows, while **subsetting** often refers to selecting columns. In the example below, we use this structure to filter rows and subset columns from a `soil_data` data frame.
+
+
+```{r subsetting, eval=FALSE}
+# Example data frame
+soil_data <- data.frame(
+  plot_id = c("P001", "P002", "P003", "P004", "P005"),
+  latitude = c(-1.25, -1.27, -1.23, -1.29, -1.26),
+  longitude = c(36.85, 36.83, 36.87, 36.81, 36.84),
+  ph = c(5.2, 6.5, 7.1, 5.8, 6.9),
+  clay_content = c(25, 30, 18, 42, 35),
+  soil_type = c("Acrisol", "Ferralsol", "Vertisol", "Andosol", "Cambisol")
+)
+
+# Select column by index: Show second column
+soil_data[, 2]
+# Select column by index: Show first and third columns
+soil_data[, c(1,3]
+# Select column  by name: Show texture columns
+soil_data[, c("clay","silt","sand")]
+# Filter rows by index: keep first 2 records in the data frame
+soil_data[c(1:2),]
+
+# Filter rows by index: keep texture properties for the first 100 records in the data frame
+soil_data[c(1:2), c("clay","silt","sand")]
+
+# Filter rows based on conditions
+high_ph <- soil_data[soil_data$ph > 6, ]
+high_ph
+
+# Multiple conditions with & and |
+high_ph_clay <- soil_data[soil_data$ph > 6 & soil_data$clay_content > 25, ]
+high_ph_clay
+
+# Select columns by index: Show second column
+subset_data <- soil_data[, 2]
+# Select several columns by index
+subset_data <- soil_data[, c(1:3]
+
+# Select by name
+subset_data <- soil_data[, c("plot_id", "ph", "soil_type")]
+subset_data
+```
+
+### Deleting Columns {-}
+You can remove columns or rows from a data frame using names, indices, or logical conditions. This is useful when you want to drop unnecessary variables, remove incomplete records, or exclude outliers before analysis.
+
+
+```{r deleting, eval=FALSE}
+# Example data frame
+data <- data.frame(
+  Plot = c("P001", "P002", "P003"),
+  Clay = c(25, 30, 18),
+  Silt = c(40, 35, 52),
+  pH   = c(5.2, 6.5, 7.1)
+)
+
+# --- Delete columns ---
+
+# Delete one column by name
+data$Clay <- NULL
+data$Clay <- c() # Empty vector
+
+# Delete multiple columns by name
+data[, c("Silt", "pH")] <- NULL
+
+
+# --- Delete rows ---
+
+# Delete a row by index (e.g., remove the 2nd row)
+data <- data[-2, ]
+
+# Delete rows based on a condition (e.g., remove rows with pH < 6)
+data <- data[data$pH >= 6, ]
+
+
+```
+
+::: highlights
+
+ - To delete columns, use NULL (recommended) or an empty vector.
+
+ - To delete rows, use negative indices (e.g., data[-2, ]) or a logical condition (e.g., data[data$pH >= 6, ]).
+
+:::
+
+
+### Sorting Data {-}
+
+Sorting is useful for quickly identifying extreme values (e.g., highest pH, highest clay content) or for preparing tables for reporting.
+
+```{r sorting, eval=FALSE}
+# Sort by pH (ascending)
+soil_data[order(soil_data$ph), ]
+
+# Sort by pH (descending)
+soil_data[order(-soil_data$ph), ]
+
+# Sort by multiple columns
+soil_data[order(soil_data$soil_type, soil_data$ph), ]
+```
+
+### Aggregating Data {-}
+
+Aggregation means computing summary statistics by group, such as mean pH per soil type.
+
+```{r aggregating, eval=FALSE}
+# Mean pH by soil type
+aggregate(ph ~ soil_type, data = soil_data, FUN = mean)
+
+# Multiple summary values by group (mean and standard deviation of pH by soil_type)
+aggregate(
+  ph ~ soil_type,
+  data = soil_data,
+  FUN = function(x) c(mean = mean(x), sd = sd(x))
+)
+```
+
+::: warning-box
+**Caution:**
+- When using `aggregate()`, make sure the grouping variable (here soil_type) is correctly imported as character or factor, and that the summarized variable (here ph) is numeric.
+
+:::
+
+### ✏️ Exercise 5: Explore Soil Survey Data {-}
+
+::: exercises
+Replace the blanks (\_\_\_) to complete the code:
+
+```{r ex5-m1, exercise=TRUE, exercise.lines=20}
+# The **k.data** data frame is already loaded in the system.
+# Try these operations:
+
+# 1. Access the pH column using the $ operator
+k.data$___
+
+# 2. Calculate the mean organic carbon content (`SOC`) using mean()
+___(k.data$___)
+
+# 3. Find which elements have pH > 6.0 using logical indexing
+___$pH ___ 6.0
+
+# 4. Get the first rows of the data frame
+___(k.data)
+
+# 5. Show the first 4 rows of k.data
+___(___, n = ___)
+
+# 6. Show the structure of k.data
+___(___)
+
+# 7. Show the names of the columns of k.data
+___(___)
+
+```
+
+
+```{r ex5-m1-solution}
+# 1. Access the pH column using the $ operator
+k.data$pH
+
+# 2. Calculate the mean organic carbon content (`SOC`) using mean()
+mean(k.data$SOC, na.rm=T)
+
+# 3. Find which elements have pH > 6.0 using logical indexing
+k.data[k.data$pH > 6.0,]
+
+# 4. Get the first rows of the data frame
+head(k.data)
+
+# 5. Show the first 4 rows of k.data
+head(k.data, n = 4)
+
+# 6. Show the structure of k.data
+str(k.data)
+
+# 7. Show the names of the columns of k.data
+names(k.data)
+```
+
+```{r ex5-m1-check}
+grade_code(
+correct = "Great! You used head(), str(), and names() to explore the data frame.",
+incorrect = "Use head(k.data, n = 4), str(k.data), and names(k.data). Check the function names and arguments."
+)
+```
+:::
+
+## Data Manipulation with the Tidyverse {-}
+
+While **base R** is powerful, the **tidyverse** makes many common data tasks easier to write, read, and maintain—especially when working with real datasets. Its functions use a consistent “verb” style (e.g., `filter()`, `select()`, `mutate()`, `summarize()`), and the pipe operator `(%>%` or `|>`) lets you build clear, step-by-step workflows. This is particularly useful in soil data analysis, where you often need to clean, subset, join, and summarize data repeatedly.
+
+The `{tidyverse}` is a collection of R packages designed for data science that share a common philosophy and syntax.
+Key packages include:
+
+-   `{dplyr}`: Data manipulation
+
+-   `{ggplot2}`: Data visualization
+
+-   `{tidyr}`: Data reshaping
+
+-   `{readr}`: Reading data
+
+-   `{tibble}`: Modern data frames
+
+### Loading the Tidyverse {-}
+
+When you load `{tidyverse}`, it automatically attaches a core set of tidyverse packages (such as `{dplyr}` and `{ggplot2}`) so you can use them right away.
+
+```{r tidyverse-load, eval=FALSE}
+# Install if not already installed
+install.packages("tidyverse")
+
+# Load tidyverse
+library(tidyverse)
+```
+
+### Tibbles: Modern Data Frames {-}
+
+A **tibble** is the tidyverse’s modern version of a data frame. It behaves like a regular data frame, but it prints in a cleaner way and is generally more user-friendly. For example, tibbles show only the first rows by default, keep long text from cluttering your console, and display column types so you can quickly confirm how R has interpreted your data. Tibbles also avoid some older base R behaviors (such as automatically converting text to factors in older R versions), which makes them a reliable default for data analysis workflows.
+
+```{r tibbles, eval=FALSE}
+# Convert data frame to tibble
+soil_tbl <- as_tibble(soil_data)
+soil_tbl
+
+# Create tibble directly
+soil_tbl <- tibble(
+  plot_id = c("P001", "P002", "P003"),
+  ph = c(5.2, 6.5, 7.1),
+  clay = c(25, 30, 18)
+)
+```
+
+### The Pipe Operator: `%>%` {-}
+
+The pipe operator `%>%` (from `{magrittr}` package, loaded with `{tidyverse}`) helps you write code as a clear sequence of chained operations. Instead of nesting functions inside each other, you send ('pipe') the output of one step into the next. This makes workflows easier to read and debug—especially when you are cleaning soil datasets where you often need to filter rows, select variables, create new columns, and then summarize or sort results.
+
+
+```{r pipe, eval=FALSE}
+# Without pipe (nested functions)
+result <- round(mean(soil_data$ph), 2)
+
+# With pipe (sequential operations)
+result <- soil_data$ph %>%
+  mean() %>%
+  round(2)
+result
+
+# More complex example
+soil_data %>%
+  filter(ph > 6) %>%
+  select(plot_id, ph, soil_type) %>%
+  arrange(desc(ph))
+```
+
+
+::: highlights
+**Key pipe benefits**:
+
+-   *Readable*: Code flows logically from left to right
+
+-   *Efficient*: No need for intermediate objects
+
+-   *Debuggable*: Easy to add/remove steps by commenting out lines
+
+-   *Natural*: Matches how we think about data transformations step-by-step
+
+⚠️ Use `Ctrl+Shift+M` (Windows) or `Cmd+Shift+M` (Mac) to insert the pipe operator quickly in RStudio!
+:::
+
+### Data Manipulation with `{dplyr}` {-}
+
+The `{dplyr}` package provides a clear set of 'data verbs' for manipulating tabular data. Its syntax is designed to be readable: you describe what you want to do (filter rows, select columns, create variables, summarize results) rather than how to do it step by step. This makes `{dplyr}` especially useful for soil datasets, where you often need to subset observations, compute derived indicators (e.g., pH classes), and summarize results by soil type, horizon, land use, or sampling site.
+
+#### Selecting Columns {-}
+
+Use `select()` to choose the variables you need for analysis or reporting. This helps keep your workflow focused and reduces the chance of mistakes when working with wide datasets (many columns).
+
+```{r dplyr-select, eval=FALSE}
+# Select specific columns
+soil_data %>%
+  select(plot_id, ph, clay_content)
+
+# Select range of columns
+soil_data %>%
+  select(plot_id:ph)
+
+# Remove columns
+soil_data %>%
+  select(-latitude, -longitude)
+
+# Select columns matching pattern
+soil_data %>%
+  select(contains("content"))
+```
+
+#### Filtering Rows {-}
+
+Use `filter()` to keep only the rows that meet one or more conditions. This is commonly used to focus on samples within a range (e.g., pH > 6) or to extract specific soil classes or land uses.
+
+```{r dplyr-filter, eval=FALSE}
+# Filter rows based on condition
+soil_data %>%
+  filter(ph > 6)
+
+# Multiple conditions
+soil_data %>%
+  filter(ph > 6 & clay_content > 25)
+
+# Filter with OR
+soil_data %>%
+  filter(soil_type == "Acrisol" | soil_type == "Ferralsol")
+
+# Use %in% for multiple values
+soil_data %>%
+  filter(soil_type %in% c("Acrisol", "Ferralsol", "Vertisol"))
+```
+
+### Renaming Columns with `rename()` {-}
+
+`rename()` changes column names while keeping all the data.
+The syntax is `new_name = old_name`.
+
+```{r dplyr-rename, eval=FALSE}
+# Rename columns for clarity
+rename(soil_data,
+    site_id = site)
+
+# You can rename multiple columns at once
+soil_data %>%
+ rename(
+  location = site,
+  acidity = pH,
+  carbon_content = organic_carbon
+ )
+```
+
+#### Creating/Modifying Columns  with `mutate()` {-}
+
+Use `mutate()` to add new variables or update existing ones. This is where you typically compute derived soil indicators (classes, ratios, unit conversions) while keeping the original dataset intact.
+
+```{r dplyr-mutate, eval=FALSE}
+# Create new columns
+soil_data %>%
+  mutate(
+    ph_class = ifelse(ph > 7, "Alkaline", "Acidic"),
+    clay_percent = clay_content / 10
+  )
+
+# Modify existing columns
+soil_data %>%
+  mutate(
+    ph = round(ph, 1),
+    soil_type = toupper(soil_type)
+  )
+```
+
+#### Arranging (Sorting) Data {-}
+
+Use `arrange()` to sort rows by one or more column values. This is useful for quickly identifying extreme values (e.g., the highest pH) and for ordering results in tables and reports.
+Use `arrange(desc())` for descending order.
+
+```{r dplyr-arrange, eval=FALSE}
+# Sort ascending
+soil_data %>%
+  arrange(ph)
+
+# Sort descending
+soil_data %>%
+  arrange(desc(ph))
+
+# Multiple sort keys
+soil_data %>%
+  arrange(soil_type, desc(clay_content))
+```
+
+
+### Grouping and Summarizing Data by columns {-}
+
+`group_by()` creates invisible groups in your data using common values on one or more columns, while `summarise()` calculates compute summary statistics.
+Combined with `group_by()`, it becomes a powerful way to calculate metrics by soil type, site, land use, horizon, or any other grouping variable.
+
+
+```{r dplyr-summarize, eval=FALSE}
+# Create example dataset
+soil_data <- data.frame(
+site = c("Forest_A", "Forest_B", "Grassland_A", "Grassland_B", "Urban_A", "Urban_B"),
+ecosystem = c("Forest", "Forest", "Grassland", "Grassland", "Urban", "Urban"),
+pH = c(6.2, 6.8, 7.1, 6.9, 5.8, 6.0),
+organic_carbon = c(3.2, 2.8, 2.1, 2.4, 1.5, 1.8)
+)
+
+# Summarize soil properties
+soil_data %>%
+  summarize(
+    mean_ph = mean(pH),
+    sd_ph = sd(pH),
+    min_soc = min(organic_carbon),
+    max_soc = max(organic_carbon),
+    n_samples = n()
+  )
+
+# Group by and summarize
+soil_data %>%
+  group_by(ecosystem) %>%
+  summarize(
+    mean_ph = mean(pH),
+    mean_soc = mean(organic_carbon), # Average organic carbon
+    count = n(),  
+  .groups = "drop"            # Remove grouping
+)
+
+```
+
+
+An alternative function to create quick grouped summaries is `count()`
+
+```{r count-example , echo=TRUE}
+soil_data <- data.frame(
+site = c("Forest_A", "Forest_B", "Grassland_A", "Grassland_B", "Urban_A", "Urban_B"),
+ecosystem = c("Forest", "Forest", "Grassland", "Grassland", "Urban", "Urban"),
+pH = c(6.2, 6.8, 7.1, 6.9, 5.8, 6.0),
+organic_carbon = c(3.2, 2.8, 2.1, 2.4, 1.5, 1.8)
+)
+# Count observations by group
+count(soil_data, ecosystem)
+
+# Count by multiple groups
+count(soil_data, ecosystem, site)
+
+# Count with weights of a column (sum of carbon instead of count)
+soil_data %>%
+ count(ecosystem, wt = organic_carbon, name = "total SOC")
+```
+
+
+
+### ✏️ Exercise 6: Subsetting Operations with `{dplyr}` {-}
+::: exercises
+Replace the blanks (\_\_\_) to complete the code:
+
+```{r ex6-m1, exercise=TRUE, exercise.lines=20}
+library(dplyr)
+
+# Use the following soil_data example:
+soil_data <- data.frame(
+site = c("Forest_A", "Forest_B", "Grassland_A", "Grassland_B", "Urban_A", "Urban_B"),
+ecosystem = c("Forest", "Forest", "Grassland", "Grassland", "Urban", "Urban"),
+pH = c(6.2, 6.8, 7.1, 6.9, 5.8, 6.0),
+organic_carbon = c(3.2, 2.8, 2.1, 2.4, 1.5, 1.8)
+)
+
+# 1. Keep only Forest sites
+# 2. Select site, pH and organic_carbon columns
+# 3. Create a new column 'high_C' = TRUE if organic_carbon > 2.5
+
+soil_data %>%
+filter(___ == "Forest") %>%
+select(___, ___, ___) %>%
+mutate(high_C = organic_carbon ___ 2.5)
+```
+
+```{r ex6-m1-solution}
+library(dplyr)
+
+# Use the following soil_data example:
+soil_data <- data.frame(
+site = c("Forest_A", "Forest_B", "Grassland_A", "Grassland_B", "Urban_A", "Urban_B"),
+ecosystem = c("Forest", "Forest", "Grassland", "Grassland", "Urban", "Urban"),
+pH = c(6.2, 6.8, 7.1, 6.9, 5.8, 6.0),
+organic_carbon = c(3.2, 2.8, 2.1, 2.4, 1.5, 1.8)
+)
+
+# 1. Keep only Forest sites
+# 2. Select site, pH and organic_carbon columns
+# 3. Create a new column 'high_C' = TRUE if organic_carbon > 2.5
+
+soil_data %>%
+filter(ecosystem == "Forest") %>%
+select(site, pH, organic_carbon) %>%
+mutate(high_C = organic_carbon > 2.5)
+```
+
+```{r ex6-m1-check}
+grade_code(
+correct = "Excellent! You built a clean dplyr pipeline.",
+incorrect = "Check the ecosystem filter, selected column names, and the comparison in mutate()."
+)
+```
+:::
+
+
+### ❓️Quiz: Select and Filter in Base R and `{tidyverse}` {-}
+
+```{r quiz-select-filter, echo=FALSE, warning=FALSE, message=FALSE}
+quiz(
+ caption = "Test your Knowledge (10 questions)",
+
+ question("What does data[ , 2] return in base R?",
+  answer("The second column of the data frame", correct = TRUE),
+  answer("The second row of the data frame", correct = FALSE),
+  answer("Column named '2'", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("How do you select the columns 'name' and 'pH' in base R?",
+  answer("data[ , c('name', 'pH')]", correct = TRUE),
+  answer("data[ , name, pH]", correct = FALSE),
+  answer("select(data, name, pH)", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("Which base R syntax filters rows where pH > 6?",
+  answer("data[data$pH > 6, ]", correct = TRUE),
+  answer("filter(data, pH > 6)", correct = FALSE),
+  answer("data[ , pH > 6]", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("How do you select columns using dplyr?",
+  answer("select(data, name, pH)", correct = TRUE),
+  answer("data(name, pH)", correct = FALSE),
+  answer("filter(data, name, pH)", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("How do you exclude a column in dplyr?",
+  answer("select(data, -moisture)", correct = TRUE),
+  answer("filter(data, !moisture)", correct = FALSE),
+  answer("remove(data, moisture)", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("What does filter(data, pH > 6) return?",
+  answer("Rows where pH is greater than 6", correct = TRUE),
+  answer("Columns where pH is greater than 6", correct = FALSE),
+  answer("An error", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("Which operator combines multiple conditions in filter()?",
+  answer("&", correct = TRUE),
+  answer("|", correct = FALSE),
+  answer("&&", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("Which base R command selects the first row?",
+  answer("data[1, ]", correct = TRUE),
+  answer("data[, 1]", correct = FALSE),
+  answer("select(data, 1)", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("How do you filter for moisture < 30 using dplyr?",
+  answer("filter(data, moisture < 30)", correct = TRUE),
+  answer("select(data, moisture < 30)", correct = FALSE),
+  answer("data[moisture < 30, ]", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+
+ question("What is the main benefit of using dplyr over base R?",
+  answer("Cleaner and more readable syntax", correct = TRUE),
+  answer("Faster computation only", correct = FALSE),
+  answer("It uses less memory", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ )
+)
+```
+
+## Combining Data Frames {-}
+
+In soil research, information often comes from multiple sources. For example, one dataset may contain chemical properties (pH, organic carbon), another may include physical measurements (bulk density, nutrients), and a third may describe site conditions (land use, elevation, geology). To get a complete picture, we often need to **combine datasets** into a single table where all attributes are linked.
+
+This is usually done by matching tables using a shared identifier (a **key**), such as `site_id`, `plot_id`, or `sample_id`. In R, `{dplyr}` (part of `{tidyverse}`) provides clear functions to perform these joins.
+
+### Understanding Joins {-}
+
+A **join** combines two data frames by matching values in one or more key columns. Each join type differs mainly in which rows (keys) are kept in the result.
+
+#### Join types
+
+| Join                  | Keeps which keys?                             | Typical use                        |
+|-----------------------|-----------------------|---------------------------|
+| `left_join(x, y)`   | All keys in **x** | Add attributes to a main table, keeping all records in `x`|
+| `right_join(x, y)`      | All keys in **y**      | Same as left join, but keeping all records in `y`         |
+| `inner_join(x, y)`    | Keys present in **both** x and y            | Keep only records with matches in both tables      |
+| `full_join(x, y)` | Keys present in **either** x or y        | Keep everything; unmatched fields become`NA`         |
+
+
+
+::: warning-box
+**Before joining, always check:**
+
+ - The key columns use the **same format and values** in both tables (e.g., `"A"` is not the same as `"a"`, and extra spaces can cause mismatches).
+
+ - If key columns have **different names**, map them explicitly, e.g.
+   `left_join(x, y, by = c("key_in_x" = "key_in_y"))`
+   
+ - Keys are **unique in at least one table**. If both tables contain repeated keys, the join can create duplicate rows (a many-to-many join).
+ 
+:::
+
+#### Example datasets and join operations {-}
+
+```{r join-data, echo=TRUE}
+# Soil data example
+soil_basic <- data.frame(
+ site_id = c("A", "B", "C", "D"),
+ pH = c(6.2, 6.8, 7.1, 6.9),
+ organic_carbon = c(3.2, 2.8, 2.1, 2.4)
+)
+# Additional measurements (note: includes data on site E, but not on site A)
+nutrients <- data.frame(
+ site_id = c("B", "C", "D", "E"),
+ phosphorus = c(0.15, 0.12, 0.18, 0.14),
+ potassium = c(0.8, 0.9, 0.7, 0.6)
+)
+# Site information
+site_info <- data.frame(
+ site_id = c("A", "B", "C", "D"),
+ ecosystem = c("Forest", "Forest", "Grassland", "Grassland"),
+ elevation = c(450, 520, 380, 420)
+)
+
+# Join examples (same keys, different rules for which rows are kept)
+
+# 1) `left_join()`: Keep all rows from soil_basic
+left_join(soil_basic, nutrients, by = "site_id")
+
+# 2) `right_join()`: Keep all rows from nutrients
+right_join(soil_basic, nutrients, by = "site_id")
+
+# 3) `inner_join()`: Keep only rows that exist in both tables
+inner_join(soil_basic, nutrients, by = "site_id")
+
+# 4) `full_join()`: Keep all rows from both tables (missing values become NA)
+full_join(soil_basic, nutrients, by = "site_id")
+
+## Joining more than two tables sequentially
+soil_basic %>%
+  left_join(nutrients, by = "site_id") %>%
+  left_join(site_info, by = "site_id")
+```
+
+
+### Stacking Data with `bind_rows()` {-}
+
+Sometimes datasets have the **same columns** but represent different campaigns (e.g., seasons, years, field visits). In that case, you combine them **vertically** (one under the other) using bind_rows():
+
+```{r bind-rows-example, echo=TRUE}
+# Data from different time periods
+spring_data <- data.frame(
+ site = c("A", "B"),
+ season = "Spring",
+ pH = c(6.1, 6.7),
+ temperature = c(12.5, 11.8)
+)
+
+summer_data <- data.frame(
+ site = c("A", "B"),
+ season = "Summer", 
+ pH = c(6.3, 6.9),
+ temperature = c(18.2, 17.5)
+)
+
+# Combine the datasets
+bind_rows(spring_data, summer_data)
+```
+
+::: warning-box
+**Caution:**
+- `bind_rows()` works best when column names and types match.
+- If one dataset has extra/missing columns, `bind_rows()` will create the missing columns and fill them with `NA`.
+
+:::
+
+------------------------------------------------------------------------
+
+### ✏️ Exercise: Joins and Binding {-}
+
+::: exercises
+Replace the blanks (\_\_\_) to complete the code:
+
+```{r ex8-m1, exercise=TRUE, exercise.lines=30}
+# Create the datasets
+library(dplyr)
+
+soil_chem <- data.frame(
+ plot_id = c(1, 2, 3, 4),
+ pH = c(6.2, 6.8, 7.1, 6.9),
+ carbon = c(3.2, 2.8, 2.1, 2.4)
+)
+
+vegetation <- data.frame(
+ plot_id = c(2, 3, 4, 5),
+ tree_density = c(250, 180, 320, 290),
+ grass_cover = c(60, 80, 45, 70)
+)
+
+# Tasks:
+
+  # 1. Keep all plots from soil_chem (LEFT JOIN)
+  left_join_result <- soil_chem %>%
+    ____join(vegetation, by = ___)
+  left_join_result
+  
+  # 2. Keep only plots present in both (INNER JOIN)
+  inner_join_result <- soil_chem %>%
+    ____join(vegetation, by = ___)
+  inner_join_result
+  
+```
+
+```{r ex8-m1-solution}
+# Create the datasets
+library(dplyr)
+
+soil_chem <- data.frame(
+ plot_id = c(1, 2, 3, 4),
+ pH = c(6.2, 6.8, 7.1, 6.9),
+ carbon = c(3.2, 2.8, 2.1, 2.4)
+)
+
+vegetation <- data.frame(
+ plot_id = c(2, 3, 4, 5),
+ tree_density = c(250, 180, 320, 290),
+ grass_cover = c(60, 80, 45, 70)
+)
+
+# Tasks:
+
+  # 1. Keep all plots from soil_chem (LEFT JOIN)
+  left_join_result <- soil_chem %>%
+    left_join(vegetation, by = "plot_id")
+  left_join_result
+  
+  # 2. Keep only plots present in both (INNER JOIN)
+  inner_join_result <- soil_chem %>%
+    inner_join(vegetation, by = "plot_id")
+  inner_join_result
+  
+```
+
+```{r ex8-m1-check}
+grade_code(
+ correct = "Excellent!!!",
+ incorrect = "Not quite right."
+)
+```
+:::
+
+### ❓️Quiz: Understanding `dplyr`and `tidyr` {-}
+
+```{r quiz-comprehensive, echo=FALSE, warning=FALSE, message=FALSE}
+quiz(
+ caption = "Test Your dplyr Mastery (15 Questions)",
+ 
+ question("Which function is used to select specific columns?",
+  answer("select()", correct = TRUE),
+  answer("filter()", correct = FALSE),
+  answer("choose()", correct = FALSE),
+  answer("pick()", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+ 
+ question("To keep rows where pH > 6.5 AND carbon < 2.0, you would use:",
+  answer("filter(pH > 6.5 & carbon < 2.0)", correct = TRUE),
+  answer("filter(pH > 6.5 | carbon < 2.0)", correct = FALSE),
+  answer("filter(pH > 6.5, carbon < 2.0)", correct = FALSE),
+  answer("select(pH > 6.5 & carbon < 2.0)", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+ 
+ question("Which function creates new columns?",
+  answer("mutate()", correct = TRUE),
+  answer("create()", correct = FALSE),
+  answer("add_column()", correct = FALSE),
+  answer("new_col()", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+ 
+ question("To rename a column from 'old_name' to 'new_name', you use:",
+  answer("rename(new_name = old_name)", correct = TRUE),
+  answer("rename(old_name = new_name)", correct = FALSE),
+  answer("mutate(new_name = old_name)", correct = FALSE),
+  answer("select(new_name = old_name)", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+ 
+ question("left_join(df1, df2, by = 'id') will:",
+  answer("Keep all rows from df1, add matching data from df2", correct = TRUE),
+  answer("Keep all rows from df2, add matching data from df1", correct = FALSE),
+  answer("Keep only rows that match in both datasets", correct = FALSE),
+  answer("Keep all rows from both datasets", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+ 
+ question("Which join type keeps only rows that exist in both datasets?",
+  answer("inner_join()", correct = TRUE),
+  answer("left_join()", correct = FALSE),
+  answer("full_join()", correct = FALSE),
+  answer("outer_join()", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+ 
+ question("bind_rows() is used to:",
+  answer("Stack data frames with similar columns", correct = TRUE),
+  answer("Join data frames horizontally", correct = FALSE),
+  answer("Create new columns", correct = FALSE),
+  answer("Filter rows", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+ 
+ question("Before using summarise(), you typically use:",
+  answer("group_by()", correct = TRUE),
+  answer("filter()", correct = FALSE),
+  answer("arrange()", correct = FALSE),
+  answer("select()", correct = FALSE),
+  allow_retry = TRUE
+ ),
+ 
+ question("To count the number of observations in each group, use:",
+  answer("n()", correct = TRUE),
+  answer("count()", correct = FALSE),
+  answer("sum()", correct = FALSE),
+  answer("length()", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+ 
+ question("pivot_longer() converts data from:",
+  answer("Wide format to long format", correct = TRUE),
+  answer("Long format to wide format", correct = FALSE),
+  answer("Grouped to ungrouped", correct = FALSE),
+  answer("Numeric to character", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+ 
+ question("In pivot_longer(), the 'names_to' argument specifies:",
+  answer("The name of the new column that will contain the original column names", correct = TRUE),
+  answer("The columns to pivot", correct = FALSE),
+  answer("The name of the values column", correct = FALSE),
+  answer("The grouping variable", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+ 
+ question("To sort data in descending order by pH, you use:",
+  answer("arrange(desc(pH))", correct = TRUE),
+  answer("arrange(pH, desc = TRUE)", correct = FALSE),
+  answer("sort(pH, decreasing = TRUE)", correct = FALSE),
+  answer("order(pH, desc)", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+ 
+ question("The pipe operator %>% is useful because it:",
+  answer("Passes the result of one function as the first argument to the next", correct = TRUE),
+  answer("Combines two data frames", correct = FALSE),
+  answer("Creates new columns", correct = FALSE),
+  answer("Filters data", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ ),
+ 
+ question("To remove grouping after summarise(), you can use:",
+  answer(".groups = 'drop'", correct = TRUE),
+  answer("ungroup()", correct = TRUE),
+  answer("remove_groups()", correct = FALSE),
+  answer("clear_groups()", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE,
+  correct = "Both .groups = 'drop' in summarise() and ungroup() after summarise() work!"
+ ),
+ 
+ question("Which is NOT a valid dplyr function?",
+  answer("combine()", correct = TRUE),
+  answer("mutate()", correct = FALSE),
+  answer("summarise()", correct = FALSE),
+  answer("filter()", correct = FALSE),
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+ )
+)
+```
+
+
+## Missing Data {-}
+
+Soil datasets often contain missing values.
+Missing values in R are stored as `NA`. Many functions will return `NA` if missing values are present, unless you specify how to handle them (e.g., na.rm = TRUE).
+Before running summaries, models, or maps, it is important to identify where values are missing and decide how to handle them.
+
+
+### Identifying Missing Data {-}
+
+```{r missing-data-identify, eval=FALSE}
+# Create data with missing values
+soil_data_na <- data.frame(
+  plot = c("P001", "P002", "P003", "P004"),
+  ph = c(5.2, NA, 7.1, 6.5),
+  clay = c(25, 30, NA, 35)
+)
+
+# Check for missing values
+is.na(soil_data_na)
+
+# Count missing values per column
+colSums(is.na(soil_data_na))
+
+# Identify complete cases (rows with no missing values)
+complete.cases(soil_data_na)
+
+# Extract complete cases
+soil_complete <- soil_data_na[complete.cases(soil_data_na), ]
+soil_complete
+```
+
+### Handling Missing Data {-}
+
+How you handle missing data depends on the context. Sometimes you can remove incomplete records; other times you may replace missing values with a reasonable estimate or a fixed value. An example of handling missing data is provided in the **Data Preparation** section.
+
+In base R, `is.na()` helps you identify missing values, and `na.omit()` can be used to remove rows with missing data. Many functions (such as `mean()`) also include arguments that control how missing values are handled—for example, `na.rm = TRUE` tells R to ignore `NA` values when computing the result.
+
+
+```{r missing-data-handle_rbase, eval=FALSE}
+# Remove rows with any missing values (base R)
+na.omit(soil_data_na)
+
+# Remove rows where a specific column is missing (keep rows with non-missing pH)
+soil_data_na[!is.na(soil_data_na$ph), ]
+
+# Replace missing pH values with the mean pH (na.rm = TRUE ignores NA in the mean)
+soil_data_na$ph[is.na(soil_data_na$ph)] <- mean(soil_data_na$ph, na.rm = TRUE)
+soil_data_na
+```
+
+
+If you are using the tidyverse, `{tidyr}` provides convenient helpers for handling missing data. For example, `drop_na()` removes rows with missing values (either across all columns or in selected columns), and r`eplace_na()` fills missing values with specified replacements.
+
+
+```{r missing-data-handle_tidyverse, eval=FALSE}
+# Remove all rows with any NA
+soil_data_na %>%
+  drop_na()
+
+# Remove rows where ph is NA
+soil_data_na %>%
+  drop_na(ph)
+
+# Replace NA values with specified values
+soil_data_na %>%
+  replace_na(list(ph = 6.0, clay = 30))
+```
+
+::: warning-box
+**Caution:**
+ - `na.omit()` removes **any row** that contains at least one `NA` in **any column**. This can unintentionally drop many observations—especially in wide datasets.
+ 
+ - `drop_na()` (like `na.omit()`) can remove many rows if your dataset has missing values in multiple columns.
+
+ - Replacing missing values (imputation) can change your results and should be done carefully.
+
+ - Always document the method you used and consider whether missingness might be informative (e.g., values missing due to sampling or lab issues).
+
+:::
+
+
+
+## Data Reshaping with `{tidyr}` package: Pivoting {-}
+
+Soil datasets are often stored in different formats depending on how they were collected or produced. The `{tidyr}` package helps you reshape data—changing its layout without changing the information. This is especially useful when preparing data for plotting, reporting, modeling, or joining with other tables.
+
+#### Wide vs Long Data Format {-}
+
+ - **Wide format**: each variable has its own column (common in spreadsheets and summary tables).
+
+ - **Long format**: values are stored in a single column, with one or more columns describing what the values represent (common for tidy workflows and `ggplot2()`).
+
+
+#### `pivot_longer()`: Wide to Long {-}
+
+Use `pivot_longer()` to turn several measurement columns (e.g., pH, carbon, nitrogen) into a tidy key–value structure.
+
+```{r pivot-longer-example , echo=TRUE}
+library(dplyr) # for piping %>%
+library(tidyr) # for pivoting
+# Wide format data
+wide_soil <- data.frame(
+ site = c("A", "B", "C"),
+ ecosystem = c("Forest", "Grassland", "Urban"),
+ pH = c(6.2, 7.1, 5.8),
+ carbon = c(3.2, 2.1, 1.5),
+ nitrogen = c(0.25, 0.18, 0.12)
+)
+print(wide_soil)
+
+# Convert to long format
+long_soil <- wide_soil %>%
+ pivot_longer(
+  cols = c(pH, carbon, nitrogen),     # Columns to pivot
+  names_to = "measurement_type",      # Name for the variable column
+  values_to = "value"           # Name for the values column
+ )
+long_soil
+```
+
+::: highlights
+ - Many tidyverse workflows (especially with `{ggplot2}`) work best with long data.
+ 
+ - Functions such as `slab()` (from the **Algorithms for Quantitative Pedology** package -`{aqp}`) often return horizon or slice summaries in a long format (e.g., one row per profile × depth-slice). If you need a "one row per horizon" table for reporting or modeling, you may need to reshape that output to wide using `pivot_wider()`.
+ 
+ - In many relational databases such as **PostgreSQL**, measurements are often stored in a **long (tidy) format**, where each row represents one observation and additional columns describe *what* was measured (e.g., `property`, `method`, `unit`) and *the result* (e.g., `value`). This structure is flexible: you can store many different variables in a single table and add new measurement types over time without changing the table schema.
+
+ - This is also the approach used in the **GloSIS** relational database: soil analytical results are typically stored as **one record per sample/observation × property**, rather than as many property columns in a single wide table. For this reason, reshaping data between **wide** (common in spreadsheets) and **long** (common in databases) formats is a frequent step when preparing data for insertion into GloSIS or extracting data for analysis.
+ 
+:::
+
+#### `pivot_wider()`: Long to Wide {-}
+
+Use `pivot_wider()` to spread a variable column back into multiple columns. This is helpful when you want a compact table for reporting or when a model expects predictors in separate columns.
+
+```{r pivot-wider-example , echo=TRUE}
+# Convert back to wide format
+long_soil %>%
+ pivot_wider(
+  names_from = measurement_type, # Column containing variable names
+  values_from = value            # Column containing values
+ )
+```
+
+#### Advanced Pivoting: Multiple Measurements per Site (Replicates) {-}
+
+In real datasets, you may have repeated measurements (e.g., replicate samples). In that case, keep replicate identifiers as separate columns and pivot the measurement names into columns.
+
+```{r advanced-pivot, echo=TRUE}
+# More complex examples with multiple measurements per site
+field_data <- data.frame(
+ site = rep(c("Forest", "Grassland"), each = 6),
+ measurement = rep(c("pH", "carbon", "nitrogen"), 4),
+ replicate = rep(c("R1", "R2"), 6),
+ value = c(6.2, 6.1, 3.2, 3.0, 0.25, 0.23, 7.1, 7.0, 2.1, 2.3, 0.18, 0.19)
+)
+field_data
+
+# Pivot to have measurements as columns
+print("Pivoted data:")
+field_data %>%
+ pivot_wider(
+  names_from = measurement,
+  values_from = value
+ )
+
+```
+
+
+::: .highlights
+ - If your long dataset contains more than one value for the same combination of identifiers (e.g., site + replicate + measurement), pivot_wider() may create list-columns or produce an error.
+ In those cases, summarize duplicates first, or use values_fn, for example:
+   `pivot_wider(..., values_fn = mean)`
+
+:::
+
+
+## Handling Below Detection Limit Data {-}
+
+In soil laboratory datasets, some results are reported as below the detection (or reporting) limit, for example `<0.05`. When imported into R, these values often cause the entire column to be read as character. A common practical approach for basic summaries is to convert these entries to a numeric value equal to half the detection limit (DL/2), while keeping the original raw values for traceability.
+
+*Example: Converting "<DL" to DL/2*
+
+```{r dl-dl2, eval=FALSE}
+soil_lab <- data.frame(
+  plot_id = c("P001", "P002", "P003", "P004"),
+  no3_mgkg_raw = c("0.12", "<0.05", "0.31", "<0.05"),
+  stringsAsFactors = FALSE
+)
+soil_lab
+
+soil_lab <- soil_lab %>%
+  mutate(
+    censored = str_detect(no3_mgkg_raw, "^\\s*<"),
+    dl = if_else(censored,
+                 as.numeric(str_remove(no3_mgkg_raw, "^\\s*<\\s*")),
+                 NA_real_),
+    no3_mgkg = if_else(censored, dl / 2, as.numeric(no3_mgkg_raw))
+  )
+
+soil_lab
+
+```
+
+::: warning-box
+**Caution:**
+ - Replacing BDL values with DL/2 is a simple convention, but it can bias results when many values are censored. Always report the detection limit and the percentage of BDL values.
+
+:::
+
+::: highlights
+**Other approaches for BDL data:**
+
+- *DL (or 0) substitution:* simple sensitivity checks (compare results using 0, DL/2, and DL).
+
+- *Censored-data methods (recommended for inference):*
+  - *Kaplan–Meier (KM)* (e.g., with the `{NADA}` package): estimates summary statistics without assuming substituted values by treating BDL results as left-censored.
+  - *ROS (Regression on Order Statistics)** (e.g., with the `{NADA}` package): commonly used for environmental data and often a good default when there are multiple detection limits.
+
+- *Censored regression (e.g., Tobit):* useful for modeling relationships while accounting for censoring.
+
+:::
+
+
+## Working with Soil Data {-}
+
+Soil data analysis usually starts with importing data, making sure it was read correctly, and then doing a few basic cleaning and selection steps before any modeling or mapping. In this section, you will learn how to set your R environment (manage file paths and your working directory), load the packages you need, import soil datasets from CSV and Excel files, and explore and manipulate the imported data to prepare it for further analyses.
+
+### Setting Working Directory {-}
+
+The *working directory* is the folder where R looks for input files (by default) and where it saves output files unless you specify a different location. Any *relative file path* you use (e.g., `"data/soil_data.csv"`) is interpreted relative to the working directory.
+
+It is good practice to set the working directory at the beginning of a script.
+
+You can set the working directory manually with `setwd()`, which takes the target folder path as a character string.
+RStudio also provides a menu option: `Session → Set Working Directory`.
+
+You can always check the current working directory with `getwd()`, which returns the path of the folder where R is currently operating.
+
+```{r working-directory, eval=FALSE}
+# Check current working directory
+getwd()
+
+# Set new working directory
+setwd("C:/Users/YourName/Documents/YourSoilProject")
+
+# On Mac/Linux
+setwd("/Users/YourName/Documents/YourSoilProject")
+```
+
+If you are using RStudio, an option is to set the working directory to the location of the active script:
+
+```{r wd-rstudio, eval=FALSE}  
+# Set working directory to script location (recommended)
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+```
+
+
+::: highlights
+**Best practice:** Use an RStudio Project (`.Rproj`) to avoid hard-coded paths.
+
+ - `File → New Project` creates an `.Rproj` file.
+
+ - Keep your data inside the project folder and use relative paths (e.g., `"data/KSSL_data.csv"`).
+
+ - If you prefer, you can also set the working directory to the active script location:
+ 
+    `setwd(dirname(rstudioapi::getActiveDocumentContext()$path))`
+
+::: warning-box
+ - If you are not using RStudio (or rstudioapi is not installed), the script-location method will not work. In that case, use an RStudio Project or set the working directory manually.
+
+:::
+
+:::
+
+### Load packages {-}
+
+```{r example-load-packages, eval=FALSE}
+library(readxl)           # Read Excel files
+library(tidyverse)        # Data manipulation and visualization
+```
+
+### Importing Data from Files {-}
+
+Most soil science projects use data from external sources (field surveys, lab results, sensors, or remote sensing). These datasets are commonly stored as CSV or Excel files, but they can also come from databases, spatial formats (e.g., GeoPackages/shapefiles), or web APIs. R provides tools to import, clean, and analyze these data. In this tutorial, we focus on CSV (`.csv`) and Excel (`.xlsx`) because they are the most widely used formats in soil science workflows.
+
+#### Reading CSV Files {-}
+
+CSV (comma-separated values) and plain text (`.txt`) files are widely used for exchanging tabular data. In base R, you can import them with `read.csv()` or the more general `read.table()` (both from `{utils}`).
+These functions assumes the separator is a comma (,) and by default use `header = TRUE`, meaning the first row is treated as column names.
+The output is a `data.frame`.
+For larger files, you can use `read_csv()`, from `{readr}` which is usually faster and often does a better job of parsing column types.
+
+```{r read-csv, eval=FALSE}
+# Read CSV file
+soil_data <- read.csv("path/to/soil_data.csv")
+
+# View structure
+str(soil_data)
+
+# View first rows
+head(soil_data)
+
+# If CSV uses different separator (semicolon, tab)
+soil_data <- read.csv("path/to/file.csv", sep = ";")
+soil_data <- read.delim("path/to/file.txt", sep = "\t")
+```
+
+If you are using an RStudio Project and the dataset is stored inside your project, you can use a relative path. For example, for the Kansas soil profiles dataset in this project:
+
+```{r read_kssl-csv, eval=FALSE}
+# Read CSV file
+soil_data <- read_csv("01_data/module1/KSSL_data.csv")
+
+# View structure
+str(soil_data)
+
+# View first rows
+head(soil_data)
+
+```
+
+::: highlights
+When possible, prefer project-relative paths like `"01_data/module1/KSSL_data.csv"`.
+They are easier to read and less likely to break if you reorganize folders.
+
+:::
+
+#### Reading Excel Files {-}
+
+To read Excel files, use `read_excel()` from the `{readxl}` package:
+
+
+```{r read-excel, eval=FALSE}
+
+# Read Excel file
+soil_data <- read_excel("01_data/module1/KSSL_data.xlsx", sheet = 1) 
+
+# Or read a specific sheet by name
+soil_data <- read_excel("01_data/module1/KSSL_data.xlsx", sheet = "SoilData")
+
+```
+
+### ✏️ Exercise 4: Importing data {-}
+
+::: exercises
+ Replace the blanks (\_\_\_) to complete the code:
+ 
+```{r ex10-m1, exercise=TRUE, exercise.lines=8}
+#Use readr::read_csv() to import the CSV filer*
+library(___)
+
+# Load dataframe located in the 'data' folder and store it in k.data2
+k.data2 <- ___("data/kansas_site_lab_data.csv")
+
+# Show the first 3 rows of k.data2
+head(___, n = ___)
+
+```
+
+```{r ex10-m1-solution}
+library(readr)
+
+# Load dataframe located in the 'data' folder and store it in k.data2
+k.data2 <- read_csv("data/kansas_site_lab_data.csv")
+
+# Show the first 3 rows of k.data2
+head(k.data2, n = 3)
+
+```
+
+```{r ex10-m1-check}
+grade_code(
+  correct = "Nice! You imported a CSV file with readr::read_csv() and inspected the first rows.",
+  incorrect = "Remember to load the readr package and call read_csv('data/kansas_site_lab_data.csv'), then head(k.data2, n = 3)."
+)
+```
+:::
+
+### ❓️Quiz: Importing Data {-}
+
+```{r quiz-importingdata, echo=FALSE, warning=FALSE, message=FALSE}
+quiz(
+ caption = "Importing Data into R (4 questions)",
+ 
+ question("What does `read.csv()` do in R?",
+      answer("It reads a table from a CSV file into a data frame", correct = TRUE),
+      answer("It exports data to Excel"),
+      answer("It reads spatial raster files"),
+      answer("It uploads data to a web API"),
+      random_answer_order = TRUE
+ ),
+ 
+ question("Which package is commonly used to import Excel files?",
+      answer("readxl", correct = TRUE),
+      answer("terra"),
+      answer("jsonlite"),
+      answer("DBI"),
+      random_answer_order = TRUE
+ ),
+ 
+ question("What argument in `read.csv()` ensures the first row is used as column names?",
+      answer("header = TRUE", correct = TRUE),
+      answer("colnames = TRUE"),
+      answer("top_row = TRUE"),
+      answer("header = FALSE"),
+      random_answer_order = TRUE
+ ),
+ 
+ question("Which function can import data from a `.xlsx` file without needing Excel installed?",
+      answer("read_excel()", correct = TRUE),
+      answer("read.csv()"),
+      answer("load()"),
+      answer("sf::st_read()"),
+      random_answer_order = TRUE
+ )
+)
+```
+
+
+### Exploring the Data {-}
+
+After importing, always confirm the structure, column names, and data types before analysis.
+R provides several built-in functions to help you inspect the structure, preview the values, and summarize the dataset quickly.
+
+```{r read-excel-example, eval=FALSE}
+str(soil_data)        # Structure + column types
+summary(soil_data)    # Quick summaries for each column
+names(soil_data)      # Column names
+
+head(soil_data)       # First rows
+tail(soil_data)       # Last rows
+
+View(soil_data) # opens a spreadsheet-style viewer in RStudio
+
+```
+
+::: warning-box
+**Caution:**
+ - Imported columns are sometimes read with the wrong type (e.g., numbers stored as text).
+
+ - The `str()` function is especially useful when you're not sure how R is interpreting your variables --- for example, whether a column is being read as text (character) or as a categorical variable (factor).
+ 
+ - Check types with `str()` and convert when needed using `as.numeric()`, `as.character()`, or `as.Date()`.
+ 
+:::
+
+
+## 🧠 EVALUATION {-}
+
+```{r quiz-r-fundamentals-expanded, echo=FALSE, warning=FALSE, message=FALSE}
+quiz(
+ caption = "Test your Knowledge (30 questions)",
+
+ # 1–10: Object creation and assignment
+ question("What does `<-` mean in R?",
+  answer("It compares two variables"),
+  answer("It creates a vector"),
+  answer("It assigns a value to a variable", correct = TRUE),
+  answer("It indicates a comment"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+ ),
+
+ question("What will `x <- 5; x + 2` return?",
+  answer("x + 2"),
+  answer("7", correct = TRUE),
+  answer("5"),
+  answer("Error"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+ ),
+
+ question("Which of the following is a valid variable name in R?",
+  answer("soil-ph"),
+  answer("soil_ph", correct = TRUE),
+  answer("123soil"),
+  answer("soil ph"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+ ),
+
+ question("What does `=` do in R?",
+  answer("It defines a new function"),
+  answer("It compares two values"),
+  answer("It can assign a value, similar to `<-`", correct = TRUE),
+  answer("It's only used in function arguments"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+ ),
+
+ question("If you run `a <- 10` and then `a <- 20`, what is the value of `a`?",
+  answer("10"),
+  answer("20", correct = TRUE),
+  answer("Error"),
+  answer("30"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+ ),
+
+ question("Which line will cause an error?",
+  answer("print(soil_ph)"),
+  answer("print(soil ph)", correct = TRUE),
+  answer("soil_ph <- 6.5"),
+  answer("print(Soil_ph)"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+ ),
+
+ question("Which is a correct assignment statement?",
+  answer("assign total = 5 + 10"),
+  answer("total =+ 5 + 10"),
+  answer("5 + 10 = total"),
+  answer("total <- 5 + 10", correct = TRUE),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+ ),
+
+ question("What is the result of running `10 + 5`?",
+  answer("15", correct = TRUE),
+  answer("105"),
+  answer("Error"),
+  answer("NULL"),
+  random_answer_order = TRUE
+ ),
+
+ question("Which symbol is used for comments in R?",
+  answer("&#35;", correct = TRUE),
+  answer("//"),
+  answer("--"),
+  answer("&lt;!-- --&gt;"),
+  random_answer_order = TRUE
+ ),
+
+ question("What happens if you reference a variable that doesn't exist?",
+  answer("An error is returned", correct = TRUE),
+  answer("0 is returned"),
+  answer("It returns an empty character"),
+  answer("R creates it as NULL"),
+  random_answer_order = TRUE
+ ),
+
+ # 11–18: Data types
+ question("What is the data type of `soil_ph <- 6.5`?",
+  answer("character"),
+  answer("logical"),
+  answer("numeric", correct = TRUE),
+  answer("vector"),
+  random_answer_order = TRUE
+ ),
+
+ question("What is the type of `'Acrisol'`?",
+  answer("numeric"),
+  answer("logical"),
+  answer("factor"),
+  answer("character", correct = TRUE),
+  random_answer_order = TRUE
+ ),
+
+ question("What does `class(contains_stones)` return if `contains_stones <- TRUE`?",
+  answer("logical", correct = TRUE),
+  answer("boolean"),
+  answer("numeric"),
+  answer("character"),
+  random_answer_order = TRUE
+ ),
+
+ question("Which of the following is a character vector?",
+  answer("TRUE"),
+  answer("c('Acrisol', 'Ferralsol')", correct = TRUE),
+  answer("c(1, 2, 3)"),
+  answer("'soil_type'"),
+  random_answer_order = TRUE
+ ),
+
+ question("What is `c(5.1, 6.3, 7.0)`?",
+  answer("numeric vector", correct = TRUE),
+  answer("logical vector"),
+  answer("character vector"),
+  answer("factor"),
+  random_answer_order = TRUE
+ ),
+
+ question("What does `c(TRUE, FALSE, TRUE)` represent?",
+  answer("logical vector", correct = TRUE),
+  answer("text object"),
+  answer("numeric vector"),
+  answer("character vector"),
+  random_answer_order = TRUE
+ ),
+
+ question("What will `class(\"Clay\")` return?",
+  answer("numeric"),
+  answer("factor"),
+  answer("logical"),
+  answer("character", correct = TRUE),
+  random_answer_order = TRUE
+ ),
+
+ question("Which statement correctly creates a logical value?",
+  answer("is_saline <- FALSE", correct = TRUE),
+  answer("is_saline <- 'FALSE'"),
+  answer("is_saline <- 0"),
+  answer("is_saline <- No"),
+  random_answer_order = TRUE
+ ),
+
+ # 19–25: Data frames
+ question("Which function creates a data frame?",
+  answer("data.frame()", correct = TRUE),
+  answer("new.dataframe()"),
+  answer("frame.data()"),
+  answer("data.table()"),
+  random_answer_order = TRUE
+ ),
+
+ question("What does `summary(df)` do?",
+  answer("Deletes missing values"),
+  answer("Shows descriptive statistics for each column", correct = TRUE),
+  answer("Creates a new summary file"),
+  answer("Changes data types"),
+  random_answer_order = TRUE
+ ),
+
+ question("What does `head(df)` show?",
+  answer("Only numeric values"),
+  answer("Structure of the df"),
+  answer("Last six rows of df"),
+  answer("First six rows of df", correct = TRUE),
+  random_answer_order = TRUE
+ ),
+
+ question("What function displays the structure of a data frame?",
+  answer("structure()"),
+  answer("df.structure()"),
+  answer("class()"),
+  answer("str()", correct = TRUE),
+  random_answer_order = TRUE
+ ),
+
+ question("How do you access the column `ph` in a data frame called `soil_survey`?",
+  answer("soil_survey(ph)"),
+  answer("soil_survey::ph"),
+  answer("soil_survey@ph"),
+  answer("soil_survey$ph", correct = TRUE),
+  random_answer_order = TRUE
+ ),
+
+ question("How would you list column names of a data frame called `soil_survey`?",
+  answer("columns(soil_survey)"),
+  answer("names(soil_survey)", correct = TRUE),
+  answer("colnames(soil_survey)"),
+  answer("soil_survey.columns"),
+  random_answer_order = TRUE
+ ),
+
+ # 26–30: Logic and vector operations
+ question("What does `soil_survey$ph > 6` return?",
+  answer("A number"),
+  answer("A character vector"),
+  answer("A logical vector (TRUE/FALSE)", correct = TRUE),
+  answer("A function"),
+  random_answer_order = TRUE
+ ),
+
+ question("What does `mean(c(1, 2, 3, 4))` return?",
+  answer("2.5", correct = TRUE),
+  answer("10"),
+  answer("4"),
+  answer("Error"),
+  random_answer_order = TRUE
+ ),
+
+ question("What happens if you assign different types in a vector?",
+  answer("They are coerced to a common type", correct = TRUE),
+  answer("R throws an error"),
+  answer("Only first type is kept"),
+  answer("R splits into lists automatically"),
+  random_answer_order = TRUE
+ ),
+
+ question("How do you check the class of an object in R?",
+  answer("class()", correct = TRUE),
+  answer("type()"),
+  answer("check()"),
+  answer("summary()"),
+  random_answer_order = TRUE
+ ),
+
+ question("Which function gives the number of rows in a data frame?",
+  answer("count()"),
+  answer("nrow()", correct = TRUE),
+  answer("size()"),
+  answer("length()"),
+  random_answer_order = TRUE
+ ),
+ 
+ question("Which function provides summary statistics for each column of a data frame?",
+  answer("summary()", correct = TRUE),
+  answer("str()"),
+  answer("describe()"),
+  answer("glimpse()"),
+  random_answer_order = TRUE
+ )
+)
+```
+
+```{r quiz-submit-button, echo=FALSE}
+div(class = "text-center", style = "margin: 20px;",
+ actionButton("submit_quiz", 
+        "📝 Submit Quiz and Check Score",
+        icon = icon("check"),
+        class = "btn-success btn-lg"))
+```
+
+```{r context="server-start", echo=FALSE}
+quiz_answers <- reactiveValues(
+ answers = list(),
+ correct_count = 0,
+ question_count = 0,
+ quiz_passed = FALSE
+)
+
+event_register_handler("question_submission", function(session, event, data) {
+ if (!is.null(data$label)) {
+  quiz_answers$answers[[data$label]] <- data
+  quiz_answers$question_count <- length(quiz_answers$answers)
+  
+  correct_count <- sum(sapply(quiz_answers$answers, function(x) {
+   isTRUE(x$correct)
+  }))
+  quiz_answers$correct_count <- correct_count
+ }
+})
+```
+
+```{r context="server", echo=FALSE}
+observeEvent(input$submit_quiz, {
+
+ total_questions <- nquiz
+ answered_questions <- isolate(quiz_answers$question_count)
+ correct_answers <- isolate(quiz_answers$correct_count)
+
+ if (answered_questions == 0) {
+  showModal(modalDialog(
+   title = "⚠️ No Quiz Data Captured",
+   HTML("<p>Please try answering the questions again.</p>"),
+   easyClose = TRUE
+  ))
+  return()
+ }
+
+ if (answered_questions >= total_questions) {
+  percentage <- round((correct_answers / total_questions) * 100)
+  quiz_passed <- percentage >= 50
+  quiz_answers$quiz_passed <- quiz_passed
+
+  # Reset quiz data for next attempt
+  quiz_answers$answers <- list()
+  quiz_answers$correct_count <- 0
+  quiz_answers$question_count <- 0
+
+  if (quiz_passed) {
+   # Show navigation when passed
+   session$sendCustomMessage("showNavigationAndUnlock", list())
+   # Store pass status
+   session$sendCustomMessage("storeQuizStatus", list(status = "true"))
+
+   if (percentage >= 90) {
+    showModal(modalDialog(
+     title = "Excellent Work!",
+     HTML(paste0(
+      "<p><strong>Score: ", percentage, "%</strong></p>",
+      "<p>You have successfully completed <strong>", module_title, "</strong>!</p>",
+      "<p>You can now proceed to the next section!</p>"
+     )),
+     easyClose = TRUE,
+     footer = modalButton("Continue")
+    ))
+   } else if (percentage >= 75) {
+    showModal(modalDialog(
+     title = "Good Job!",
+     HTML(paste0(
+      "<p><strong>Score: ", percentage, "%</strong></p>",
+      "<p>You have successfully completed <strong>", module_title, "</strong>!</p>",
+      "<p>You can now proceed to the next section!</p>"
+     )),
+     easyClose = TRUE,
+     footer = modalButton("Continue")
+    ))
+   }
+  } else {
+   # Failed - show modal with single restart option
+   showModal(modalDialog(
+    title = "Keep Learning!",
+    HTML(paste0(
+     "<p><strong>Score: ", percentage, "%</strong></p>",
+     "<p>You need at least 50% to pass.</p>",
+     "<p><strong>The page will reload to reset the quiz.</strong></p>"
+    )),
+    easyClose = FALSE,
+    footer = actionButton(
+     "reload_page", "Reload & Try Again",
+     class = "btn btn-primary",
+     icon = icon("refresh")
+    )
+   ))
+  }
+ } else {
+  showModal(modalDialog(
+   title = "⚠️ Complete All Questions",
+   HTML(paste0(
+    "<p>Please answer all ", total_questions, " questions before submitting.</p>",
+    "<p>You have answered ", answered_questions, " out of ", total_questions, " questions.</p>"
+   )),
+   easyClose = TRUE
+  ))
+ }
+})
+
+# Handle page reload
+observeEvent(input$reload_page, {
+ session$sendCustomMessage("reloadPage", list())
+})
+```
+
+```{r, echo=FALSE}
+tags$script(HTML("
+ $(document).ready(function() {
+  // Hide navigation buttons initially
+  hideNavigationButtons();
+  $('#next-section').hide();
+ });
+ 
+ // Function to hide navigation buttons
+ function hideNavigationButtons() {
+  $('.tutorial-navigation').hide();
+  $('.tutorial-progress').find('button').hide();
+  $('button[data-tutorial-navigation=\"next\"]').hide();
+  $('button[data-tutorial-navigation=\"previous\"]').hide();
+  $('.btn[onclick*=\"next\"]').hide();
+  
+  $('button').each(function() {
+   var buttonText = $(this).text().toLowerCase();
+   if (buttonText.includes('next') || buttonText.includes('continue')) {
+    if (!$(this).attr('id') || $(this).attr('id') !== 'submit_quiz') {
+     $(this).hide();
+    }
+   }
+  });
+ }
+ 
+ // Function to show navigation buttons
+ function showNavigationButtons() {
+  $('.tutorial-navigation').show();
+  $('.tutorial-progress').find('button').show();
+  $('button[data-tutorial-navigation=\"next\"]').show();
+  $('button[data-tutorial-navigation=\"previous\"]').show();
+  $('.btn[onclick*=\"next\"]').show();
+  
+  $('button').each(function() {
+   var buttonText = $(this).text().toLowerCase();
+   if (buttonText.includes('next') || buttonText.includes('continue')) {
+    if (!$(this).attr('id') || $(this).attr('id') !== 'submit_quiz') {
+     $(this).show();
+    }
+   }
+  });
+ }
+ 
+ // Handler for when quiz is passed
+ Shiny.addCustomMessageHandler('showNavigationAndUnlock', function(data) {
+  showNavigationButtons();
+  $('#next-section').show();
+  
+  setTimeout(function() {
+   $('html, body').animate({
+    scrollTop: $('#next-section').offset().top - 50
+   }, 1000);
+  }, 500);
+ });
+ 
+ // Handler to reload the page
+ Shiny.addCustomMessageHandler('reloadPage', function(data) {
+  // Clear session storage before reload
+  sessionStorage.removeItem('quiz_passed_module1');
+  // Reload the page
+  window.location.reload(true); // force reload from server
+ });
+ 
+ // Store quiz completion status
+ Shiny.addCustomMessageHandler('storeQuizStatus', function(data) {
+  sessionStorage.setItem('quiz_passed_module1', data.status);
+ });
+ 
+ // Check stored status on page load
+ $(window).on('load', function() {
+  setTimeout(function() {
+   var quizPassed = sessionStorage.getItem('quiz_passed_module1');
+   if (quizPassed === 'true') {
+    showNavigationButtons();
+    $('#next-section').show();
+   } else {
+    hideNavigationButtons();
+   }
+  }, 1000);
+ });
+"))
+```
+
+
+## References {.references-m1} {-}
+
+Grolemund, G., & Wickham, H. (2017). R for Data Science. O’Reilly Media.
+
+Brus, D.J.(2022). Spatial Sampling with R, CRC Press, New York. https://dickbrus.github.io/SpatialSamplingwithR/
+
+Hengl, T., & MacMillan, R. A. (2019). Predictive Soil Mapping with R. Zenodo. https://doi.org/10.5281/zenodo.2561035
+
+Soil Survey Staff (2025). Statistics for Soil Survey. https://ncss-tech.github.io/stats_for_soil_example/
+
+Spatial Data Science with R and 'terra' (2025). https://rspatial.org/
+
+
+::: {#next-section .hidden-content}
+## 🎓 Module Summary and Next Steps
+
+### 🎉 Congratulations!
+
+You have completed **Module 1: Introduction to R for Soil Science**!
+:::
+
+```{r context="server", echo=FALSE, warning=FALSE, message=FALSE}
+# Store quiz completion status in session storage when passed
+observeEvent(quiz_answers$quiz_passed, {
+ if (quiz_answers$quiz_passed) {
+  session$sendCustomMessage("storeQuizStatus", list(status = "true"))
+ }
+})
+
+# Handle quiz reset trigger when the modal is closed after failure
+observeEvent(input$reset_quiz_trigger, {
+ session$sendCustomMessage("resetQuizForm", list())
+}, ignoreInit = TRUE)
+
+# Handle the close and reset button from the failed quiz modal
+observeEvent(input$close_and_reset, {
+ removeModal()
+ # Trigger reset after modal closes
+ session$sendCustomMessage("resetQuizForm", list())
+}, ignoreInit = TRUE)
+
+```
+
+```{r, echo=FALSE}
+tags$script(HTML("
+ // Store quiz completion status
+ Shiny.addCustomMessageHandler('storeQuizStatus', function(data) {
+  sessionStorage.setItem('quiz_passed_module1', data.status);
+ });
+"))
+```
+
