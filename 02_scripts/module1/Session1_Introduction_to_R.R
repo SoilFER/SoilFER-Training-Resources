@@ -685,9 +685,6 @@ data
 data <- data[-2, ]
 data
 
-# Delete multiple columns by name
-data[, c("Silt", "pH")] <- NULL
-data
 # Delete rows based on a condition (e.g., remove rows with pH < 6)
 # Rebuild the dataframe
 data <- data.frame(
@@ -829,7 +826,7 @@ soil_data %>%
 
 # Rename columns for clarity
 rename(soil_data,
-    site_id = site)
+    site_id = plot_id)
 
 # You can rename multiple columns at once
 soil_data %>%
