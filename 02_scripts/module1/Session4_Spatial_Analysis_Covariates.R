@@ -2,8 +2,8 @@
 # SoilFER Online Training Programme — Module 1
 # SESSION 4: Spatial Analysis + Preparation of Covariates for Sampling Design
 #            and Digital Soil Mapping (1.5 hours)
-# Source: Module1-B.txt (Sections: Spatial Analysis, Vector data with sf,
-#                                   Raster data with terra, Newhall NSM)
+# Sections: Spatial Analysis, Vector data with sf,Raster data with terra,
+#           Newhall NSM
 ###############################################################################
 #
 # LEARNING OBJECTIVES

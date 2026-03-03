@@ -1,8 +1,7 @@
 ###############################################################################
 # SoilFER Online Training Programme — Module 1
 # SESSION 2: Data Preparation with the KSSL Dataset — Part 1 (1.5 hours)
-# Sources: Module1-A.txt (Section: Working with Soil Data)
-#          Module1-B.txt (Sections: Loading, Site data, Coordinates, Depths)
+# Section: Working with Soil Data, Loading, Site data, Coordinates, Depths
 ###############################################################################
 #
 # LEARNING OBJECTIVES

@@ -1,8 +1,7 @@
 ###############################################################################
 # SoilFER Online Training Programme — Module 1
 # SESSION 3: Data Preparation with the KSSL Dataset — Part 2 (1.5 hours)
-# Source: Module1-B.txt (Sections: Lab data, Duplicates, Harmonization,
-#                                   Spectroscopy prep, Export)
+# Sections: Lab data, Duplicates, Harmonization, Spectroscopy prep, Export
 ###############################################################################
 #
 # LEARNING OBJECTIVES
