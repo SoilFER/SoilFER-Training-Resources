@@ -615,7 +615,7 @@ results <- mask(newhall_results, mask_valid)
 # Quick inspection
 # -------------------------------------------------------------------
 names(results)
-plot(results[1:6])
+plot(results)
 
 newhall_layers <- tribble(
   ~layer, ~units, ~description,
@@ -649,6 +649,27 @@ writeRaster(results, "03_outputs/module1/newhall.tif", overwrite = TRUE)
 #    (Useful to reduce file size when decimals are not critical.)
 results_intx10 <- app(results, function(x) as.integer(round(x * 10)))
 writeRaster(results_intx10, "03_outputs/module1/newhall_intx10.tif", overwrite = TRUE)
+
+
+# Optional: 
+## NSM calculation on a small area
+admin_3857 <- st_transform(admin, 3857)
+admin_3857 <- vect(admin_3857)            # convert sf -> terra vector
+riley <- admin_3857[admin_3857$NAME=="Riley"] # Select the extent of Riley county
+
+# Make sure CRS match (project polygon to raster CRS if needed)
+if (!same.crs(newhall, riley)) {
+  admin_3857 <- project(riley, crs(r))
+}
+r_crop <- crop(newhall, riley)       # trims extent
+system.time({
+  newhall_results <- jNSMR::newhall_batch(r_crop, cores = 4)
+})
+
+names(newhall_results)
+plot(newhall_results)
+plot(newhall_results[[16:19]])
+
 
 
 ###############################################################################
