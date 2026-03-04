@@ -52,9 +52,9 @@
   # Define the folder to store the results of the exercise
   output_dir <-"03_outputs/module1/"
   
-  # Define the relative path to the folder with the downloaded covariates
-  rasters_dir <-"../GEE_Exports/"
-
+  # Define the relative path to the folder with the MIR data
+  training_dir <-"01_data/module1/training_data"
+  
 # =============================================================================
 # PART 2 — WORKING WITH VECTOR DATA USING {sf}
 # =============================================================================
@@ -73,8 +73,16 @@ soil_sf$geometry
 # Print CRS details
 st_crs(soil_sf)
 
+
 # -----------------------------------------------------------------------------
-# 2.2  Importing Shapefiles
+# 2.2  Exporting sf Objects
+# -----------------------------------------------------------------------------
+
+# Export as shapefile
+st_write(soil_sf, paste0(output_dir,"soil_profiles.shp"), delete_layer = TRUE) # overwrites shp
+
+# -----------------------------------------------------------------------------
+# 2.3  Importing Shapefiles
 # -----------------------------------------------------------------------------
 
 # Read the previously created shapefile containing soil profile points
@@ -84,12 +92,6 @@ head(soil_sf)
 # Quick visualization
 plot(soil_sf["pH"], pch = 16, cex = 0.6, key.pos = 1)  # key.pos controls legend position
 
-# -----------------------------------------------------------------------------
-# 2.3  Exporting sf Objects
-# -----------------------------------------------------------------------------
-
-# Export as shapefile
-st_write(soil_sf, paste0(output_dir,"soil_profiles.shp"), delete_layer = TRUE) # overwrites shp
 
 # -----------------------------------------------------------------------------
 # 2.4  Setting and Reprojecting CRS for Vector Data
@@ -143,6 +145,7 @@ alkaline
 # Original KSSL data is in WGS84 EPSG:4326  geographic coordinates(lon/lat)
 # Transform the subset of alkaline soils to NAD83 / UTM 14N (EPSG: 26914)
 alkaline_utm <- st_transform(alkaline, crs = 26914)  # UTM 14N, distance in metres
+alkaline_utm
 
 # Create a 1 km buffer around each plot
 plots_buffer_1k <- st_buffer(alkaline_utm, dist = 1000)
@@ -161,8 +164,12 @@ plot(st_geometry(alkaline_utm[1:3, ]),
 
 # Read administrative boundaries (example file)
 admin <- st_read("01_data/module1/shapes/Tiger_2020_Counties.shp")
+admin
+
 # Ensure both layers share the same CRS
 admin <- st_transform(admin, st_crs(soil_sf))
+admin
+
 # Example: select one unit (replace with your column/value)
 study_area <- admin[admin$NAME == "Riley", ]
 # Keep only points inside the study area
@@ -299,7 +306,7 @@ par(op) # restore previous graphics settings
 crs(covs)
 # Reproject raster (example: to EPSG:3857)
 covs_3857 <- project(covs, "EPSG:3857")
-
+crs(covs_3857)
 
 # =============================================================================
 # PART 5 — SPATIAL OPERATIONS ON RASTERS
@@ -360,8 +367,8 @@ par(op)
 # Align raster of crops to the grid of covariates
 crops_aligned <- resample(crops, covs, method = "near")
 # Spatial properties of aligned crops and covariates are equal
-ext(crops_aligned)
 ext(covs)
+ext(crops_aligned)
 res(covs)
 res(crops_aligned)
 
@@ -601,19 +608,47 @@ system.time({
 # 6.6  Inspect and Export NSM Results
 # -----------------------------------------------------------------------------
 
-# Simple validity mask
-mask_valid <- newhall_results$annualRainfall * 0 + 1
-
-# Apply mask and export
+# Build a validity mask from the precipitation layer
+mask_valid <- !is.na(newhall_results$annualRainfall)
+# Apply the mask to all NSM layers
 results <- mask(newhall_results, mask_valid)
+# Quick inspection
+# -------------------------------------------------------------------
+names(results)
+plot(results[1:6])
+
+newhall_layers <- tribble(
+  ~layer, ~units, ~description,
+  "annualRainfall", "mm/yr", "Total precipitation accumulated over the year.",
+  "waterHoldingCapacity", "mm", "Soil water-holding capacity used by the model (plant-available storage over the modeled profile/control section).",
+  "annualWaterBalance", "mm/yr", "Net annual water balance (precipitation − potential evapotranspiration) summed over the year; positive = surplus, negative = deficit.",
+  "annualPotentialEvapotranspiration", "mm/yr", "Total annual potential evapotranspiration (atmospheric evaporative demand) summed over the year.",
+  "summerWaterBalance", "mm (summer period)", "Net water balance during the model’s summer period (precipitation − potential evapotranspiration) for that season.",
+  "dryDaysAfterSummerSolstice", "days", "Number of days classified as dry after the summer solstice (indicator of summer dryness duration).",
+  "moistDaysAfterWinterSolstice", "days", "Number of days classified as moist after the winter solstice (indicator of post-winter moisture duration).",
+  "numCumulativeDaysDry", "days", "Cumulative number of dry days across the year (sum of days meeting the model’s dry condition).",
+  "numCumulativeDaysMoistDry", "days", "Cumulative number of moist-dry (intermediate) days across the year.",
+  "numCumulativeDaysMoist", "days", "Cumulative number of moist days across the year.",
+  "numCumulativeDaysDryOver5C", "days", "Cumulative number of dry days when temperature is > 5 °C.",
+  "numCumulativeDaysMoistDryOver5C", "days", "Cumulative number of moist-dry days when temperature is > 5 °C.",
+  "numCumulativeDaysMoistOver5C", "days", "Cumulative number of moist days when temperature is > 5 °C.",
+  "numConsecutiveDaysMoistInSomeParts", "days", "Consecutive days when the soil is moist in some part of the control section (persistence of partial-profile moisture).",
+  "numConsecutiveDaysMoistInSomePartsOver8C", "days", "Consecutive days when the soil is moist in some part of the control section and temperature is > 8 °C.",
+  "temperatureRegime", "class", "Categorical soil temperature regime output (e.g., mesic, thermic), derived from the model’s temperature criteria.",
+  "moistureRegime", "class", "Categorical soil moisture regime output (e.g., udic, ustic, xeric), derived from the model’s moisture criteria.",
+  "regimeSubdivision1", "class", "Van Wambeke modifier (Part 1): a simple qualifier such as Wet/Dry/Typic/Weak/Extreme that refines the moisture regime.",
+  "regimeSubdivision2", "class", "Van Wambeke base term (Part 2): the main regime term (often Temp* or Trop* forms like Tempustic/Tropustic or Tempudic/Tropudic). Combine with Part 1 to get the full label (e.g., 'Wet Tempustic')."
+)
+newhall_layers
+
+# Export to GeoTIFF
 writeRaster(results, "03_outputs/module1/newhall.tif", overwrite = TRUE)
 
-# Optional compact integer exports (×10 preserves 1 decimal place)
-results_climate_int <- app(newhall,  function(x) as.integer(x * 10))
-writeRaster(results_climate_int, "03_outputs/module1/climate_intx10.tif", overwrite = TRUE)
-
-results_newhall_int <- app(results, function(x) as.integer(x * 10))
-writeRaster(results_newhall_int, "03_outputs/module1/newhall_intx10.tif", overwrite = TRUE)
+# Optional: compact integer exports
+#    Multiply by 10 to preserve 1 decimal place, then store as integer.
+#    (Useful to reduce file size when decimals are not critical.)
+results_intx10 <- app(results, function(x) as.integer(round(x * 10)))
+writeRaster(results_intx10, "03_outputs/module1/newhall_intx10.tif", overwrite = TRUE)
 
 
 ###############################################################################

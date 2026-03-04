@@ -47,16 +47,16 @@
 # Use relative paths (e.g., "01_data/module1/kssl/KSSL_data.csv") whenever possible.
 
 # Check current working directory
-getwd()
+# getwd()
 
 # Set new working directory
-setwd("C:/Users/YourName/Documents/YourSoilProject")
+# setwd("C:/Users/YourName/Documents/YourSoilProject")
 
 # On Mac/Linux
-setwd("/Users/YourName/Documents/YourSoilProject")
+# setwd("/Users/YourName/Documents/YourSoilProject")
 
-# Set working directory to script location (recommended)
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+# Set working directory to script location
+# setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 # -----------------------------------------------------------------------------
 # 1.2  Load Packages

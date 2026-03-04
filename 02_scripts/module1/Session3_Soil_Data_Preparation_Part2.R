@@ -46,8 +46,15 @@ library(tidyverse)        # Data manipulation and visualization
 # Define the folder to store the results of the exercise
 output_dir <-"03_outputs/module1/"
 
+# Define the relative path to the folder with the MIR data
+training_dir <-"01_data/module1/training_data"
+
 # Read Excel file containing raw soil data
 raw_data <- read_excel("01_data/module1/kssl/KSSL_data.xlsx", sheet = 1) 
+# Add unique row identifier to track individual records through processing
+raw_data <- raw_data %>%
+  mutate(rowID = row_number(), .before = 1)
+
 # Read the CSV file containing site data from the previous session
 site <- read_csv("03_outputs/module1/site_KSSL.csv")
 
@@ -62,31 +69,34 @@ site <- read_csv("03_outputs/module1/site_KSSL.csv")
 # -----------------------------------------------------------------------------
 
 # Extract laboratory columns with standardized names
-lab <- raw_data %>%
-  select(
-    rowID,
-    SOC, Carbon_Total,                                # Soil Organic Carbon and Total Carbon (%)                    
-    Bulk.Density_1_3.BAR, Bulk.Density_ovendry,       # Bulk density at 1.3 bar and oven dry (g/cm³)
-    Sand, Silt, Clay,                                 # Texture (%)
-    pH,                                               # pH H2O
-    CEC,                                              # CEC in cmol(+)/kg
-    Nitrogen_Total,                                   # Total nitrogen (%),
-    Phosphorus_Mehlich3, Phosphorus_Olsen, Potassium, # Available P (mg/kg), Exchangeable K (cmol(+)/kg)
-    Calcium_Carbonate_equivalent                      # CaCO3 equivalent (%)
-  )
+  lab <- raw_data %>%
+    select(
+      rowID,
+      SOC, Carbon_Total,                                # Soil Organic Carbon and Total Carbon (%)                    
+      Bulk.Density_1_3.BAR, Bulk.Density_ovendry,       # Bulk density at 1.3 bar and oven dry (g/cm³)
+      Sand, Silt, Clay,                                 # Texture (%)
+      pH,                                               # pH H2O
+      CEC,                                              # CEC in cmol(+)/kg
+      Nitrogen_Total,                                   # Total nitrogen (%),
+      Phosphorus_Mehlich3, Phosphorus_Olsen, Potassium, # Available P (mg/kg), Exchangeable K (cmol(+)/kg)
+      Calcium_Carbonate_equivalent                      # CaCO3 equivalent (%)
+    )
+  lab
 
   # Ensure numeric type for all analytical parameters (prevents issues if stored as text)
   lab <- lab %>%
   mutate(across(-rowID, as.numeric))
-
+  lab 
+  
   # Keep only lab records that are present in the cleaned site dataset
   lab <- lab %>%
     filter(rowID %in% site$rowID)
+  lab 
   
   # Join both site and lab data by the common identifier 'rowID'
   site_lab <- site %>%
     left_join(lab, by = "rowID")
-
+  site_lab
 
 # =============================================================================
 # PART 2 — LABORATORY DATA VALIDATION
@@ -113,8 +123,9 @@ lab <- raw_data %>%
 
 # Load thresholds for analytical soil properties
 property_thresholds <- read_csv("01_data/module1/kssl/property_thresholds.csv")
+property_thresholds
 
-# Identify out-of-bounds values
+# Identify out-of-bounds values, create a list to populate out-of-bounds issues
 out_of_bounds_issues <- list()
 
 for (i in seq_len(nrow(property_thresholds))) {
@@ -147,6 +158,9 @@ for (i in seq_len(nrow(property_thresholds))) {
     }
   }
 }
+# We can easily detect potential issues with lab data
+out_of_bounds_issues
+
 # Remove temporary objects
 rm(i,idx,max_val,min_val, prop,prop_desc,x)
 
@@ -223,10 +237,11 @@ texture_problems <- site_lab %>%
     texture_sum = Clay + Silt + Sand,
     texture_valid = abs(texture_sum - 100) < 2
   )
-
+# Select only samples with texture issues
 texture_problems <- texture_problems %>%
   filter(!texture_valid)
 
+# View texture issues
 if (nrow(texture_problems) > 0) {
   cat(" Found", nrow(texture_problems),
       "records with invalid texture sums\n\n")
@@ -263,7 +278,7 @@ for (property in names(out_of_bounds_issues)){
   print(summary(data.frame(out_of_bounds_issues[property])[4]))
 }
 
-# Correction: Negative SOC values
+# Correction: Negative SOC values to positive values
 idx <- !is.na(site_lab$SOC) & site_lab$SOC < 0
 if (any(idx)) site_lab$SOC[idx] <- abs(site_lab$SOC[idx])
 # Remove temporary objects
@@ -330,7 +345,7 @@ profile_analysis <- site_lab %>%
 # Find profiles with likely duplicates
 duplicates <- profile_analysis %>%
   filter(likely_duplicates)
-
+# View duplicates
 if (nrow(duplicates) > 0) {
   cat(" Found", nrow(duplicates), 
       "profiles with likely duplicates measurement sequences\n\n")
@@ -340,7 +355,8 @@ if (nrow(duplicates) > 0) {
 # Select all profiles presenting duplicate horizons
 duplicates <- site_lab %>%
   filter(ProfID %in% duplicates$ProfID)
-
+# Explore duplicates
+duplicates
 
 # -----------------------------------------------------------------------------
 # 3.2  Resolution Step 1: Average Duplicated Horizons (Same Depth Intervals)
@@ -367,6 +383,7 @@ site_lab <- site_lab %>%
     .groups = "drop"
   ) %>%
   select(names(site_lab))   # <- restores original column order
+site_lab
 
 # -----------------------------------------------------------------------------
 # 3.3  Resolution Step 2: Resolve ProfID for Multiple Depth Sequences
@@ -482,6 +499,8 @@ horizons <- site_lab %>%
   select(lon, lat, ProfID) %>%
   inner_join(site_lab, by = c("lon", "lat", "ProfID")) %>%
   ungroup()
+#Explore horizons
+horizons
 
 # -----------------------------------------------------------------------------
 # 4.2  Depth Standardization with aqp::slab()
@@ -593,6 +612,8 @@ initSpatial(horizons, crs = "EPSG:4326") <- ~ lon + lat
 fml <- as.formula(
   paste("ProfID ~", paste(properties_to_standardize, collapse = " + "))
 )
+# View formula
+fml
 
 # Apply slab() to interpolate to standard depths
 KSSL_standardized <- slab(
@@ -601,7 +622,8 @@ KSSL_standardized <- slab(
   slab.structure = standard_depths,  # Target standard depths
   na.rm = TRUE                        # Ignore NA values in calculations
 )
-
+# The output is in Long Format
+KSSL_standardized 
 # -----------------------------------------------------------------------------
 # 4.3  Add Confidence Interval Column
 # -----------------------------------------------------------------------------
@@ -620,6 +642,8 @@ KSSL_standardized <- KSSL_standardized %>%
       round(p.q95, 3)                 # Upper bound (95th percentile)
     )
   )
+# The output is still in Long Format, only added the CI column
+KSSL_standardized
 
 # -----------------------------------------------------------------------------
 # 4.4  Reshape from Long to Wide Format
@@ -636,6 +660,8 @@ KSSL_standardized <- KSSL_standardized %>%
     values_from = c(p.q50, CI),        # Both point estimate and CI
     names_glue = "{variable}_{.value}" # Create names like "SOC_p.q50", "SOC_CI"
   )
+# The output is now in Wide Format
+KSSL_standardized
 
 # Add geographic coordinates back
   # WHY: Spatial data needed for mapping and spatial analysis
@@ -655,6 +681,8 @@ KSSL_standardized <- KSSL_standardized %>%
   ) %>%
   # Move coordinates to front for readability
   relocate(lon, lat, .after = ProfID)
+# Registers have now coordinates
+KSSL_standardized
 
 # Since ProfIDs are now unique at each location, remove tailings ProfID values
 KSSL_standardized$ProfID <- sub("_[12]$", "", KSSL_standardized$ProfID)
@@ -697,6 +725,8 @@ subset_data <- KSSL_standardized %>%
     SOC = SOC_p.q50,
     pH = pH_p.q50
   )
+# Only mean values for Clay, Silt, Sand, SOC and pH for layer 0-30
+subset_data
 
 # Save to CSV
 output_csv <- paste0(output_dir,"KSSL_DSM_0-30.csv")
@@ -727,8 +757,8 @@ cat("  Output file: KSSL_DSM_0-30\n")
 # (MIR) from the original raw file. Join key: HorID (site_lab) = smp_id (spec).
 
 # Read and subset spectral data from the original dataset
-raw_data <- read_excel(paste0(rasters,"MIR_KANSAS_data.xlsx"), sheet = 1) 
-spec <- raw_data[,-c(1,2,4:22)]
+raw_data <- read_excel(paste0(training_dir,"MIR_KANSAS_data.xlsx"), sheet = 1) 
+spec <- raw_data[,-c(1,3:22)]
 
 # Merge site_lab data to the original Spectral data by their common IDs
 site_lab_spec <- left_join (site_lab,spec, by=c("HorID"="smp_id") )
