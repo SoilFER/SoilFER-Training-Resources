@@ -95,7 +95,7 @@ help(package = "tidyverse")
 
 # View vignettes (tutorials) for a package
 vignette(package = "ggplot2")
-
+vignette("ggplot2", package = "ggplot2")
 
 # =============================================================================
 # PART 2 — OBJECTS AND DATA TYPES
