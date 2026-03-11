@@ -121,7 +121,7 @@ site_lab <- site_lab %>%
   "Nitrogen_Total",                  # Total nitrogen (%)
   "Phosphorus_Mehlich3",             # Available P (mg/kg)
   "Phosphorus_Olsen",                # Available P (mg/kg)
-  "Potassium",                       # Exchangeable K (cmol(+)/kg)
+  "Potassium",                       # Extractable K (cmol(+)/kg)
   "Calcium")                         # Extractable Ca (cmol(+)/kg)
   
   
