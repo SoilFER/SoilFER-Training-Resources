@@ -294,7 +294,6 @@ soil_matrix[, 2]         # All of column 2
 # 3.4  Data Frames
 # -----------------------------------------------------------------------------
 
-
 # Create a data frame
 soil_data <- data.frame(
   plot_id = c("P001", "P002", "P003", "P004", "P005"),
@@ -317,6 +316,9 @@ head(soil_data)
 
 # View last rows
 tail(soil_data)
+
+summary(soil_data)
+
 
 # Get dimensions
 dim(soil_data)         # rows, columns

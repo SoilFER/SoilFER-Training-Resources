@@ -42,6 +42,7 @@
 
 library(readxl)           # Read Excel files
 library(tidyverse)        # Data manipulation and visualization
+library(writexl)          # Write Excel files
 
 # Define the folder to store the results of the exercise
 output_dir <-"03_outputs/module1/"
@@ -51,9 +52,22 @@ training_dir <-"01_data/module1/training_data"
 
 # Read Excel file containing raw soil data
 raw_data <- read_excel("01_data/module1/kssl/KSSL_data.xlsx", sheet = 1) 
-# Add unique row identifier to track individual records through processing
+
+# Remove records with missing coordinates
 raw_data <- raw_data %>%
-  mutate(rowID = row_number(), .before = 1)
+  dplyr::filter(!is.na(Long_Site) & !is.na(Long_Site))
+
+# Add Row and Profile Identifiers
+raw_data <- raw_data %>%
+  mutate(rowID = row_number(), .before = 1) %>%
+  # Group all horizons at the same location
+  group_by(Long_Site, Lat_Site) %>%
+  mutate(HorID = smp_id, .before = 2) %>%
+  # Assign sequential ID to each unique Profile location (cur_group_id() returns group number)
+  mutate(ProfID = cur_group_id(), .before = 3) %>%
+  ungroup() %>%
+  # Format as standardized IDs: PROF0001, PROF0002, etc. with 4 digit resolution
+  mutate(ProfID = sprintf("PROF%04d", ProfID))
 
 # Read the CSV file containing site data from the previous session
 site <- read_csv("03_outputs/module1/site_KSSL.csv")
@@ -69,35 +83,48 @@ site <- read_csv("03_outputs/module1/site_KSSL.csv")
 # -----------------------------------------------------------------------------
 
 # Extract laboratory columns with standardized names
-  lab <- raw_data %>%
+site_lab <- raw_data %>%
     select(
-      rowID,
-      SOC, Carbon_Total,                                # Soil Organic Carbon and Total Carbon (%)                    
-      Bulk.Density_1_3.BAR, Bulk.Density_ovendry,       # Bulk density at 1.3 bar and oven dry (g/cm³)
-      Sand, Silt, Clay,                                 # Texture (%)
-      pH,                                               # pH H2O
-      CEC,                                              # CEC in cmol(+)/kg
-      Nitrogen_Total,                                   # Total nitrogen (%),
-      Phosphorus_Mehlich3, Phosphorus_Olsen, Potassium, # Available P (mg/kg), Exchangeable K (cmol(+)/kg)
-      Calcium_Carbonate_equivalent                      # CaCO3 equivalent (%)
+      rowID, ProfID, HorID, Lat_Site ,Long_Site, Top_depth_cm, Bottom_depth_cm,
+      `Estimated Organic Carbon`, `Carbon, Total`,                                     # Soil Organic Carbon and Total Carbon (%)                    
+      `Bulk Density, <2mm Fraction, 1/3 Bar`, `Bulk Density, <2mm Fraction, Ovendry`,  # Bulk density at 1.3 bar and oven dry (g/cm³)
+      `Sand, Total`, `Silt, Total`, `Clay`,                                     # Texture (%)
+      `pH, 1:1 Soil-Water Suspension`,                                                 # pH H2O
+      `CEC, NH4OAc, pH 7.0, 2M KCl displacement`,                                      # CEC in cmol(+)/kg
+      `Nitrogen, Total`,                                                               # Total nitrogen (%),
+      `Phosphorus, Mehlich3 Extractable`, `Phosphorus, Olsen Extractable`,             # Available P (mg/kg)
+      `Potassium, NH4OAc Extractable, 2M KCl displacement`,                            # Extractable K (cmol(+)/kg)
+      `Calcium, NH4OAc Extractable, 2M KCl displacement`                               # Extractable Ca (cmol(+)/kg)
     )
-  lab
-
-  # Ensure numeric type for all analytical parameters (prevents issues if stored as text)
-  lab <- lab %>%
-  mutate(across(-rowID, as.numeric))
-  lab 
-  
-  # Keep only lab records that are present in the cleaned site dataset
-  lab <- lab %>%
-    filter(rowID %in% site$rowID)
-  lab 
-  
-  # Join both site and lab data by the common identifier 'rowID'
-  site_lab <- site %>%
-    left_join(lab, by = "rowID")
   site_lab
 
+  # Ensure numeric type for all analytical parameters (prevents issues if stored as text)
+  site_lab <- site_lab %>%
+    mutate(across(-c(rowID,ProfID, HorID), as.numeric)) 
+  site_lab 
+  
+  
+  # Rename columns in site_lab
+  names(site_lab) <-
+  c("rowID", "ProfID", "HorID",      # Unique row and profile identifier
+  "lon", "lat",                      # Coordinates (WGS84)
+  "top", "bottom",                   # Depth boundaries (cm)
+  "SOC",                             # Soil Organic Carbon (%)
+  "Carbon_Total",                    # Total carbon (%)
+  "Bulk.Density_1_3.BAR",            # BD at 1.3 bar (g/cm³)
+  "Bulk.Density_ovendry",            # BD oven dry (g/cm³)
+  "Sand",                            # Sand content (%)
+  "Silt",                            # Silt content (%)
+  "Clay",                            # Clay content (%)
+  "pH",                              # Soil pH (H₂O)
+  "CEC",                             # Cation exchange capacity (cmol(+)/kg)
+  "Nitrogen_Total",                  # Total nitrogen (%)
+  "Phosphorus_Mehlich3",             # Available P (mg/kg)
+  "Phosphorus_Olsen",                # Available P (mg/kg)
+  "Potassium",                       # Exchangeable K (cmol(+)/kg)
+  "Calcium")                         # Extractable Ca (cmol(+)/kg)
+  
+  
 # =============================================================================
 # PART 2 — LABORATORY DATA VALIDATION
 # WHY: Soil properties have known valid ranges. Values outside these ranges
@@ -158,7 +185,7 @@ for (i in seq_len(nrow(property_thresholds))) {
     }
   }
 }
-# We can easily detect potential issues with lab data
+# We can easily detect potential issues with site_lab data
 out_of_bounds_issues
 
 # Remove temporary objects
@@ -217,7 +244,7 @@ if (length(out_of_bounds_issues) > 0) {
     paste0(output_dir,"soil_property_validation_report.xlsx")
   )
   
-  cat("\n Detailed report saved to: soil_property_validation_report.xlsx\n")
+  cat("\n Detailed report saved to: 03_outputs/module1/soil_property_validation_report.xlsx\n")
   
   rm(all_issues, issue_summary, rows_with_multiple_issues)
   
@@ -231,7 +258,7 @@ if (length(out_of_bounds_issues) > 0) {
 # Particle-size fractions (Clay + Silt + Sand) should sum to ~100%.
 # Values failing this check are flagged for review — NOT automatically removed.
 
-# Print rows with texture validation incosistencies 
+# Print rows with texture validation inconsistencies 
 texture_problems <- site_lab %>%
   mutate(
     texture_sum = Clay + Silt + Sand,
@@ -248,6 +275,8 @@ if (nrow(texture_problems) > 0) {
   print(texture_problems %>%
           select(rowID, ProfID, Clay, Silt, Sand, texture_sum))
   # Flag for review (do not automatically remove)
+} else {
+  cat(" Texture problems not found")
 }
 
 # -----------------------------------------------------------------------------
@@ -286,6 +315,7 @@ rm(idx)
 
 # Correction: Phosphorus Mehlich 3 > 2000 mg/kg (likely 1000× error - ppb instead of ppm)
 idx <- !is.na(site_lab$Phosphorus_Mehlich3) & site_lab$Phosphorus_Mehlich3 > 2000
+# idx <- !is.na(site_lab$Phosphorus_Mehlich3) & site_lab$Phosphorus_Mehlich3 > property_thresholds[property_thresholds$property=="Phosphorus_Mehlich3","max_valid"][[1]]
 n_idx <- sum(idx)
 if (n_idx > 0) site_lab$Phosphorus_Mehlich3[idx] <- site_lab$Phosphorus_Mehlich3[idx] / 1000
 # Remove temporary objects
@@ -385,6 +415,8 @@ site_lab <- site_lab %>%
   select(names(site_lab))   # <- restores original column order
 site_lab
 
+
+
 # -----------------------------------------------------------------------------
 # 3.3  Resolution Step 2: Resolve ProfID for Multiple Depth Sequences
 # -----------------------------------------------------------------------------
@@ -397,6 +429,31 @@ site_lab
 # 2. If YES → Single profile (done)
 # 3. If NO → Find the consecutive horizons that ARE continuous
 # 4. If we find blocks with no gaps → Split the series into subprofiles
+
+# 5.1  Check 1: Missing Depth Boundaries
+# -----------------------------------------------------------------------------
+
+# Keep records where `top` or `bottom` are not NA
+site_lab <- site_lab %>%
+  dplyr::filter(!is.na(top) & !is.na(bottom))
+
+# Keep records where `top` or `bottom` are positive
+site_lab <- site_lab %>%
+  filter(!(top < 0 | bottom < 0))
+
+# Remove zero-thickness horizons
+site_lab <- site_lab %>%
+  filter(!(bottom - top == 0))
+
+# Remove invalid depth logic
+site_lab <- site_lab %>%
+  filter(bottom > top)
+
+## Keep only profiles that start at the surface (min top == 0)
+site_lab <- site_lab %>%
+  dplyr::group_by(ProfID) %>%
+  dplyr::filter(!is.na(top) & min(top, na.rm = TRUE) == 0) %>%
+  dplyr::ungroup()
 
 # Create a function to identify sequences of horizons for each profile
 chain_horizons <- function(top, bottom) {
@@ -419,6 +476,7 @@ chain_horizons <- function(top, bottom) {
   }
   chain_id
 }
+
 
 site_lab <- site_lab %>%
   group_by(lon, lat, ProfID) %>%
@@ -550,10 +608,11 @@ standard_depths <- c(0, 30, 60)  # 0-30, 30-60 cm
 #   "Phosphorus_Mehlich3",             # Available P (mg/kg)
 #   "Phosphorus_Olsen",                # Available P (mg/kg)
 #   "Potassium",                       # Exchangeable K (cmol(+)/kg)
-#   "Calcium_Carbonate_equivalent"     # CaCO₃ equivalent (%)
+#   "Calcium"                          # Extractable Ca (cmol(+)/kg)
 
 # Select properties to standardize
-properties_to_standardize <- c("SOC","Carbon_Total","Bulk.Density_1_3.BAR","Bulk.Density_ovendry","Sand","Silt","Clay",                               "pH","CEC","Nitrogen_Total","Phosphorus_Mehlich3","Phosphorus_Olsen","Potassium","Calcium_Carbonate_equivalent")
+properties_to_standardize <- c("SOC","Carbon_Total","Bulk.Density_1_3.BAR","Bulk.Density_ovendry","Sand","Silt","Clay",
+                               "pH","CEC","Nitrogen_Total","Phosphorus_Mehlich3","Phosphorus_Olsen","Potassium","Calcium")
 
 # Prepare data for aqp
 

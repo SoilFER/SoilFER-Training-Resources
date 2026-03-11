@@ -22,7 +22,7 @@
 # -------
 # KSSL (Kellogg Soil Survey Laboratory) Kansas dataset
 #   - File: 01_data/module1/kssl/KSSL_data.xlsx  (or KSSL_data.csv)
-#   - 10,352 soil horizon measurements from 2,584 soil profiles
+#   - 2,746 soil horizon measurements (+ replicates= from 462 soil profiles
 #   - Columns: site info (location, depth), 14 soil properties, spectral IDs
 #
 # TIMING GUIDE (approximate)
@@ -62,49 +62,50 @@
 # 1.2  Load Packages
 # -----------------------------------------------------------------------------
 
-library(readxl)           # Read Excel files
-library(tidyverse)        # Data manipulation and visualization
+# library(readxl)           # Read Excel files
+# library(tidyverse)        # Data manipulation and visualization
 
 # -----------------------------------------------------------------------------
 # 1.3  Importing Data from Files
 # -----------------------------------------------------------------------------
 
 # Read a CSV file (generic syntax)
-soil_data <- read.csv("path/to/soil_data.csv")
+# soil_data <- read.csv("path/to/soil_data.csv")
 
 # If CSV uses different separator (semicolon, tab) (generic syntax)
-soil_data <- read.csv("path/to/file.csv", sep = ";")
-soil_data <- read.delim("path/to/file.txt", sep = "\t")
+# soil_data <- read.csv("path/to/file.csv", sep = ";")
+# soil_data <- read.delim("path/to/file.txt", sep = "\t")
+
 # Read a CSV file using the `readr::read_csv` in tidyverse  (generic syntax)
-soil_data <- read_csv("path/to/file.txt")
+# soil_data <- read_csv("path/to/file.txt")
 
 # Read the KSSL data from a CSV file
-soil_data <- read_csv("01_data/module1/kssl/KSSL_data.csv")
+# soil_data <- read_csv("01_data/module1/kssl/KSSL_data.csv")
 
 # View structure
-str(soil_data)
+# str(soil_data)
 
 # View first rows
-head(soil_data)
+# head(soil_data)
 
 # Read Excel file
-soil_data <- read_excel("01_data/module1/kssl/KSSL_data.xlsx", sheet = 1) 
+# soil_data <- read_excel("01_data/module1/kssl/KSSL_data.xlsx", sheet = 1) 
 
 # Or read a specific sheet by name
-soil_data <- read_excel("01_data/module1/kssl/KSSL_data.xlsx", sheet = "SoilData")
+# soil_data <- read_excel("01_data/module1/kssl/KSSL_data.xlsx", sheet = "SoilData")
 
 # -----------------------------------------------------------------------------
 # 1.4  Exploring the Imported Data
 # -----------------------------------------------------------------------------
 
-str(soil_data)        # Structure + column types
-summary(soil_data)    # Quick summaries for each column
-names(soil_data)      # Column names
-
-head(soil_data)       # First rows
-tail(soil_data)       # Last rows
-
-View(soil_data) # opens a spreadsheet-style viewer in RStudio
+# str(soil_data)        # Structure + column types
+# summary(soil_data)    # Quick summaries for each column
+# names(soil_data)      # Column names
+# 
+# head(soil_data)       # First rows
+# tail(soil_data)       # Last rows
+# 
+# View(soil_data) # opens a spreadsheet-style viewer in RStudio
 
 
 # =============================================================================
@@ -153,7 +154,7 @@ summary(raw_data) # Summarize the data
 # The raw data includes information of:
 # - Position and depth (SITE)
 # - Analytical values of soil parameters (LAB)
-# - The Dry Chemistry Data (SPECTRAL) has been stored in a separate file (MIR_KANSAS_data.xlsx) due to his size
+# - The Dry Chemistry Data (SPECTRAL) has been stored in a separate file due to its size
 #
 # WHAT TO DO:
 # - Extract only the columns you need for site identification
@@ -168,17 +169,35 @@ summary(raw_data) # Summarize the data
 #   - Horizon identifiers
 
 # -----------------------------------------------------------------------------
-# 3.1  Adding a Unique Row Identifier
+# 3.1  Remove points without coordinates
+# -----------------------------------------------------------------------------
+# Remove records with missing coordinates
+raw_data <- raw_data %>%
+  dplyr::filter(!is.na(Long_Site) & !is.na(Long_Site))
+
+# -----------------------------------------------------------------------------
+# 3.2  Adding Unique Row and Profile Identifiers
 # -----------------------------------------------------------------------------
 # Add rowID BEFORE making any modifications so each original record can be
 # traced throughout the entire cleaning workflow.
+# Add Profile Identifier
+# WHY: Each unique location = one soil profile ID
+# HOW: Group by coordinates, assign sequential ID, format as "PROF0001"
+# -----------------------------------------------------------------------------
 
-# Add unique row identifier to track individual records through processing
+# Add Row and Profile Identifiers
 raw_data <- raw_data %>%
-  mutate(rowID = row_number(), .before = 1)
+  mutate(rowID = row_number(), .before = 1) %>%
+  # Group all horizons at the same location
+  group_by(Long_Site, Lat_Site) %>%
+  # Assign sequential ID to each unique location (cur_group_id() returns group number)
+  mutate(ProfID = cur_group_id(), .before = 2) %>%
+  ungroup() %>%
+  # Format as standardized IDs: PROF0001, PROF0002, etc. with 4 digit resolution
+  mutate(ProfID = sprintf("PROF%04d", ProfID))
 
 # -----------------------------------------------------------------------------
-# 3.2  Extracting and Standardizing Column Names for Sites
+# 3.3  Extracting and Standardizing Column Names for Sites
 # -----------------------------------------------------------------------------
 # Select relevant columns and rename to a consistent naming convention.
 
@@ -186,38 +205,23 @@ raw_data <- raw_data %>%
 site <- raw_data %>%
   select(
     rowID,
-    Long_Site.x,              # Raw column name for longitude
-    Lat_Site.x,               # Raw column name for latitude
+    ProfID,
+    Long_Site,              # Raw column name for longitude
+    Lat_Site,               # Raw column name for latitude
     smp_id,                   # Sample/horizon identifier
-    Top_depth_cm.x,           # Top depth in centimeters
-    Bottom_depth_cm.x         # Bottom depth in centimeters
+    Top_depth_cm,           # Top depth in centimeters
+    Bottom_depth_cm         # Bottom depth in centimeters
   )
 
   # Rename columns to standard, consistent names
 site <- site %>%
   rename(
-    lon = Long_Site.x,
-    lat = Lat_Site.x,
+    lon = Long_Site,
+    lat = Lat_Site,
     HorID = smp_id,
-    top = Top_depth_cm.x,
-    bottom = Bottom_depth_cm.x
+    top = Top_depth_cm,
+    bottom = Bottom_depth_cm
   ) 
-
-# -----------------------------------------------------------------------------
-# 3.3  Creating Unique Profile Identifiers
-  # WHY: Each unique location = one soil profile ID
-  # HOW: Group by coordinates, assign sequential ID, format as "PROF0001"
-# -----------------------------------------------------------------------------
-
-# Group horizons by coordinate and assign a standardized ProfID (e.g., "PROF0001").
-site <- site %>%
-  # Group all horizons at the same location
-  group_by(lon, lat) %>%
-  # Assign sequential ID to each unique location (cur_group_id() returns group number)
-  mutate(ProfID = cur_group_id()) %>%
-  ungroup() %>%
-  # Format as standardized IDs: PROF0001, PROF0002, etc. with 4 digit resolution
-  mutate(ProfID = sprintf("PROF%04d", ProfID))
 
   # Reorder columns for clarity
 site <- site %>%
