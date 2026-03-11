@@ -58,7 +58,7 @@ raw_data <- raw_data %>%
   dplyr::filter(!is.na(Long_Site) & !is.na(Long_Site))
 
 # Add Row and Profile Identifiers
-raw_data <- raw_data %>%
+site_lab <- raw_data %>%
   mutate(rowID = row_number(), .before = 1) %>%
   # Group all horizons at the same location
   group_by(Long_Site, Lat_Site) %>%
@@ -70,7 +70,7 @@ raw_data <- raw_data %>%
   mutate(ProfID = sprintf("PROF%04d", ProfID))
 
 # Read the CSV file containing site data from the previous session
-site <- read_csv("03_outputs/module1/site_KSSL.csv")
+#site <- read_csv("03_outputs/module1/site_KSSL.csv")
 
 # -----------------------------------------------------------------------------
 # 1.1  Extract and Standardize Laboratory Columns
@@ -83,12 +83,12 @@ site <- read_csv("03_outputs/module1/site_KSSL.csv")
 # -----------------------------------------------------------------------------
 
 # Extract laboratory columns with standardized names
-site_lab <- raw_data %>%
+site_lab <- site_lab %>%
     select(
       rowID, ProfID, HorID, Lat_Site ,Long_Site, Top_depth_cm, Bottom_depth_cm,
       `Estimated Organic Carbon`, `Carbon, Total`,                                     # Soil Organic Carbon and Total Carbon (%)                    
       `Bulk Density, <2mm Fraction, 1/3 Bar`, `Bulk Density, <2mm Fraction, Ovendry`,  # Bulk density at 1.3 bar and oven dry (g/cm³)
-      `Sand, Total`, `Silt, Total`, `Clay`,                                     # Texture (%)
+      `Sand, Total`, `Silt, Total`, `Clay`,                                            # Texture (%)
       `pH, 1:1 Soil-Water Suspension`,                                                 # pH H2O
       `CEC, NH4OAc, pH 7.0, 2M KCl displacement`,                                      # CEC in cmol(+)/kg
       `Nitrogen, Total`,                                                               # Total nitrogen (%),
@@ -307,12 +307,6 @@ for (property in names(out_of_bounds_issues)){
   print(summary(data.frame(out_of_bounds_issues[property])[4]))
 }
 
-# Correction: Negative SOC values to positive values
-idx <- !is.na(site_lab$SOC) & site_lab$SOC < 0
-if (any(idx)) site_lab$SOC[idx] <- abs(site_lab$SOC[idx])
-# Remove temporary objects
-rm(idx)
-
 # Correction: Phosphorus Mehlich 3 > 2000 mg/kg (likely 1000× error - ppb instead of ppm)
 idx <- !is.na(site_lab$Phosphorus_Mehlich3) & site_lab$Phosphorus_Mehlich3 > 2000
 # idx <- !is.na(site_lab$Phosphorus_Mehlich3) & site_lab$Phosphorus_Mehlich3 > property_thresholds[property_thresholds$property=="Phosphorus_Mehlich3","max_valid"][[1]]
@@ -430,7 +424,7 @@ site_lab
 # 3. If NO → Find the consecutive horizons that ARE continuous
 # 4. If we find blocks with no gaps → Split the series into subprofiles
 
-# 5.1  Check 1: Missing Depth Boundaries
+# 3.3.1  Check 1: Missing Depth Boundaries
 # -----------------------------------------------------------------------------
 
 # Keep records where `top` or `bottom` are not NA
