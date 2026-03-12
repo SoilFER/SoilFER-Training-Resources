@@ -131,9 +131,6 @@ library(knitr)            # For formatted tables
 library(sf)               # Manipulation of Vector Data
 library(terra)            # Manipulation of Raster Data
 
-# Read Excel file containing raw soil data
-raw_data <- read_excel("01_data/module1/kssl/KSSL_data.xlsx", sheet = 1) 
-
 # Define the folder to store the results of the exercise
 output_dir <-"03_outputs/module1/"
 
@@ -142,6 +139,9 @@ if (!file.exists(output_dir)){
   # create a new sub directory inside the main path
   dir.create(output_dir)
 }
+
+# Read Excel file containing raw soil data
+raw_data <- read_excel("01_data/module1/kssl/KSSL_data.xlsx", sheet = 1) 
 
 str(raw_data) # Examine the structure of the data
 head(raw_data, 10) # Show the first 10 rows
