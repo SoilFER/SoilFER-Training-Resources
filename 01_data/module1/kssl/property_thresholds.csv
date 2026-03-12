@@ -11,5 +11,5 @@ CEC,Cation Exchange Capacity,cmol(+)/kg,0,200
 Nitrogen_Total,Total Nitrogen,%,0,10
 Phosphorus_Mehlich3,Phosphorus (Mehlich),mg/kg,0,2000
 Phosphorus_Olsen,Phosphorus (Olsen),mg/kg,0,1000
-Potassium,Potassium,cmol(+)/kg,0,20
-Calcium_Carbonate_equivalent,Calcium Carbonate Equivalent,%,0,100
+Potassium,Potassium exchangeable,cmol(+)/kg,0,20
+Calcium,Calcium exchangeable,cmol(+)/kg,0,30
