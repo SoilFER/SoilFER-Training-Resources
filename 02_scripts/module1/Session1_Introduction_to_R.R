@@ -766,6 +766,12 @@ soil_tbl <- tibble(
 )
 soil_tbl
 
+soil_data <- data.frame(
+  plot_id = c("P001", "P002", "P003"),
+  ph = c(5.2, 6.5, 7.1),
+  clay = c(25, 30, 18)
+)
+
 # Convert data frame to tibble
 soil_tbl <- as_tibble(soil_data)
 soil_tbl
@@ -775,6 +781,11 @@ soil_tbl
 # -----------------------------------------------------------------------------
 # 8.3  The Pipe Operator: %>%
 # -----------------------------------------------------------------------------
+soil_data <- tibble(
+  plot_id = c("P001", "P002", "P003"),
+  ph = c(5.2, 6.5, 7.1),
+  clay = c(25, 30, 18)
+)
 
 # Without pipe (nested functions)
 round(mean(soil_data$ph), 2)
@@ -787,7 +798,7 @@ soil_data$ph %>%
 # More complex example
 soil_data %>%
   filter(ph > 6) %>%
-  select(plot_id, ph, soil_type) %>%
+  select(plot_id, ph, clay) %>%
   arrange(desc(ph))
 
 # -----------------------------------------------------------------------------
@@ -796,7 +807,7 @@ soil_data %>%
 
 # Select specific columns
 soil_data %>%
-  select(plot_id, ph, clay_content)
+  select(plot_id, ph, clay)
 
 # Select range of columns
 soil_data %>%
@@ -804,11 +815,11 @@ soil_data %>%
 
 # Remove columns
 soil_data %>%
-  select(-latitude, -longitude)
+  select(-plot_id, -ph)
 
 # Select columns matching pattern
 soil_data %>%
-  select(contains("content"))
+  select(contains("p"))
 
 # Filter rows based on condition
 soil_data %>%
@@ -816,15 +827,15 @@ soil_data %>%
 
 # Multiple conditions
 soil_data %>%
-  filter(ph > 6 & clay_content > 25)
+  filter(ph > 6 & clay > 25)
 
 # Filter with OR
 soil_data %>%
-  filter(soil_type == "Acrisol" | soil_type == "Ferralsol")
+  filter(plot_id == "P001" | plot_id == "P002")
 
 # Use %in% for multiple values
 soil_data %>%
-  filter(soil_type %in% c("Acrisol", "Ferralsol", "Vertisol"))
+  filter(plot_id %in% c("P001", "P002"))
 
 # Rename columns for clarity
 rename(soil_data,
@@ -835,21 +846,21 @@ soil_data %>%
  rename(
   location = plot_id,
   acidity = ph,
-  clay_percent = clay_content
+  clay_percent = clay
  ) 
 
 # Create new columns
 soil_data %>%
   mutate(
     ph_class = ifelse(ph > 7, "Alkaline", "Acidic"),
-    clay_gr_kg = clay_content * 10
+    clay_gr_kg = clay * 10 
   )
 
 # Modify existing columns
 soil_data %>%
   mutate(
     ph = round(ph, 1),
-    soil_type = toupper(soil_type)
+    plot_id = tolower(plot_id)
   )
 
 # Sort ascending
@@ -862,7 +873,7 @@ soil_data %>%
 
 # Multiple sort keys
 soil_data %>%
-  arrange(soil_type, desc(clay_content))
+  arrange(ph, desc(clay))
 
 # -----------------------------------------------------------------------------
 # 8.5  Grouping and Summarizing Data

@@ -173,7 +173,7 @@ summary(raw_data) # Summarize the data
 # -----------------------------------------------------------------------------
 # Remove records with missing coordinates
 raw_data <- raw_data %>%
-  dplyr::filter(!is.na(Long_Site) & !is.na(Long_Site))
+  dplyr::filter(!is.na(Long_Site) & !is.na(Lat_Site))
 
 # -----------------------------------------------------------------------------
 # 3.2  Adding Unique Row and Profile Identifiers
@@ -289,7 +289,7 @@ site <- site %>%
 #   Check 1: Missing depth boundaries
 #   Check 2: Negative depth values
 #   Check 3: Zero-thickness intervals
-#   Check 4: Invalid depth logic (bottom <= top)
+#   Check 4: Invalid depth logic (bottom < top)
 #   Check 5: Profiles without a surface horizon (top > 0)
 # NOTE: Do NOT resolve duplicate depth sequences at this stage.
 #       Handle duplicates after lab data has been cleaned (Session 3).

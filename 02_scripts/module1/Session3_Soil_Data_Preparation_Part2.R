@@ -55,7 +55,7 @@ raw_data <- read_excel("01_data/module1/kssl/KSSL_data.xlsx", sheet = 1)
 
 # Remove records with missing coordinates
 raw_data <- raw_data %>%
-  dplyr::filter(!is.na(Long_Site) & !is.na(Long_Site))
+  dplyr::filter(!is.na(Long_Site) & !is.na(Lat_Site))
 
 # Add Row and Profile Identifiers
 site_lab <- raw_data %>%
