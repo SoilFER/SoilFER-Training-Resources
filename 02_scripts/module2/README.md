@@ -212,7 +212,7 @@ newhall <- terra::aggregate(newhall, fact = 2)  # 2x lower resolution
 
 ---
 
-### 3. `sampling_design_csc_soilfer.R` ⭐ MAIN SCRIPT
+### 3. `sampling_design_csc_soilfer.R`  [MAIN SCRIPT]
 
 **Purpose**: Complete three-stage sampling design workflow
 
