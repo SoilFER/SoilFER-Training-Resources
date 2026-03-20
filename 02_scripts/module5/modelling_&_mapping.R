@@ -17,9 +17,9 @@
 rm(list = ls())
 gc()
 
-# SESSION 1: CONTINUOUS MODELLING ----
+# Part 1: CONTINUOUS MODELLING #################################################
 
-# SECTION 1: Setup and packages ----
+## 1. Setup and packages -------------------------------------------------------
 
 library(tidyverse)
 library(caret)
@@ -30,13 +30,13 @@ library(CAST)
 
 # Set working directory to script location (works in RStudio)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-
-set.seed(2026)  # EDIT THIS: change seed for different random splits
+setwd("../../")
 
 # Create output directories
-for (d in c("outputs/models/", "outputs/validation/", "outputs/tiles/",
-            "outputs/maps/continuous/", "outputs/maps/nominal/",
-            "outputs/maps/ordinal/", "outputs/maps/aoa/", "terra_tmp")) {
+for (d in c("03_outputs/module5/models/", "03_outputs/module5/validation/", 
+            "03_outputs/module5/tiles/", "03_outputs/module5/maps/continuous/",
+            "03_outputs/module5/maps/nominal/","03_outputs/module5/maps/ordinal/",
+            "03_outputs/module5/maps/aoa/", "terra_tmp")) {
   if (!dir.exists(d)) dir.create(d, recursive = TRUE)
 }
 
@@ -44,40 +44,24 @@ for (d in c("outputs/models/", "outputs/validation/", "outputs/tiles/",
 terraOptions(progress = 1, memfrac = 0.6, tempdir = file.path(getwd(), "terra_tmp"))
 
 
-# SECTION 2: Load covariates ----
+## 2. Load covariates ----------------------------------------------------------
 
-covs <- rast("Env_Cov_250m_KANSAS.tif")  # EDIT THIS: your covariate stack
+covs <- rast("01_data/module5/Env_Cov_250m_KANSAS.tif")  # EDIT THIS: your covariate stack
 
 cov_names <- names(covs)
 
 # Inspect the covariate raster
-print(covs[[1]])  # Shows resolution, extent, CRS
-print(nlyr(covs)) # Number of layers
+covs[[1]]  # Shows first covariate resolution, extent, CRS
+nlyr(covs) # Number of layers
 plot(covs[[1]])
 
-# Apply cropland mask to covariates (optional but speeds up prediction)
-# The mask is applied ONCE here so we don't repeat it for every tile
-# mask_file <- "Cropland_Mask_KANSAS.tif"  # EDIT THIS: your mask file, or set to NULL
-# if (file.exists(mask_file)) {
-#   mask_raster <- rast(mask_file)
-#   # Align mask to covariate grid (they may have different resolutions)
-#   # method="near" preserves binary/categorical values
-#   mask_aligned <- resample(mask_raster, covs, method = "near")
-#   mask_aligned <- crop(mask_aligned, ext(covs))
-#   mask_aligned[mask_aligned == 0] <- NA
-#   covs <- mask(covs, mask_aligned)
-#   rm(mask_aligned)
-#   print("Mask applied to covariates")
-# }
-# plot(covs[[1]])
+# 3. Load soil data ------------------------------------------------------------
 
-# SECTION 3: Load soil data ----
-
-soil_df <- read_csv("../../03_outputs/module1/KSSL_DSM_0-30.csv", show_col_types = FALSE)
+dat <- read_csv("03_outputs/module1/KSSL_DSM_0-30.csv", show_col_types = FALSE)
 
 # Inspect the data
-print(head(soil_df))
-print(nrow(soil_df))
+dat
+summary(dat)
 
 # --- Create ordinal pH variable ---
 # pH classes based on standard soil acidity categories
