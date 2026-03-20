@@ -23,6 +23,7 @@ gc()
 
 library(tidyverse)
 library(caret)
+Sys.setenv(PROJ_LIB = system.file("proj", package = "terra"))
 library(terra)
 library(Boruta)
 library(ranger)
@@ -55,112 +56,70 @@ covs[[1]]  # Shows first covariate resolution, extent, CRS
 nlyr(covs) # Number of layers
 plot(covs[[1]])
 
-# 3. Load soil data ------------------------------------------------------------
+## 3. Load and transform soil data ---------------------------------------------
 
-dat <- read_csv("03_outputs/module1/KSSL_DSM_0-30.csv", show_col_types = FALSE)
+dat <- read_csv("03_outputs/module1/KSSL_DSM_0-30.csv")
 
 # Inspect the data
 dat
 summary(dat)
 
-# --- Create ordinal pH variable ---
+### 3.1 Create ordinal Clay variable -------------------------------------------
 # pH classes based on standard soil acidity categories
-soil_df$pH_Class <- cut(
-  soil_df$pH,
-  breaks = c(4, 5, 6, 7, 8, 9),
-  labels = c("very_acid", "acid", "neutral", "alkaline", "very_alkaline"),
-  include.lowest = TRUE,
-  ordered_result = TRUE
-)
+dat <- dat %>%
+  mutate(Clay_Class = cut(Clay,
+                          breaks = c(0, 20, 40, Inf),
+                          labels = c("low", "medium", "high"),
+                          include.lowest = TRUE,
+                          ordered_result = TRUE
+  ))
 
-# --- Create nominal variable (pH x Clay segmentation) ---
-# Clay categories: Low (<20%), Medium (20-40%), High (>40%)
-# pH categories: Acid (<6), Neutral (6-7), Alkaline (>7)
-soil_df <- soil_df %>%
+### 3.2 Create nominal variable (Clay x SOC segmentation) ----------------------
+# Clay x SOC nominal variable
+dat <- dat %>%
   mutate(
-    Clay_Category = case_when(
-      Clay < 20 ~ "low_clay",
-      Clay >= 20 & Clay < 40 ~ "medium_clay",
-      Clay >= 40 ~ "high_clay",
-      TRUE ~ NA_character_
-    ),
-    pH_Category = case_when(
-      pH < 6 ~ "acid",
-      pH >= 6 & pH < 7 ~ "neutral",
-      pH >= 7 ~ "alkaline",
-      TRUE ~ NA_character_
-    ),
-    Clay_pH_Class = case_when(
-      !is.na(Clay_Category) & !is.na(pH_Category) ~ paste(Clay_Category, pH_Category, sep = "_"),
-      TRUE ~ NA_character_
+    Clay_SOC_Class = case_when(
+      Clay < 20 & SOC < 1 ~ "LowClay_LowSOC",
+      Clay < 20 & SOC < 3 ~ "LowClay_MedSOC",
+      Clay < 20           ~ "LowClay_HighSOC",
+      Clay < 40 & SOC < 1 ~ "MedClay_LowSOC",
+      Clay < 40 & SOC < 3 ~ "MedClay_MedSOC",
+      Clay < 40           ~ "MedClay_HighSOC",
+      SOC < 1             ~ "HighClay_LowSOC",
+      SOC < 3             ~ "HighClay_MedSOC",
+      TRUE                ~ "HighClay_HighSOC"
     )
-  ) %>%
-  select(-Clay_Category, -pH_Category)
+  )
 
-# Inspect created variables
-print(table(soil_df$pH_Class))
-print(table(soil_df$Clay_pH_Class))
-
-# --- Plot pH Class distribution (bar plot) ---
-g_pH_class <- ggplot(soil_df %>% filter(!is.na(pH_Class)), aes(x = pH_Class)) +
-  geom_bar(fill = "steelblue") +
-  labs(
-    title = "pH Class Distribution",
-    x = "pH Class",
-    y = "Count"
-  ) +
-  theme_minimal()
-
-print(g_pH_class)
-
-# --- Plot Clay x pH Class (scatter plot with categories) ---
-g_clay_pH <- ggplot(soil_df %>% filter(!is.na(Clay_pH_Class)),
-                    aes(x = Clay, y = pH, color = Clay_pH_Class)) +
+g <- ggplot(dat, aes(x = SOC, y = Clay, color = Clay_SOC_Class)) +
   geom_point(size = 2, alpha = 0.7) +
-  geom_vline(xintercept = c(20, 40), linetype = "dashed", color = "gray50") +
-  geom_hline(yintercept = c(6, 7), linetype = "dashed", color = "gray50") +
+  geom_vline(xintercept = c(1, 3), linetype = "dashed", color = "gray40") +
+  geom_hline(yintercept = c(20, 40), linetype = "dashed", color = "gray40") +
   labs(
-    title = "Clay x pH Segmentation",
-    x = "Clay (%)",
-    y = "pH",
+    title = "Clay x SOC Segmentation",
+    x = "SOC (%)",
+    y = "Clay (%)",
     color = "Class"
   ) +
-  theme_minimal() +
-  theme(legend.position = "right")
-
-print(g_clay_pH)
-
-# --- Faceted histograms of continuous soil properties ---
-soil_long <- soil_df %>%
-  select(Clay, pH, SOC) %>%
-  pivot_longer(cols = everything(), names_to = "Variable", values_to = "Value") %>%
-  filter(!is.na(Value))
-
-g_histograms <- ggplot(soil_long, aes(x = Value)) +
-  geom_histogram(fill = "steelblue", color = "white", bins = 30) +
-  facet_wrap(~ Variable, scales = "free", ncol = 3) +
-  labs(
-    title = "Distribution of Soil Properties",
-    x = "Value",
-    y = "Count"
-  ) +
   theme_minimal()
+g
 
-print(g_histograms)
 
-# Convert to spatial points and reproject to match covariates
-soil_pts <- vect(soil_df, geom = c("lon", "lat"), crs = "EPSG:4326")
-soil_pts <- terra::project(soil_pts, covs)
-plot(soil_pts, cex = 0.7, col = "red")
+# Inspect created variables
+table(dat$pH_Class)
+table(dat$Clay_SOC_Class)
 
-# SECTION 4: Extract covariates at soil locations ----
 
-extracted_covs <- terra::extract(x = covs, y = soil_pts, xy = FALSE, ID = FALSE)
-soil_cov_df <- cbind(as.data.frame(soil_pts), extracted_covs) %>% as_tibble()
+## 4. dat to spatial points and to match covariates ----------------------------
+dat_pts <- vect(dat, geom = c("lon", "lat"), crs = "EPSG:4326")
+dat_pts <- terra::project(dat_pts, covs)
+mapview::mapview(dat_pts, cex=1.5)
 
-# Inspect the combined table
-print(dim(soil_cov_df))
-soil_cov_df
+# Extract covariates at soil locations 
+
+extracted_covs <- terra::extract(x = covs, y = dat_pts, xy = FALSE, ID = FALSE)
+dat_cov <- cbind(dat_pts, extracted_covs) %>% as_tibble()
+
 
 
 # SECTION 5: Feature selection with Boruta ----
