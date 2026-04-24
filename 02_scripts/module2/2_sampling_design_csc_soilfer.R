@@ -68,8 +68,14 @@ number_TSUs <- 3  # Point samples within each SSU
 # Optimization parameters
 iterations <- 10  # K-means clustering iterations
 
-# Minimum crop coverage for PSU selection (percentage)
-percent_crop <- 20  # PSUs must have >20% crop coverage
+# Minimum target landuse coverage for PSU selection (percentage)
+percent_min <- 20  # for the targed landuses selected PSUs must have >20% coverage
+
+# Allocate number of sampling sites by land use type
+# ADJUST THESE PROPORTIONS based on your study objectives
+crop_prop <- 0.85
+grass_prop <- 0.10
+forest_prop <- 0.05
 
 ## 3 - DEFINE CUSTOM FUNCTIONS =================================================
 # Purpose: Create reusable functions for sampling design
@@ -761,11 +767,11 @@ ggplot() +
 
 dev.off()
 
-# Filter: Keep only PSUs with n > percent_crop coverage
-psu_grid <- psu_grid[psu_grid$crop_perc > percent_crop, "ID"]
+# Filter: Keep only PSUs with n > percent_min coverage
+psu_grid <- psu_grid[psu_grid$crop_perc > percent_min, "ID"]
 
 cat(sprintf("Retained %d PSUs with > %d%% crop coverage\n", 
-            nrow(psu_grid), percent_crop))
+            nrow(psu_grid), percent_min))
 
 ## 11 - RASTERIZE PSU GRID =====================================================
 # Purpose: Convert vector PSUs to raster format for covariate extraction
@@ -832,12 +838,6 @@ saveRDS(optimal_N_KLD, paste0(results.path,"../optimal_N_KLD.RDS"))
 # Method: Constrained k-means clustering (respects legacy data)
 
 optimal_N_KLD <- readRDS("01_data/module2/optimal_nos/optimal_N_KLD.RDS")
-
-# Allocate samples by land use type
-# ADJUST THESE PROPORTIONS based on your study objectives
-crop_prop <- 0.85
-grass_prop <- 0.10
-forest_prop <- 0.05
 
 # Calculate number of PSUs for this land use
 n.psu <- round(optimal_N_KLD * crop_prop, 0)  # For cropland
