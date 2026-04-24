@@ -8,8 +8,8 @@
 #
 # Author: Luis Rodriguez-Lado, PhD 
 #         Wanderson de Sousa Mendes, PhD
-# Date: 06 November 2025
-# Version: 2.0
+# Date: 24 April 2026
+# Version: 3.0
 ################################################################################
 
 ## 1 - SET ENVIRONMENT AND LOAD LIBRARIES ======================================
