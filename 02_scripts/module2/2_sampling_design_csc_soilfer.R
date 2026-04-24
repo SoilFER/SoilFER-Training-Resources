@@ -68,8 +68,8 @@ number_TSUs <- 3  # Point samples within each SSU
 # Optimization parameters
 iterations <- 10  # K-means clustering iterations
 
-# Minimum target landuse coverage for PSU selection (percentage)
-percent_min <- 20  # for the targed landuses selected PSUs must have >20% coverage
+# Minimum % of target land use required within a PSU for it to be selected
+percent_min <- 20  # for any of the target landuses selected PSUs must have >20% coverage on that target
 
 # Allocate number of sampling sites by land use type
 # ADJUST THESE PROPORTIONS based on your study objectives
