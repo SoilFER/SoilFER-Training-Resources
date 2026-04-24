@@ -928,7 +928,7 @@ dev.off()
 # Purpose: Load 100m resolution data for SSU clustering WITHIN each PSU
 # Note: Different from PSU covariates - these determine SSU placement
 
-cov.dat.ssu <- terra::rast(paste0(raster.path, "HighRes_Covariates_100m_KANSAS_merged-003.tif"))
+cov.dat.ssu <- terra::rast(paste0(raster.path, "HighRes_Covariates_100m_KANSAS_merged.tif"))
 names(cov.dat.ssu) <- gsub("(^\\d+_?S2_|^\\d+_|^S2_)", "", names(cov.dat.ssu))
 
 if(!same.crs(cov.dat.ssu, epsg)){
