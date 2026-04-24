@@ -15,10 +15,8 @@
 ## 1 - SET ENVIRONMENT AND LOAD LIBRARIES ======================================
 # Purpose: Load all required packages and set working directory
 
-# Set working directory to script location
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-setwd("../")  # Move up to main project folder
-getwd()  # Verify location
+# Verify working directory
+getwd()
 
 # List of required packages
 packages <- c("sp","terra","raster","sf", "sgsR","entropy", "tripack","tibble",
@@ -40,14 +38,16 @@ ISO.code <- "KANSAS"  # 3-letter country code or full-name for file naming
 landuse <- "cropland"  # Options: "cropland", "grassland", "forest"
 
 # File paths
-raster.path <- "rasters/"
-shp.path <- "shapes/"
-other.path <- "other/"
-landuse_dir <- paste0("results/", landuse, "/")
+raster.path <- "01_data/module2/rasters/"
+shp.path <- "01_data/module2/shapes/"
+other.path <- "01_data/module2/other/"
+results_dir <- paste0("03_outputs/module2/")
+landuse_dir <- paste0("03_outputs/module2/", landuse, "/")
 
 # Create directories if they don't exist
 dir.create(other.path, showWarnings = FALSE, recursive = TRUE)
-dir.create("results", showWarnings = FALSE, recursive = TRUE)
+dir.create("03_outputs/module2", showWarnings = FALSE, recursive = TRUE)
+dir.create("03_outputs/module2/img", showWarnings = FALSE, recursive = TRUE)
 if (!file.exists(landuse_dir)) dir.create(landuse_dir)
 results.path <- landuse_dir
 
@@ -204,7 +204,7 @@ country_boundaries <- file.path(paste0(shp.path,"roi_kansas_us_epsg_4326.shp"))
 country_boundaries <- sf::st_read(country_boundaries, quiet=TRUE)
 
 # Reproject if necessary
-if(crs(country_boundaries)!=epsg){
+if(!same.crs(country_boundaries, epsg)){
   country_boundaries <- country_boundaries %>%
     st_as_sf() %>% sf::st_transform(crs=epsg)
 }
@@ -214,7 +214,7 @@ legacy <- file.path(paste0(shp.path,"soil_legacy_data_kansas_epsg_4326.shp"))
 
 if(file.exists(legacy)){
   legacy <- sf::st_read(legacy, quiet=TRUE)
-  if(crs(legacy)!=epsg){
+  if(!same.crs(legacy, epsg)){
     legacy <- legacy %>% sf::st_transform(crs=epsg)
   }
 } else {
@@ -228,7 +228,7 @@ if(exists("legacy")){
 }
 
 png(
-  filename = "results/imgs/legacy_map.png",
+  filename = file.path(paste0(results_dir,"img/legacy_map.png")),
   width = 4000,      # pixels
   height = 2800,     # pixels
   res = 400          # DPI
@@ -249,7 +249,7 @@ npa <- file.path(paste0(shp.path,"protected_areas_epsg_4326.shp"))
 
 if(file.exists(npa)){
   npa <- sf::st_read(npa, quiet = FALSE)
-  if(crs(npa)!=epsg){
+  if(!same.crs(npa, epsg)){
     npa <- npa %>% sf::st_transform(crs = epsg)
   }
   npa <- sf::st_union(npa)
@@ -259,7 +259,7 @@ if(file.exists(npa)){
 }
 
 png(
-  filename = "results/imgs/non_protected_map.png",
+  filename = file.path(paste0(results_dir,"img/non_protected_map.png")),
   width = 4000,      # pixels
   height = 2800,     # pixels
   res = 400          # DPI
@@ -297,7 +297,7 @@ slope <- file.path(paste0(raster.path,"slope_mask_epsg_4326.tif"))
 
 if(file.exists(slope)){
   slope <- rast(slope)
-  if(crs(slope)!=epsg){
+  if(!same.crs(slope, epsg)){
     slope <- project(slope, epsg, method="near")
   }
   slope <- slope/slope  # Convert to binary mask
@@ -306,7 +306,7 @@ if(file.exists(slope)){
   rm(slope)
 }
 
-png("results/imgs/slope_mask.png",
+png(file.path(paste0(results_dir,"img/slope_mask.png")),
     width = 4000,
     height = 2800,
     res = 400,
@@ -325,7 +325,7 @@ geo.classes <- "US_L3NAME"  # Field name for geology classes
 
 if(file.exists(geo)){
   geo <- sf::st_read(geo, quiet=TRUE)
-  if(crs(geo)!=epsg){
+  if(!same.crs(geo, epsg)){
     geo <- geo %>% sf::st_transform(crs=epsg)
   }
   geo$GEO <- as.numeric(as.factor(geo[[geo.classes]]))
@@ -334,7 +334,7 @@ if(file.exists(geo)){
 }
 
 png(
-  filename = "results/imgs/geology_ecoregion_map.png",
+  filename = file.path(paste0(results_dir,"img/geology_ecoregion_map.png")),
   width = 4000,      # pixels
   height = 2800,     # pixels
   res = 400          # DPI
@@ -350,7 +350,7 @@ ggplot() +
 dev.off()
 
 # Geomorphology data
-geomorph <- file.path(paste0(raster.path,"/GEE_Exports/Geomorphon_Landforms_KANSAS.tif"))
+geomorph <- file.path(paste0(raster.path,"/Geomorphon_Landforms_KANSAS.tif"))
 geomorph.classes <- "Class"
 
 if (file.exists(geomorph)) {
@@ -359,7 +359,7 @@ if (file.exists(geomorph)) {
   if (file_extension == "tif") {
     geomorph <- rast(geomorph)
     names(geomorph) <- 'GEOMORPH'
-    if(crs(geomorph)!=epsg){
+    if(!same.crs(geomorph, epsg)){
       geomorph <- project(geomorph, epsg, method="near")
     }
   } else if (file_extension == "shp") {
@@ -415,7 +415,7 @@ levels(geomorph_cat) <- list(data.frame(
 ))
 
 png(
-  filename = "results/imgs/geomorph_classes.png",
+  filename = file.path(paste0(results_dir,"img/geomorph_classes.png")),
   width    = 4000,
   height   = 2800,
   res      = 400
@@ -443,13 +443,12 @@ dev.off()
 # Purpose: Load environmental data at 2km resolution for PSU selection from GEE code
 # Note: These covariates determine WHERE PSUs are placed
 
-cov.dat <- list.files(paste0(raster.path, "GEE_Exports/"), 
-                      pattern = "Environmental_Covariates_250m_KANSAS.tif$",  
+cov.dat <- list.files(raster.path,"Environmental_Covariates_250m_KANSAS.tif",  
                       recursive = TRUE, full.names = TRUE)
 cov.dat <- terra::rast(cov.dat)
 
 # Reproject if necessary
-if(crs(cov.dat)!=epsg){
+if(!same.crs(cov_dat, epsg)){
   cov.dat <- terra::project(cov.dat, epsg, method="near")
 }
 
@@ -520,7 +519,7 @@ gc()
 
 # Crop to study area
 cov.dat <- crop(cov.dat, country_boundaries, mask=TRUE, overwrite=TRUE)
-writeRaster(cov.dat, paste0(raster.path,"cov_dat_stack_psus.tif"), overwrite=TRUE)
+writeRaster(cov.dat, file.path(paste0(results_dir,"cov_dat_stack_psus.tif")), overwrite=TRUE)
 
 names(cov.dat)
 
@@ -540,25 +539,10 @@ cov.dat <- pca$PCA[[1:n_comps]]
 cat(sprintf("Using %d principal components (explaining >99%% variance)\n", n_comps))
 
 # Save PCA results
-writeRaster(cov.dat, paste0(results.path,"PCA_projected.tif"), overwrite=TRUE)
-rm(pca)
-
-# Reload for further processing
-# Why this is useful:
-#  - Previous sections (data loading, PCA) can take 30+ minutes
-#  - If script crashes or needs modification, you can load here
-#  - If the file exists in the folder from previous processing
-cov.dat <- rast(paste0(results.path,"PCA_projected.tif"))
-#plot(cov.dat[[1]])
-
-# Reproject if necessary
-if(crs(cov.dat)!=epsg){
-  cov.dat <- terra::project(cov.dat, epsg, method="near")
-}
-
+writeRaster(cov.dat, file.path(paste0(results_dir,"PCA_projected.tif")), overwrite=TRUE)
 
 png(
-  filename = "results/imgs/cum_var_pcas_map.png",
+  filename = file.path(paste0(results_dir,"img/cum_var_pcas_map.png")),
   width = 4000,      # pixels
   height = 2800,     # pixels
   res = 400          # DPI
@@ -578,7 +562,7 @@ abline(h = 0.99, col = "red", lty = 2)
 dev.off()
 
 png(
-  filename = "results/imgs/pcas_map.png",
+  filename = file.path(paste0(results_dir,"img/pcas_map.png")),
   width = 4000,      # pixels
   height = 2800,     # pixels
   res = 400          # DPI
@@ -620,6 +604,24 @@ dev.off()
 
 par(mfrow = c(1,1))
 
+# Remove pca
+rm(pca)
+
+# Reload for further processing
+# Why this is useful:
+#  - Previous sections (data loading, PCA) can take 30+ minutes
+#  - If script crashes or needs modification, you can load here
+#  - If the file exists in the folder from previous processing
+cov.dat <- rast(file.path(paste0(results_dir,"PCA_projected.tif")))
+# plot(cov.dat[[1]])
+
+# Reproject if necessary
+if(!same.crs(cov.dat, epsg)){
+  cov.dat <- terra::project(cov.dat, epsg, method="near")
+}
+
+
+
 ## 8 - LOAD AND PREPARE LAND USE DATA ==========================================
 # Purpose: Define sampling universe (where samples CAN be taken)
 # Uses TWO resolutions: 20m for TSU placement, 100m for PSU filtering
@@ -631,12 +633,12 @@ crops <- crops/crops  # Convert to binary (1=crop, NA=other)
 names(crops) <- "lu"
 
 # Reproject if necessary
-if(crs(crops)!=epsg){
+if(!same.crs(crops, epsg)){
   crops <- terra::project(crops, epsg, method="near")
 }
 
 png(
-  filename = "results/imgs/crop_20m_map.png",
+  filename = file.path(paste0(results_dir,"img/crop_20m_map.png")),
   width = 4000,      # pixels
   height = 2800,     # pixels
   res = 400          # DPI
@@ -670,15 +672,15 @@ if(exists("slope")){
 rm(npa, slope)
 
 # Save 20m resolution crop mask
-writeRaster(crops, paste0(raster.path,"crop_mask_20m_clean.tif"), overwrite=TRUE)
+writeRaster(crops, file.path(paste0(results_dir,"crop_mask_20m_clean.tif")), overwrite=TRUE)
 # Same situation as loading "cov.dat"
-crops <- rast(paste0(raster.path,"crop_mask_20m_clean.tif"))
+crops <- rast(file.path(paste0(results_dir,"crop_mask_20m_clean.tif")))
 
 # Create 100m resolution version for PSU filtering
 # Aggregate: (20m × 5) = 100m pixels
 lu <- aggregate(crops, 5, fun=modal, cores = 2, na.rm=T)
 names(lu) <- "lu"
-writeRaster(lu, paste0(raster.path,"crop_mask_100m.tif"), overwrite=TRUE)
+writeRaster(lu, file.path(paste0(results_dir,"crop_mask_100m.tif")), overwrite=TRUE)
 # Same situation as loading "cov.dat"
 lu <- rast(paste0(raster.path,"crop_mask_100m.tif"))
 
@@ -689,7 +691,7 @@ if (exists("legacy")){
 }
 
 png(
-  filename = "results/imgs/crop_100m_legacy_map.png",
+  filename = file.path(paste0(results_dir,"img/crop_100m_legacy_map.png")),
   width = 4000,      # pixels
   height = 2800,     # pixels
   res = 400          # DPI
@@ -714,10 +716,10 @@ psu_grid$ID <- 1:nrow(psu_grid)
 
 # Clip to country boundary
 psu_grid <- psu_grid[country_boundaries[1],]  # TIME CONSUMING!
-write_sf(psu_grid, paste0(results.path,"../grid2k.shp"), overwrite=TRUE)
+write_sf(psu_grid, file.path(paste0(results_dir,"grid2k.shp")), overwrite=TRUE)
 
 # Or load pre-saved grid (much faster)
-# psu_grid <- sf::st_read(file.path(paste0(results.path,"../grid2k.shp")))
+# psu_grid <- sf::st_read(file.path(paste0(results_dir,"grid2k.shp")))
 
 ## 10 - FILTER PSUs BY CROP COVERAGE ===========================================
 # Purpose: Keep only PSUs with sufficient cropland
@@ -734,17 +736,17 @@ rm(extracted_values)
 
 # Join back to PSU grid
 psu_grid$crop_perc <- crop_perc$crop_perc
-write_sf(psu_grid, file.path(paste0(results.path,"/psu_grid_counts.shp")), overwrite=TRUE)
+write_sf(psu_grid, file.path(paste0(results_dir,"psu_grid_counts.shp")), overwrite=TRUE)
 
 # Reload and ensure correct projection
 ## Same as cov.dat and land use data
-psu_grid <- sf::st_read(file.path(paste0(results.path,"/psu_grid_counts.shp")))
-if(crs(psu_grid)!=epsg){
+psu_grid <- sf::st_read(file.path(paste0(results_dir,"psu_grid_counts.shp")))
+if(!same.crs(psu_grid, epsg)){
   psu_grid <- psu_grid %>% sf::st_transform(crs=epsg)
 }
 
 png(
-  filename = "results/imgs/psu_grid_lu_coverage.png",
+  filename = file.path(paste0(results_dir,"img/psu_grid_lu_coverage.png")),
   width = 4000,      # pixels
   height = 2800,     # pixels
   res = 400          # DPI
@@ -800,7 +802,7 @@ PSU.r <- resample(cov.dat, template)
 #  - Running quick tests (use arbitrary N like 50-100 PSUs)
 #
 
-source("scripts/opt_sample.R")  # Load optimization functions
+source("02_scripts/module2/opt_sample.R")  # Load optimization functions
 
 psu.r.df <- data.frame(PSU.r)
 
@@ -829,7 +831,7 @@ saveRDS(optimal_N_KLD, paste0(results.path,"../optimal_N_KLD.RDS"))
 # Purpose: Choose PSU locations that maximize environmental diversity
 # Method: Constrained k-means clustering (respects legacy data)
 
-optimal_N_KLD <- readRDS(paste0(results.path,"../optimal_N_KLD.RDS"))
+optimal_N_KLD <- readRDS("01_data/module2/optimal_nos/optimal_N_KLD.RDS")
 
 # Allocate samples by land use type
 # ADJUST THESE PROPORTIONS based on your study objectives
@@ -864,7 +866,7 @@ if (exists("legacy")){
   
   fixed <- unique(data.frame(units, scale(PSU.df[, covs])[units, ]))
   
-  # Run constrained clustering
+  # Run constrained clustering (REVIEW)
   res <- CSIS(fixed = fixed, nsup = n.psu, nstarts = iterations, mygrd = mygrd)
   
 } else {
@@ -905,7 +907,7 @@ target.PSUs <- psu_grid[psu_grid$ID %in% PSUs$ID,] %>% dplyr::select(ID)
 cat(sprintf("Selected %d target PSUs\n", nrow(target.PSUs)))
 
 png(
-  filename = "results/imgs/csc_psu_distribution.png",
+  filename = file.path(paste0(results_dir,"img/csc_psu_distribution.png")),
   width = 4000,      # pixels
   height = 2800,     # pixels
   res = 400          # DPI
@@ -926,10 +928,10 @@ dev.off()
 # Purpose: Load 100m resolution data for SSU clustering WITHIN each PSU
 # Note: Different from PSU covariates - these determine SSU placement
 
-cov.dat.ssu <- terra::rast(paste0(raster.path, "HighRes_Covariates_100m_KANSAS_merged.tif"))
+cov.dat.ssu <- terra::rast(paste0(raster.path, "HighRes_Covariates_100m_KANSAS_merged-003.tif"))
 names(cov.dat.ssu) <- gsub("(^\\d+_?S2_|^\\d+_|^S2_)", "", names(cov.dat.ssu))
 
-if(crs(cov.dat.ssu)!=epsg){
+if(!same.crs(cov.dat.ssu, epsg)){
   cov.dat.ssu <- terra::project(cov.dat.ssu, epsg, method="near")
 }
 
@@ -952,9 +954,9 @@ if (any(is.na(values(cov.dat.ssu)))) {
 
 names(cov.dat.ssu)
 
-writeRaster(cov.dat.ssu, paste0(raster.path,"cov_dat_ssu_100m_clean.tif"), overwrite=TRUE)
+writeRaster(cov.dat.ssu, file.path(paste0(results_dir,"cov_dat_ssu_100m_clean.tif")), overwrite=TRUE)
 # Load if needed. Similar process to cov.dat and land use vars.
-cov.dat.ssu <- rast(paste0(raster.path,"cov_dat_ssu_100m_clean.tif")) # don't forget to check CRS
+cov.dat.ssu <- rast(file.path(paste0(results_dir,"cov_dat_ssu_100m_clean.tif"))) # don't forget to check CRS
 
 ## 15 - GENERATE SSUs AND TSUs FOR TARGET PSUs =================================
 # Purpose: Within each target PSU, create SSUs and TSUs
@@ -1254,7 +1256,7 @@ ssus_plot <- all_ssus[all_ssus$PSU_ID == viz_psu_id, ]
 labels <- c("Target PSU", "Target SSUs", "Replacement SSUs", "TSUs")
 
 png(
-  filename = "results/imgs/target_psu_ssu_tsu.png",
+  filename = file.path(paste0(results_dir,"img/target_psu_ssu_tsu.png")),
   width = 4000,      # pixels
   height = 2800,     # pixels
   res = 400          # DPI
@@ -1284,7 +1286,7 @@ ggplot() +
 
 dev.off()
 
-ggsave(paste0(results.path,"../sampling_design_example.png"), 
+ggsave(file.path(paste0(results_dir,"img/sampling_design_example.png")), 
        width = 10, height = 10, dpi = 300)
 
 ## 18 - EXPORT TARGET SAMPLING UNITS ===========================================
@@ -1329,7 +1331,7 @@ valid.PSU_clusters_filtered <- valid.PSU_clusters %>%
 
 # Export shapefiles
 write_sf(valid.PSU_clusters_filtered, 
-         paste0(results.path,"/PSUs_target.shp"), overwrite=TRUE)
+         paste0(results.path,"PSUs_target.shp"), overwrite=TRUE)
 write_sf(all_tsus, 
          paste0(results.path,"/TSUs_target.shp"), overwrite=TRUE)
 write_sf(all.PSU_clusters, 
@@ -1660,20 +1662,18 @@ write_sf(availability, paste0(results.path,"/availability.shp"), overwrite=TRUE)
 ## 24 - SETUP FOR MERGING ======================================================
 
 # Define folder for merged outputs
-folder <- "results/"
-folder_all <- paste0(folder, "all/")
-
+folder_all <- paste0(results_dir, "all/")
 if (!file.exists(folder_all)){
   dir.create(folder_all)
 }
 
 # Load country boundaries (for provincial statistics)
-country_boundaries <- sf::st_read(paste0(folder,"../shapes/roi_kansas_adm2_us_epsg_4326.shp"), quiet=TRUE)
+country_boundaries <- sf::st_read(paste0(shp.path,"roi_kansas_adm2_us_epsg_4326.shp"), quiet=TRUE)
 country_boundaries$country <- ISO.code
 head(country_boundaries, 5)
 country_boundaries$province <- country_boundaries$NAM_2
 
-if(crs(country_boundaries)!=epsg){
+if(!same.crs(country_boundaries, epsg)){
   country_boundaries <- country_boundaries %>%
     st_as_sf() %>% sf::st_transform(crs=epsg)
 }
@@ -1693,7 +1693,7 @@ landuse_codes <- c("C", "G", "F")
 
 # TARGET PSUs - Load only if files exist
 for (i in seq_along(landuse_types)) {
-  file_path <- paste0(folder, landuse_types[i], "/PSUs_target.shp")
+  file_path <- paste0(results_dir, landuse_types[i], "/PSUs_target.shp")
   
   if (file.exists(file_path)) {
     temp_psu <- sf::st_read(file_path, quiet = TRUE)
@@ -1707,7 +1707,7 @@ for (i in seq_along(landuse_types)) {
 
 # TARGET TSUs - Load only if files exist
 for (i in seq_along(landuse_types)) {
-  file_path <- paste0(folder, landuse_types[i], "/TSUs_target.shp")
+  file_path <- paste0(results_dir, landuse_types[i], "/TSUs_target.shp")
   
   if (file.exists(file_path)) {
     temp_tsu <- sf::st_read(file_path, quiet = TRUE)
@@ -1721,7 +1721,7 @@ for (i in seq_along(landuse_types)) {
 
 # REPLACEMENT PSUs - Load only if files exist
 for (i in seq_along(landuse_types)) {
-  file_path <- paste0(folder, landuse_types[i], "/PSUs_replacements.shp")
+  file_path <- paste0(results_dir, landuse_types[i], "/PSUs_replacements.shp")
   
   if (file.exists(file_path)) {
     temp_psu <- sf::st_read(file_path, quiet = TRUE)
@@ -1735,7 +1735,7 @@ for (i in seq_along(landuse_types)) {
 
 # REPLACEMENT TSUs - Load only if files exist
 for (i in seq_along(landuse_types)) {
-  file_path <- paste0(folder, landuse_types[i], "/TSUs_replacements.shp")
+  file_path <- paste0(results_dir, landuse_types[i], "/TSUs_replacements.shp")
   
   if (file.exists(file_path)) {
     temp_tsu <- sf::st_read(file_path, quiet = TRUE)
@@ -1958,7 +1958,7 @@ ggplot(sites_distribution, aes(x = lulc, y = Sites, fill = lulc)) +
         axis.text = element_text(size = 12),
         legend.position = "top")
 
-ggsave(paste0(folder, "/final_site_distribution.png"), 
+ggsave(paste0(results_dir, "img//final_site_distribution.png"), 
        width = 10, height = 6, dpi = 300)
 
 ## 34 - PROVINCIAL STATISTICS ==================================================
@@ -1989,7 +1989,7 @@ ggplot(sites_distribution_prov, aes(x = lulc, y = Sites, fill = province)) +
         legend.position = "top")
 
 # The user can adjust the width and height for better visualisation
-ggsave(paste0(folder, "/final_site_distribution_province.png"), 
+ggsave(paste0(results_dir, "img/final_site_distribution_province.png"), 
        width = 12, height = 8, dpi = 300)
 
 ################################################################################
