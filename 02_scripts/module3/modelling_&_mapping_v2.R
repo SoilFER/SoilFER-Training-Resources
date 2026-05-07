@@ -1,15 +1,11 @@
 #
 # Digital Soil Mapping: Modelling & Mapping
-# SoilFER Training - Module 5
-#
-# This script demonstrates DSM workflows for three variable types:
-#   - Continuous (pH) using Quantile Regression Forest
-#   - Nominal (Clay_pH_Class) using Classification Random Forest
-#   - Ordinal (pH_Class) using integer-encoded Regression RF
+# SoilFER Training - Module 3
 #
 # Structure:
-#   SESSION 1: Data preparation and Continuous modelling
-#   SESSION 4: Area of Applicability (AOA) using CAST
+#   SESSION 1: Data preparation, feature selection, 
+#              modelling and accuracy assessment.
+#   SESSION 2: Prediction of conditional mean and standard deviation of SOC
 #
 
 rm(list = ls())
@@ -108,7 +104,8 @@ dat <- dat %>%
 #   select(-S, -C, -theta_1500t, -theta_33t, OM)
 
 
-## 4. dat to spatial points and to match covariates ----------------------------
+# 4. Merge soil data and covariate values --------------------------------------
+# Covert the dataframe into a spatial object (points)
 dat_pts <- vect(dat, geom = c("lon", "lat"), crs = "epsg:4326")
 dat_pts <- terra::project(dat_pts, covs)
 mapview(dat_pts, cex=1.5) #+ mapview(covs[[1]])
