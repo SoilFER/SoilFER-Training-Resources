@@ -11,3 +11,5 @@
 .DS_Store
 
 .Rproj
+02_scripts/module3/modelling_&_mapping.R
+*.tif
