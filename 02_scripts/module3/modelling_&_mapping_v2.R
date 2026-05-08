@@ -46,7 +46,7 @@ terraOptions(progress = 1, memfrac = 0.6, tempdir = file.path(getwd(), "terra_tm
 
 # 2. Load covariates -----------------------------------------------------------
 
-covs <- rast("01_data/module5/Env_Cov_250m_KANSAS.tif")  # EDIT THIS: your covariate stack
+covs <- rast("01_data/module3/Env_Cov_250m_KANSAS.tif")  # EDIT THIS: your covariate stack
 
 cov_names <- names(covs)
 
@@ -194,16 +194,16 @@ model
 model$bestTune
 
 # Variance importance
-varImp(model_cont)
+varImp(model)
 
 # Save variable importance plot
 png(paste0("03_outputs/module3/figures/varImp_",target,".png"),
     width = 15, height = 15, units = "cm", res = 150)
-plot(varImp(model_cont), main = "Variable Importance - pH")
+plot(varImp(model), main = paste("Variable Importance -", target))
 dev.off()
 
 # View the variable importance
-plot(varImp(model_cont), main = "Variable Importance - pH")
+plot(varImp(model), main = paste("Variable Importance -", target))
 
 
 # 7. Accuracy assessment -------------------------------------------------------
@@ -399,7 +399,7 @@ for (i in 1:length(sd_tiles)) {
 pred_sd <- mosaic(sprc(sd_rasters))
 names(pred_sd) <- paste(target, "_sd")
 
-writeRaster(pred_sd, paste0("outputs/maps/continuous/sd_", target_cont, ".tif"),
+writeRaster(pred_sd, paste0("03_outputs/module3/maps/sd_", target, ".tif"),
             overwrite = TRUE, wopt = list(datatype = "FLT4S", gdal = gdal_opts))
 
 # Display maps
