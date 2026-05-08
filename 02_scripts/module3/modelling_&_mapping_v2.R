@@ -46,7 +46,7 @@ terraOptions(progress = 1, memfrac = 0.6, tempdir = file.path(getwd(), "terra_tm
 
 # 2. Load covariates -----------------------------------------------------------
 
-covs <- rast("01_data/module3/Env_Cov_250m_KANSAS.tif")  # EDIT THIS: your covariate stack
+covs <- rast("01_data/module1/training_data/Environmental_Covariates_250m_KANSAS.tif")  # EDIT THIS: your covariate stack
 
 cov_names <- names(covs)
 
@@ -263,7 +263,7 @@ library(mapview)
 Sys.setenv(PROJ_LIB = "")  
 Sys.setenv(PROJ_DATA = system.file("proj", package = "terra"))
 
-covs <- rast("01_data/module5/Env_Cov_250m_KANSAS.tif")
+covs <- rast("01_data/module1/training_data/Environmental_Covariates_250m_KANSAS.tif")
 cov_names <- names(covs)
 dat <- read_csv("03_outputs/module1/KSSL_DSM_0-30.csv") 
 target <- "SOC"
@@ -351,7 +351,7 @@ for (j in seq_along(tile)) {
     wopt = list(datatype = "FLT4S", gdal = gdal_opts)
   )
 
-  # Predict SD (uncertainty)
+  # Predict SD (uncertainty)- this will take some time to load
   sd_file <- paste0("03_outputs/module3/tiles/", target, "_sd_", j, ".tif")
   terra::interpolate(
     covs_tile,
