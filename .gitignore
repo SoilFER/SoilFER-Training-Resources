@@ -15,3 +15,5 @@
 02_scripts/module3/draft.R
 *.tif
 
+02_scripts/module3/_setup_chunk_ch3.Rmd
+02_scripts/module3/generate_chapter_figures_m3.R
