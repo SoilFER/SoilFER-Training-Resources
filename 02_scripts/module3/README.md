@@ -15,13 +15,15 @@ The script is divided into two sessions that **MUST** be run in sequence:
 ---
  
 ## 📁 Folder Structure
- 
+
+```
 03_scripts/module3/
 │
 ├── modelling_&_mapping_v2.R          # MAIN SCRIPT (Sessions 1 & 2)
 ├── Soil_property_classes_generator.R # Helper script
 ├── eval.RData                        # Custom accuracy evaluation function
 └── README.md                         # This file
+```
 
 
 
