@@ -240,7 +240,7 @@ ggsave(g_scatter,
        width = 12, height = 12, units = "cm")
 
 
-write_csv(accuracy, "03_outputs/module3/validation/accuracy.csv")
+write_csv(accuracy, paste0("03_outputs/module3/validation/", target,"_accuracy.csv"))
 
 
 # Save the qrf model
@@ -290,7 +290,7 @@ pfun <- function(...) {
 }
 
 # GDAL write options: compress output, use tiled format for faster reading
-gdal_opts <- c("COMPRESS=LZW", "TILED=YES", "BIGTIFF=IF_SAFER")
+gdal_opts <- c("COMPRESS=LZW")
 
 
 ## 8.3 Prediction for one tile -------------------------------------------------
@@ -379,7 +379,7 @@ mean_rasters <- list()
 for (i in 1:length(mean_tiles)) {
   mean_rasters[[i]] <- rast(mean_tiles[i])
 }
-pred_mean <- mosaic(sprc(mean_rasters))
+pred_mean <- mosaic(sprc(mean_rasters), fun="first")
 names(pred_mean) <- paste(target, "_mean")
 
 # Save final mean map
@@ -396,7 +396,7 @@ sd_rasters <- list()
 for (i in 1:length(sd_tiles)) {
   sd_rasters[[i]] <- rast(sd_tiles[i])
 }
-pred_sd <- mosaic(sprc(sd_rasters))
+pred_sd <- mosaic(sprc(sd_rasters), fun="first")
 names(pred_sd) <- paste(target, "_sd")
 
 writeRaster(pred_sd, paste0("03_outputs/module3/maps/sd_", target, ".tif"),
