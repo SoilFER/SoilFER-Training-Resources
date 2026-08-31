@@ -11,10 +11,10 @@
 #   2. Load R packages for soil data analysis
 #   3. Import soil data from CSV and Excel files
 #   4. Explore and understand the structure of a real soil database
-#   5. Add unique row identifiers for data traceability
-#   6. Extract, standardize, and rename site columns
-#   7. Create unique profile identifiers from geographic coordinates
-#   8. Remove exact duplicate records
+#   5. Format sampling dates for data standardization
+#   6. Add unique row identifiers for data traceability
+#   7. Create unique profile identifiers from coordinates and sampling date
+#   8. Extract, standardize, and rename site columns
 #   9. Validate and filter geographic coordinates
 #  10. Validate and correct soil depth boundaries
 #
@@ -22,16 +22,15 @@
 # -------
 # KSSL (Kellogg Soil Survey Laboratory) Kansas dataset
 #   - File: 01_data/module1/kssl/KSSL_data.xlsx  (or KSSL_data.csv)
-#   - 2,746 soil horizon measurements (+ replicates= from 462 soil profiles
-#   - Columns: site info (location, depth), 14 soil properties, spectral IDs
+#   - Soil horizon measurements from multiple soil profiles
+#   - Columns: site info (location, depth), soil properties, spectral IDs
 #
 # TIMING GUIDE (approximate)
 # ---------------------------
 #  0:00 – 0:20  Working directory, packages, importing data
-#  0:20 – 0:40  Exploring the dataset; adding rowID; renaming columns
-#  0:40 – 1:00  Creating profile IDs; removing exact duplicates
-#  1:00 – 1:30  Coordinate validation (missing, bounds)
-#               Depth validation (missing, negative, zero-thickness,
+#  0:20 – 0:45  Exploring the dataset; date; rowID and ProfID
+#  0:45 – 1:05  Site extraction and coordinate validation
+#  1:05 – 1:30  Depth validation (missing, negative, zero-thickness,
 #               invalid logic, profiles without surface horizon)
 ###############################################################################
 
@@ -89,7 +88,7 @@
 # head(soil_data)
 
 # Read Excel file
-# soil_data <- read_excel("01_data/module1/kssl/KSSL_data.xlsx", sheet = 1) 
+# soil_data <- read_excel("01_data/module1/kssl/KSSL_data.xlsx", sheet = 1)
 
 # Or read a specific sheet by name
 # soil_data <- read_excel("01_data/module1/kssl/KSSL_data.xlsx", sheet = "SoilData")
@@ -101,24 +100,25 @@
 # str(soil_data)        # Structure + column types
 # summary(soil_data)    # Quick summaries for each column
 # names(soil_data)      # Column names
-# 
+#
 # head(soil_data)       # First rows
 # tail(soil_data)       # Last rows
-# 
-# View(soil_data) # opens a spreadsheet-style viewer in RStudio
+#
+# View(soil_data)       # Opens a spreadsheet-style viewer in RStudio
 
 
 # =============================================================================
 # PART 2 — LOADING THE KSSL DATASET
 # The KSSL dataset is the primary dataset used throughout the sessions.
 # All code below assumes the working directory is set to the project root.
-# Before cleaning, always understand what you're working with
+# Before cleaning, always understand what you're working with.
 #
 # WHAT TO DO:
-# - Define  the file_path to the actual data location
+# - Define the file path to the actual data location
 # - Check column names and data types
 # - Inspect the first few rows
 # =============================================================================
+
 # -----------------------------------------------------------------------------
 # 2.1  Basic Data Loading and Structure
 # -----------------------------------------------------------------------------
@@ -132,88 +132,106 @@ library(sf)               # Manipulation of Vector Data
 library(terra)            # Manipulation of Raster Data
 
 # Define the folder to store the results of the exercise
-output_dir <-"03_outputs/module1/"
+output_dir <- "03_outputs/module1/"
 
 # Create the output directory if not existing
-if (!file.exists(output_dir)){
-  # create a new sub directory inside the main path
-  dir.create(output_dir)
+if (!file.exists(output_dir)) {
+  dir.create(output_dir, recursive = TRUE)
 }
 
 # Read Excel file containing raw soil data
-raw_data <- read_excel("01_data/module1/kssl/KSSL_data.xlsx", sheet = 1) 
+raw_data <- read_excel("01_data/module1/kssl/KSSL_data.xlsx", sheet = 1)
 
-str(raw_data) # Examine the structure of the data
-head(raw_data, 10) # Show the first 10 rows
-summary(raw_data) # Summarize the data 
+str(raw_data)       # Examine the structure of the data
+head(raw_data, 10)  # Show the first 10 rows
+summary(raw_data)   # Summarize the data
+
 
 # =============================================================================
 # PART 3 — PREPARING SITE DATA
 # - Start understanding how many valid points you have in the dataset
 # - Standardized column names make cleaning easier and less error-prone
+#
 # The raw data includes information of:
 # - Position and depth (SITE)
 # - Analytical values of soil parameters (LAB)
 # - The Dry Chemistry Data (SPECTRAL) has been stored in a separate file due to its size
 #
 # WHAT TO DO:
-# - Extract only the columns you need for site identification
+# - Format the sampling date
+# - Add identifiers once, before filtering or restructuring the data
+# - Extract only the columns needed for site identification
 # - Rename to standard names: lon, lat, top, bottom, etc.
-# - Create a unique profile identifier
-
+# - Preserve repeated horizon records until laboratory data are validated
+#
+# We define a soil profile from the combination of geographic location and
+# sampling date. Horizons sharing the same longitude, latitude, and date are
+# initially assigned the same ProfID.
 # =============================================================================
-# We define a "site" as the set of horizons sharing the same geographic
-# location (identical coordinates). Site data includes:
-#   - Location (longitude, latitude)
-#   - Depth (top/bottom boundaries in cm)
-#   - Horizon identifiers
 
 # -----------------------------------------------------------------------------
-# 3.1  Remove points without coordinates
+# 3.1  Format Sampling Date to ISO 8601 (YYYY-MM-DD)
 # -----------------------------------------------------------------------------
-# Remove records with missing coordinates
+# Sampling dates are required for soil-data standardization.
+# In this dataset, only the fiscal year is available. January 1 is therefore
+# used as an approximate reference date for the corresponding year.
+#
+# IMPORTANT:
+# - Use the actual sampling date whenever it is available.
+# - If a valid `date` column already exists, this step should be skipped.
+# -----------------------------------------------------------------------------
+
 raw_data <- raw_data %>%
-  dplyr::filter(!is.na(Long_Site) & !is.na(Lat_Site))
+  mutate(date = as.Date(paste0(fiscal_year, "-01-01")), .before = 4)
+
 
 # -----------------------------------------------------------------------------
 # 3.2  Adding Unique Row and Profile Identifiers
 # -----------------------------------------------------------------------------
-# Add rowID BEFORE making any modifications so each original record can be
-# traced throughout the entire cleaning workflow.
-# Add Profile Identifier
-# WHY: Each unique location = one soil profile ID
-# HOW: Group by coordinates, assign sequential ID, format as "PROF0001"
+# Add rowID BEFORE filtering or changing the number/order of records.
+# WHY: rowID preserves the link between every processed record and its source.
+#
+# Add ProfID once at this stage and preserve it through the workflow.
+# WHY: The same coordinates can represent observations from different dates.
+# HOW: Group by longitude + latitude + sampling date, assign a sequential ID,
+#      and format it as "PROF0001".
 # -----------------------------------------------------------------------------
 
-# Add Row and Profile Identifiers
 raw_data <- raw_data %>%
+  # Assign a unique sequential identifier to each original record
   mutate(rowID = row_number(), .before = 1) %>%
-  # Group all horizons at the same location
-  group_by(Long_Site, Lat_Site) %>%
-  # Assign sequential ID to each unique location (cur_group_id() returns group number)
+  # Group all horizons belonging to the same initial profile
+  group_by(Long_Site, Lat_Site, date) %>%
+  # Assign a sequential identifier to each unique profile
   mutate(ProfID = cur_group_id(), .before = 2) %>%
   ungroup() %>%
-  # Format as standardized IDs: PROF0001, PROF0002, etc. with 4 digit resolution
+  # Format as standardized IDs: PROF0001, PROF0002, etc.
   mutate(ProfID = sprintf("PROF%04d", ProfID))
+
 
 # -----------------------------------------------------------------------------
 # 3.3  Extracting and Standardizing Column Names for Sites
 # -----------------------------------------------------------------------------
+# The `site` object stores the location, date, depth, and identifiers of the
+# soil observations. It becomes the authoritative object for structural
+# cleaning of profiles and horizons.
+#
 # Select relevant columns and rename to a consistent naming convention.
+# -----------------------------------------------------------------------------
 
-# Select only the columns needed for site data preparation
 site <- raw_data %>%
   select(
     rowID,
     ProfID,
-    Long_Site,              # Raw column name for longitude
-    Lat_Site,               # Raw column name for latitude
-    smp_id,                   # Sample/horizon identifier
-    Top_depth_cm,           # Top depth in centimeters
-    Bottom_depth_cm         # Bottom depth in centimeters
+    date,
+    Long_Site,             # Raw column name for longitude
+    Lat_Site,              # Raw column name for latitude
+    smp_id,                # Sample/horizon identifier
+    Top_depth_cm,          # Top depth in centimeters
+    Bottom_depth_cm        # Bottom depth in centimeters
   )
 
-  # Rename columns to standard, consistent names
+# Rename columns to standard, consistent names
 site <- site %>%
   rename(
     lon = Long_Site,
@@ -221,34 +239,39 @@ site <- site %>%
     HorID = smp_id,
     top = Top_depth_cm,
     bottom = Bottom_depth_cm
-  ) 
+  )
 
-  # Reorder columns for clarity
+# Reorder columns for clarity
 site <- site %>%
-  select(rowID, ProfID, HorID, lon, lat, top, bottom)
+  select(rowID, ProfID, HorID, date, lon, lat, top, bottom)
+
 
 # -----------------------------------------------------------------------------
-# 3.4  Remove Duplicate Site Records
+# 3.4  Retain Repeated Horizon Records Until Laboratory Validation
 # -----------------------------------------------------------------------------
-# In this dataset, spectroscopic measurements were performed four times per
-# sample, resulting in duplicate entries. Remove duplicates and retain one
-# record per horizon.
-
-# Remove duplicate rows
-site <- site %>%
-  distinct(across(-rowID), .keep_all = TRUE)
+# Multiple records can have the same location and depth because they may
+# represent repeated analytical or spectroscopic measurements.
+#
+# OLD APPROACH:
+# Exact site duplicates were removed here.
+#
+# NEW APPROACH:
+# Keep them at this stage. Some repeated rows contain complementary analytical
+# information. Duplicate horizons are assessed and resolved only after the
+# laboratory variables have been attached and validated in Session 3.
+# -----------------------------------------------------------------------------
 
 
 # =============================================================================
 # PART 4 — COORDINATE VALIDATION AND CORRECTION
 # WHY: Geographic coordinates define location. Bad coordinates = bad maps
-
+#
 # VALIDATION CHECKS:
 # 1. Check for missing coordinates (NA values)
 # 2. Check for out-of-bounds values
 #    - Valid longitude: -180 to +180 degrees
 #    - Valid latitude: -90 to +90 degrees
-#  
+#
 # COMMON ERRORS:
 # - Missing coordinates (NA)
 # - Swapped lon/lat
@@ -260,9 +283,10 @@ site <- site %>%
 # 4.1  Check 1: Missing Coordinates
 # -----------------------------------------------------------------------------
 
-  # Remove records with missing coordinates
-  site <- site %>%
-    dplyr::filter(!is.na(lon) & !is.na(lat))
+# Remove records with missing coordinates
+site <- site %>%
+  dplyr::filter(!is.na(lon) & !is.na(lat))
+
 
 # -----------------------------------------------------------------------------
 # 4.2  Check 2: Valid Coordinate Ranges
@@ -275,7 +299,7 @@ site <- site %>%
 site <- site %>%
   dplyr::filter(
     lon >= -180, lon <= 180,
-    lat >=  -90, lat <=  90
+    lat >= -90,  lat <= 90
   )
 
 
@@ -283,56 +307,64 @@ site <- site %>%
 # PART 5 — SOIL DEPTH VALIDATION AND CORRECTION
 # =============================================================================
 # Depth intervals define the soil layer each observation represents.
-
+#
 # VALIDATION CHECKS:
 # Five sequential quality-control checks are applied:
 #   Check 1: Missing depth boundaries
 #   Check 2: Negative depth values
 #   Check 3: Zero-thickness intervals
-#   Check 4: Invalid depth logic (bottom < top)
+#   Check 4: Invalid depth logic (bottom <= top)
 #   Check 5: Profiles without a surface horizon (top > 0)
-# NOTE: Do NOT resolve duplicate depth sequences at this stage.
-#       Handle duplicates after lab data has been cleaned (Session 3).
+#
+# NOTE:
+# Do NOT resolve repeated horizons or competing depth sequences at this stage.
+# These are resolved after laboratory data have been attached and validated
+# in Session 3.
+# =============================================================================
 
 # -----------------------------------------------------------------------------
 # 5.1  Check 1: Missing Depth Boundaries
 # -----------------------------------------------------------------------------
 
-# Keep records where `top` or `bottom` are not NA
+# Keep records where both `top` and `bottom` are available
 site <- site %>%
   dplyr::filter(!is.na(top) & !is.na(bottom))
+
 
 # -----------------------------------------------------------------------------
 # 5.2  Check 2: Negative Depth Values
 # -----------------------------------------------------------------------------
 
-# Keep records where `top` or `bottom` are positive
-  site <- site %>%
-    filter(!(top < 0 | bottom < 0))
+# Keep records with non-negative top and bottom depths
+site <- site %>%
+  filter(!(top < 0 | bottom < 0))
+
 
 # -----------------------------------------------------------------------------
 # 5.3  Check 3: Zero-Thickness Intervals
 # -----------------------------------------------------------------------------
 
 # Remove zero-thickness horizons
-  site <- site %>%
-    filter(!(bottom - top == 0))
+site <- site %>%
+  filter(!(bottom - top == 0))
+
 
 # -----------------------------------------------------------------------------
 # 5.4  Check 4: Invalid Depth Logic
 # -----------------------------------------------------------------------------
 
-# Remove invalid depth logic
+# Keep only horizons where bottom depth is greater than top depth
 site <- site %>%
   filter(bottom > top)
 
+
 # -----------------------------------------------------------------------------
 # 5.5  Check 5: Profiles Without a Surface Horizon (top > 0)
-# WHY: Each profile should represent the complete soil column starting at surface
-# DSM requires profiles that start at the soil surface (top = 0 cm).
+# WHY: Each profile should represent the soil column starting at the surface.
+# DSM applications require profiles that start at top = 0 cm.
 # -----------------------------------------------------------------------------
 
-## Keep only profiles that start at the surface (min top == 0)
+# Keep only initial profiles that contain a surface horizon
 site <- site %>%
   dplyr::group_by(ProfID) %>%
   dplyr::filter(!is.na(top) & min(top, na.rm = TRUE) == 0) %>%
@@ -342,7 +374,13 @@ site <- site %>%
 # =============================================================================
 # PART 6 — SAVE SITE TIBBLE TO DISK
 # =============================================================================
-# Save site results to 'site_KSSL.csv.
+# Save the structurally cleaned site results to 'site_KSSL.csv'.
+#
+# IMPORTANT:
+# Repeated horizon records are intentionally retained here. The `site` object
+# will be combined with laboratory measurements using rowID in Session 3.
+# =============================================================================
+
 output <- paste0(output_dir, "site_KSSL.csv")
 write.csv(site, output, row.names = FALSE)
 
